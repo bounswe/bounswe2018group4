@@ -2,4 +2,4 @@
 
 ## Group Members
 
-⋅⋅* Abdülkadir Aslan
+* Abdülkadir Aslan
