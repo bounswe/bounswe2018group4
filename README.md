@@ -11,7 +11,7 @@
 * [Berke Esmer]()
 * [Dilara Gökay]()
 * [Egemen Kaplan]()
-* [Emre Kaplan]()
+* [Emre Koç]()
 * [Yunus Ege Saygılı]()
 
 ##
