@@ -8,7 +8,7 @@
 * [Yusuf Başpınar](https://github.com/bounswe/bounswe2018group4/wiki/Yusuf-Başpınar)
 * [Alaattin Kaan Cerrah](https://github.com/bounswe/bounswe2018group4/wiki/Alaattin-Kaan-Cerrah)
 * Büşra Hilal Cirit
-* Yunus Emre Demirci
+* [Yunus Emre Demirci](https://github.com/bounswe/bounswe2018group4/wiki/Yunus-Emre-Demirci)
 * [Berke Esmer](https://github.com/bounswe/bounswe2018group4/wiki/Berke-Esmer)
 * Egemen Kaplan
 * [Emre Koç](https://github.com/bounswe/bounswe2018group4/wiki/Emre-KO%C3%87)
