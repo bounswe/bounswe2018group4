@@ -1,4 +1,4 @@
-# bounswe2018group4
+# BUBeavers
 
 
 ## Group Members
