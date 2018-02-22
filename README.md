@@ -1,6 +1,6 @@
 # Beavers
 
-![alt text](http://i.imgur.com/noBFFFX.jpg)
+![alt text](http://assets.nydailynews.com/polopoly_fs/1.1510636.1383918402!/img/httpImage/image.jpg_gen/derivatives/article_750/beaver-laptop.jpg)
 
 ## Group Members
 
