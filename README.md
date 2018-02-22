@@ -1,5 +1,6 @@
-# BUBeavers
+# Beavers
 
+![alt text](http://i.imgur.com/noBFFFX.jpg)
 
 ## Group Members
 
