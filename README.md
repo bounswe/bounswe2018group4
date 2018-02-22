@@ -1,6 +1,6 @@
 # Beavers
+### BOUN Cmpe352 & Cmpe451 Project  
 
-![alt text](http://assets.nydailynews.com/polopoly_fs/1.1510636.1383918402!/img/httpImage/image.jpg_gen/derivatives/article_750/beaver-laptop.jpg)
 
 ## Group Members
 
