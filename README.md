@@ -1,10 +1,20 @@
 # Beavers
 ### BOUN Cmpe352 & Cmpe451 Project 
 <p>
-  <ins><i>We are not makers of history. We are made by history.</i></ins> (Martin King Luther, Jr)
+  <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin King Luther, Jr)
  
   Wouldn't it be nice to see the power that shaped us for centuries? Your homeland, your school or even your neighboorhood... 
-  Life is all about stories and people. And we love both of them!
+  Life is all about stories and people. And we love both of them! 
+  
+  Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to, 
+  <ul>
+    <li>&#10004;Share the moment that have a great impact on you at 20 years ago.</li>
+    <li>&#10004;Share the activities you were doing when you were just a child at 1970s.</li>
+    <li>&#10004;Read the stories of your bestfriend, your neighboor or about your favourite coffee shop.</li>
+    <li>&#10004;See history of events that occured in your area since the 1900s!</li>
+    <li>&#10004;And many more features that will make you have a great surprise and nostalgia...</li>
+  </ul>
+  
   Join us and spread your stories, your passions! Connect with others and have a great nostalgia!
   
   Beavers are coming.. Stay tuned until the launch of our favourite social network application...
