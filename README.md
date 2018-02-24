@@ -7,7 +7,8 @@
   Life is all about stories and people. And we love both of them! 
   
   Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to, 
-  <ul>
+
+  <ul style="list-style-type: none;">
     <li>&#10004;Share the moment that have a great impact on you at 20 years ago.</li>
     <li>&#10004;Share the activities you were doing when you were just a child at 1970s.</li>
     <li>&#10004;Read the stories of your bestfriend, your neighboor or about your favourite coffee shop.</li>
