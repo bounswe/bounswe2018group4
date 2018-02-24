@@ -19,7 +19,9 @@
 &emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...
   
   
-  Join us and spread your stories, your passions! Connect with others and have a great nostalgia!
+  
+  
+  Join us and spread your stories, your passions! Connect with others and enjoy the taste of oldness!
   
   Beavers are coming.. Stay tuned until the launch of our favourite social network application...
 </p>
