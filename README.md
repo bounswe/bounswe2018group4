@@ -18,7 +18,7 @@
 &emsp;&#10004;See history of events that occured in your area since the 1900s!  
 &emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...  
  </p>
-<p align="center"> 
+<p> 
   Join us and spread your stories, your passions! Connect with others and enjoy the taste of oldness!  
   Beavers are coming.. Stay tuned until the launch of our favourite social network application...
 </p>
