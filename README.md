@@ -1,7 +1,6 @@
 <p align="center">
 <img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
   </p>
-<h1 align="center">  </h1>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
   <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin King Luther, Jr)
