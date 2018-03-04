@@ -1,6 +1,6 @@
 
 <h1> Beavers </h1>
-### BOUN Cmpe352 & Cmpe451 Project 
+<h3> BOUN Cmpe352 & Cmpe451 Project </h3>
 <p>
   <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin King Luther, Jr)
  
