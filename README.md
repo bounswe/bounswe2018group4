@@ -1,4 +1,6 @@
-<img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%"/>
+<p align="center">
+<img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
+  </p>
 <h1 align="center"> Beavers </h1>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
