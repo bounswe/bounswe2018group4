@@ -1,4 +1,4 @@
-
+<img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true">
 <h1 align="center"> Beavers </h1>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
@@ -11,7 +11,7 @@
  <p align="center">
   Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to: 
 </p>
-<p style="color:blue;" >
+<p>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10004;Share the moment that have a great impact on you at 20 years ago.  <br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10004;Share the activities you were doing when you were just a child at 1970s.  <br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10004;Read the stories of your bestfriend, your neighbour or about your favourite coffee shop.  <br>
