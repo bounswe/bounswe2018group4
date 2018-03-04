@@ -4,8 +4,8 @@
 <p align="center">
   <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin King Luther, Jr)
  
-  Wouldn't it be nice to see the power that shaped us for centuries? Your homeland, your school or even your neighbourhood... 
-  Life is all about stories and people. And we love both of them! 
+ <center> Wouldn't it be nice to see the power that shaped us for centuries? Your homeland, your school or even your neighbourhood... 
+  Life is all about stories and people. And we love both of them! </center>
   
   Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to, 
 
