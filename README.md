@@ -8,21 +8,14 @@
   
   Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to, 
 
-&emsp;&#10004;Share the moment that have a great impact on you at 20 years ago.
-
-&emsp;&#10004;Share the activities you were doing when you were just a child at 1970s.
-
-&emsp;&#10004;Read the stories of your bestfriend, your neighbour or about your favourite coffee shop.
-
-&emsp;&#10004;See history of events that occured in your area since the 1900s!
-
-&emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...
+&emsp;&#10004;Share the moment that have a great impact on you at 20 years ago.  
+&emsp;&#10004;Share the activities you were doing when you were just a child at 1970s.  
+&emsp;&#10004;Read the stories of your bestfriend, your neighbour or about your favourite coffee shop.  
+&emsp;&#10004;See history of events that occured in your area since the 1900s!  
+&emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...  
   
   
-  
-  
-  Join us and spread your stories, your passions! Connect with others and enjoy the taste of oldness!
-  
+  Join us and spread your stories, your passions! Connect with others and enjoy the taste of oldness!  
   Beavers are coming.. Stay tuned until the launch of our favourite social network application...
 </p>
 
