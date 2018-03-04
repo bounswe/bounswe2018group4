@@ -1,5 +1,7 @@
 <p align="center">
+  <a href = "https://github.com/bounswe/bounswe2018group4/wiki">
 <img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
+  </a>
   </p>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
