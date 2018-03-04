@@ -13,7 +13,7 @@
 </p>
 <p >
 &emsp;&#10004;Share the moment that have a great impact on you at 20 years ago.  <br>
-&emsp;;&#10004;Share the activities you were doing when you were just a child at 1970s.  <br>
+&emsp;&#10004;Share the activities you were doing when you were just a child at 1970s.  <br>
 &emsp;&#10004;Read the stories of your bestfriend, your neighbour or about your favourite coffee shop.  <br>
 &emsp;&#10004;See history of events that occured in your area since the 1900s!  <br>
 &emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...  
