@@ -8,7 +8,7 @@
   Wouldn't it be nice to see the power that shaped us for centuries? Your homeland, your school or even your neighbourhood... 
   Life is all about stories and people. And we love both of them! 
   </p>
- <p>
+ <p align="center">
   Our new project will enlighten your vision and knowledge of history. Soon, you'll be able to, 
 </p>
 <p>
@@ -18,7 +18,7 @@
 &emsp;&#10004;See history of events that occured in your area since the 1900s!  <br>
 &emsp;&#10004;And many more features that will make you have a great surprise and nostalgia...  
  </p>
-<p> 
+<p align="center"> 
   Join us and spread your stories, your passions! Connect with others and enjoy the taste of oldness!  
   Beavers are coming.. Stay tuned until the launch of our favourite social network application...
 </p>
