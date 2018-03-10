@@ -5,6 +5,9 @@
   </p>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
+  You can reach our wiki page <a href = "https://github.com/bounswe/bounswe2018group4/wiki">here</a> 
+</p>
+<p align="center">
   <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin Luther King, Jr)
  </p>
  <p align="center">
@@ -40,6 +43,4 @@
 <br>
 <br>
 <p align="center"> 2018 </p>
-<p align="center">
-  You can reach our wiki page from <a href = "https://github.com/bounswe/bounswe2018group4/wiki">here</a> :)
-</p>
+
