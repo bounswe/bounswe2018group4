@@ -5,7 +5,7 @@
   </p>
 <h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
 <p align="center">
-  <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin King Luther, Jr)
+  <ins><i>"We are not makers of history. We are made by history."</i></ins> (Martin Luther King, Jr)
  </p>
  <p align="center">
   Wouldn't it be nice to see the power that shaped us for centuries? Your homeland, your school or even your neighbourhood... 
