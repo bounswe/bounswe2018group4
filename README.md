@@ -3,7 +3,7 @@
 <img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
   </a>
   </p>
-<h3 align="center"> BOUN Cmpe352 & Cmpe451 Project Group </h3>
+<h3 align="center">  MEMORIST  </h3>
 <p align="center">
   (You can reach our wiki page <a href = "https://github.com/bounswe/bounswe2018group4/wiki">here</a>.) 
 </p>
@@ -42,5 +42,5 @@
 [Alaaddin Kaan Cerrah](https://github.com/bounswe/bounswe2018group4/wiki/Alaattin-Kaan-Cerrah) | [Berke Esmer](https://github.com/bounswe/bounswe2018group4/wiki/Berke-Esmer) | [Dilara Gökay](https://github.com/bounswe/bounswe2018group4/wiki/Dilara-G%C3%B6kay) | [Abdülkadir Aslan](https://github.com/bounswe/bounswe2018group4/wiki/Kadir-Aslan) | [Yusuf Başpınar](https://github.com/bounswe/bounswe2018group4/wiki/Yusuf-Ba%C5%9Fp%C4%B1nar) | [Büşra Hilal Cirit](https://github.com/bounswe/bounswe2018group4/wiki/Busra-Hilal-Cirit) | [Yunus Emre Demirci](https://github.com/bounswe/bounswe2018group4/wiki/Yunus-Emre-Demirci) | [Egemen Kaplan](https://github.com/bounswe/bounswe2018group4/wiki/Egemen-Kaplan) | [Emre Koç](https://github.com/bounswe/bounswe2018group4/wiki/Emre-KO%C3%87) | [Yunus Ege Saygılı](https://github.com/bounswe/bounswe2018group4/wiki/Yunus-Ege-Sayg%C4%B1l%C4%B1)
 <br>
 <br>
-<p align="center"> 2018 </p>
+<p align="center"> © 2018 </p>
 
