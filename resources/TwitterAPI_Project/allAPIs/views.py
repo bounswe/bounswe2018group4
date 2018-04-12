@@ -153,6 +153,8 @@ def retweet_tweet(id):
 	"""
 	Retweet the tweet which has the same id as given one
 	
+	The account which retweets the tweet is @MemoristBeavers
+	
 	If there is any exception, return list of messages
 	"""
 	consumer_key='5GNyqW1qeECVJ6m3dzx6QGD3f'
