@@ -72,3 +72,23 @@ def get_trending_topics(name):
 		trendlist.append(trends[0]['trends'][i]['name'])
 	return trendlist
 
+def block_user(theUser, theTarget):
+	# author: Berke Esmer - 2015400021
+	# block_user - params: theTarget user, the user who is logged on
+
+	consumer_key='E5dLqlJ44RZMlM1EfJLH3mXOk'
+	consumer_secret='ktjt6kviS5aMPitEgVHvt7zXYG7Iv9u6YQNnLZX51BByRvdtcl'
+
+	access_token='907309399726854144-MDB2s6110TvpbjF6PRZzpSpScwblISA'
+	access_token_secret='cseS87IorbQVceGGP3qUvGDBKeU0fS4gMFuvds8JfMhZL'
+
+	#  get authorization from Twitter API using tweepy
+
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
+	api = tweepy.API(auth)
+
+	#  get the values of the user, and the target
+
+	api.create_block(id=theTarget, user_id=theUser)
+
