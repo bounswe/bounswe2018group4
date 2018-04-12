@@ -149,8 +149,8 @@ def view_following(screen_name):
         print("following"+str(i)+ " "+status._json['screen_name'] )
     return result_set_following
 
-def post(tweet):
-	"""Post a tweet in @MemoristBeaver account using Twitter API."""
+def post_tweet(tweet):
+	"""Post a tweet in @MemoristBeavers account using Twitter API."""
 	
 	consumer_key='5GNyqW1qeECVJ6m3dzx6QGD3f'
 	consumer_secret='6Q7N0yZle5qvbDLqnIioRBXzkqODmSMdKSqxIHevrZKnHyWjkf'
