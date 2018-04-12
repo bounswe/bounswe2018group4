@@ -1,3 +1,5 @@
+#author:Yunus Emre Demirci
+#the API take given screen_name and list followers and following screen_name user for this user 
 import json
 import ssl
 import time
