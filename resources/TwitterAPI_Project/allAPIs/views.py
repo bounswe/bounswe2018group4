@@ -168,7 +168,8 @@ def retweet_tweet(id):
 	try:
 		api.retweet(id)
 	except tweepy.TweepError as e:
-		errorTexts = re.findall(r'(?<=\"message\":\").*(?=\")', e.response.text) 
+		# Turn messages in a more human readable format 
+		errorTexts = re.findall(r'(?<=\"message\":\").*(?=\")', e.response.text)
 		for error in errorTexts:
 			print(error)
 		return errorTexts
