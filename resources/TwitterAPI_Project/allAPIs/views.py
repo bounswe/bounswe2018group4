@@ -148,3 +148,28 @@ def view_following(screen_name):
         status=result_set_following[i]
         print("following"+str(i)+ " "+status._json['screen_name'] )
     return result_set_following
+
+def retweet_tweet(id):
+	"""
+	Retweet the tweet which has the same id as given one
+	
+	If there is any exception, return list of messages
+	"""
+	consumer_key='5GNyqW1qeECVJ6m3dzx6QGD3f'
+	consumer_secret='6Q7N0yZle5qvbDLqnIioRBXzkqODmSMdKSqxIHevrZKnHyWjkf'
+
+	access_token='981859542555348992-4VIhOkbS4MJru964CPgrGFteVQIzj1p'
+	access_token_secret='sUaIhvHW91KMgI1EqWijJzcbMMm6BLoSNd9HU76FCB4Go'
+
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
+	api = tweepy.API(auth)
+
+	try:
+		api.retweet(id)
+	except tweepy.TweepError as e:
+		# Turn messages in a more human readable format 
+		errorTexts = re.findall(r'(?<=\"message\":\").*(?=\")', e.response.text)
+		for error in errorTexts:
+			print(error)
+		return errorTexts
