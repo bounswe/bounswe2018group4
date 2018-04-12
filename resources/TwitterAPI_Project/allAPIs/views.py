@@ -31,27 +31,3 @@ def home(request):
 def followerid_index(request):
 	return render(request,'followerid_index.html')
 	# Create your views here.
-
-def view_followers(screen_name):
-    """AUTHOR:Yunus Emre Demirci
-    View followers user for given screen_name
-    key-words: screen_name;  example:canberky
-    return followers information and printing screen_name
-    """
-    result_set_followers=api.followers(screen_name)
-    for i in range(len(result_set_followers)):
-        status=result_set_followers[i]
-        print("followers"+str(i)+" "+status._json['screen_name'])
-    return result_set_followers
-
-def view_following(screen_name):
-    """AUTHOR:Yunus Emre Demirci
-    View following user name for given screen_name
-    key-words: screen_name;  example:canberky_ 
-    return following information and printing screen_name
-    """
-    result_set_following=api.friends(screen_name)
-    for i in range(len(result_set_following)):
-        status=result_set_following[i]
-        print("following"+str(i)+ " "+status._json['screen_name'] )
-    return result_set_following
