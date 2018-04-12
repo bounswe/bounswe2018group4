@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse
 import tweepy
+import ssl
 import json
 from tweepy import OAuthHandler
 
