@@ -5,11 +5,7 @@ import json
 from tweepy import OAuthHandler
 
 def retweet(request):
-	consumer_key='LtUoLhvWzGOUODCpHkIW1cH7s'
-	consumer_secret='o18cdHxf8YLgLaWJZZ8lMvcv2SACOAIJYZmZB5s7nxmPPHRgc3'
-
-	access_token='984099024402894848-bTCwMxW8o04woXa6OAD2Y7PIoxy3TPb'
-	access_token_secret='ENb06BGdQamMnFHaxqDeUFL8GzafGIylruSW0s3ubXgqs'
+	
 
 	#  get authorization from Twitter API using tweepy
 
@@ -42,12 +38,6 @@ def get_trending_topics(name):
 		returns the top ten trending topics worldwide.
 	"""
 
-	# set up the consumer key and access token (obtained from https://apps.twitter.com/app/new)
-	consumer_key='Di6z6xXCwJrvduPmXSbNZdILG'
-	consumer_secret='VgfCkLt8QCmmVmBa8VJss6FQiE866L3Bs5DDSm8M9k5s3IDjwE'
-
-	access_token='121485173-PXoF8a0MkroQQisbN89BwntiLtZIe31nDZnXtJyH'
-	access_token_secret='CtHbI0YnoMCXMOxcEDYQZTMFqCRgXlJHYd3Umu1Pjpf2i'
 
 
 	#  get authorization from Twitter API using tweepy
@@ -77,11 +67,6 @@ def block_user(theUser, theTarget):
 	# author: Berke Esmer - 2015400021
 	# block_user - params: theTarget user, the user who is logged on
 
-	consumer_key='E5dLqlJ44RZMlM1EfJLH3mXOk'
-	consumer_secret='ktjt6kviS5aMPitEgVHvt7zXYG7Iv9u6YQNnLZX51BByRvdtcl'
-
-	access_token='907309399726854144-MDB2s6110TvpbjF6PRZzpSpScwblISA'
-	access_token_secret='cseS87IorbQVceGGP3qUvGDBKeU0fS4gMFuvds8JfMhZL'
 
 	#  get authorization from Twitter API using tweepy
 
@@ -101,11 +86,6 @@ def followUser(theUser):
 	Follows given user
 	Follows the accounts inside followList.txt that is given as id's.
 	"""
-	consumer_key='5GNyqW1qeECVJ6m3dzx6QGD3f'
-	consumer_secret='6Q7N0yZle5qvbDLqnIioRBXzkqODmSMdKSqxIHevrZKnHyWjkf'
-
-	access_token='981859542555348992-4VIhOkbS4MJru964CPgrGFteVQIzj1p'
-	access_token_secret='sUaIhvHW91KMgI1EqWijJzcbMMm6BLoSNd9HU76FCB4Go'
 	#  get authorization from Twitter API using tweepy
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -148,3 +128,15 @@ def view_following(screen_name):
         status=result_set_following[i]
         print("following"+str(i)+ " "+status._json['screen_name'] )
     return result_set_following
+
+
+
+def getFavorites(userName):
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+
+    api = tweepy.API(auth)
+    result_set = api.favorites(userName)
+    for i in range(len(result_set)):
+        status = result_set[i]
+        print(status._json['text'])
