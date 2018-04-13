@@ -3,6 +3,7 @@ import tweepy
 import ssl
 import json
 from tweepy import OAuthHandler
+from keys import *
 
 def retweet(request):
 	
