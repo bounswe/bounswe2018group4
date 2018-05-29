@@ -130,6 +130,16 @@ def view_following(screen_name):
         print("following"+str(i)+ " "+status._json['screen_name'] )
     return result_set_following
 
+def post_tweet(tweet):
+	"""Post a tweet in @MemoristBeavers account using Twitter API."""
+	
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
+
+	api = tweepy.API(auth)
+
+	api.update_status(status=tweet)
+
 
 
 def getFavorites(userName):
