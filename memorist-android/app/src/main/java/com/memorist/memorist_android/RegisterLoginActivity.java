@@ -57,6 +57,11 @@ public class RegisterLoginActivity extends BaseActivity
         MemoristApi.loginUsernamePassword(username, password, loginListener, errorListener);
     }
 
+    @Override
+    public void proceedToRegister() {
+        // TODO: Register Page is gonna be proceeded.
+    }
+
     private Response.Listener<ApiResultUser> loginListener = new Response.Listener<ApiResultUser>() {
         @Override
         public void onResponse(ApiResultUser response) {
