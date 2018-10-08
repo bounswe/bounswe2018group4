@@ -30,4 +30,27 @@ public class MemoristApi {
 
         coreApi.addToRequestQueue(request);
     }
+
+    public static void registerNewUser(String username, String password, String email, String firstName,
+                                       String lastName, Response.Listener<ApiResultUser> registerListener,
+                                       Response.ErrorListener registerErrorListener) {
+        String url = Constants.API_REGISTER;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("username", username);
+        params.put("password", password);
+        params.put("email", email);
+        params.put("first_name", firstName);
+        params.put("last_name", lastName);
+
+        GsonRequest<ApiResultUser> request = new GsonRequest<>(Request.Method.POST, url,
+                ApiResultUser.class, headers, params, registerListener, registerErrorListener);
+
+        coreApi.addToRequestQueue(request);
+
+
+    }
 }
