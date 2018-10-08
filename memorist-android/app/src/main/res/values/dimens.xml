@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="no_margin">0dp</dimen>
+    <dimen name="margin_xs">5dp</dimen>
+    <dimen name="margin_sm">10dp</dimen>
+    <dimen name="margin_md">20dp</dimen>
+    <dimen name="margin_lg">40dp</dimen>
+
+    <dimen name="projectLogo_height">150dp</dimen>
+    <dimen name="loginNotRegisteredTextSize">14sp</dimen>
+
+</resources>

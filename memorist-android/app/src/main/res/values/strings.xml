@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">memorist-android</string>
+    <string name="app_name">Memorist</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="projectLogoContentDescription">A logo designed for Memorist</string>
+    <string name="usernameInputHint">Username</string>
+    <string name="passwordInputHint">Password</string>
+    <string name="loginBtnText">Login</string>
+    <string name="loginNotRegistered">You haven\'t registered yet?</string>
 </resources>
