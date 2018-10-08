@@ -4,39 +4,73 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.LoginFragment">
+    android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/et_username"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:hint="Username" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragment.LoginFragment">
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_username"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:inputType="textPassword"
-        android:hint="Password"/>
+        <ImageView
+            android:id="@+id/iv_projectLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/projectLogo_height"
+            android:layout_marginTop="@dimen/margin_lg"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:src="@drawable/project_logo"
+            android:contentDescription="@string/projectLogoContentDescription"/>
 
-    <Button
-        android:id="@+id/btn_login"
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:inputType="text"
+            android:hint="@string/usernameInputHint" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:inputType="textPassword"
+            android:hint="@string/passwordInputHint"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:background="@color/loginBtnColor"
+            android:text="@string/loginBtnText" />
+
+    </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_password"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_alignParentEnd="true"
-        android:text="Login"/>
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginBottom="@dimen/margin_md"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/loginNotRegisteredColor"
+        android:textSize="@dimen/loginNotRegisteredTextSize"
+        android:text="@string/loginNotRegistered"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
 </RelativeLayout>
