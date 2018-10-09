@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Memorist</string>
+
+    <string name="projectLogoContentDescription">A logo designed for Memorist</string>
+    <string name="usernameInputHint">Username</string>
+    <string name="passwordInputHint">Password</string>
+    <string name="loginBtnText">Login</string>
+    <string name="loginNotRegistered">You haven\'t registered yet?</string>
+    <string name="registerWelcomeText">Welcome to Memorist!</string>
+    <string name="registerUsernameHint">Username</string>
+    <string name="registerPasswordHint">Password</string>
+    <string name="registerEmailHint">E-mail</string>
+    <string name="registerFirstNameHint">First Name</string>
+    <string name="registerLastNameHint">Last Name</string>
+    <string name="registerBtnText">Sign Up</string>
+</resources>

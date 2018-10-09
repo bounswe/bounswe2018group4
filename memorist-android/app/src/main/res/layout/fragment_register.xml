@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO: Scrolling feature should be added. -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.RegisterFragment">
+
+    <TextView
+        android:id="@+id/tv_welcomeToRegisterPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:textSize="@dimen/registerWelcomeTextSize"
+        android:text="@string/registerWelcomeText"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+    <EditText
+        android:id="@+id/et_registerUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:inputType="text"
+        android:hint="@string/registerUsernameHint"/>
+
+    <EditText
+        android:id="@+id/et_registerPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:inputType="textPassword"
+        android:hint="@string/registerPasswordHint"/>
+
+    <EditText
+        android:id="@+id/et_registerEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:inputType="textEmailAddress"
+        android:hint="@string/registerEmailHint"/>
+
+    <EditText
+        android:id="@+id/et_registerFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:inputType="text"
+        android:hint="@string/registerFirstNameHint"/>
+
+    <EditText
+        android:id="@+id/et_registerLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:inputType="text"
+        android:hint="@string/registerLastNameHint"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:background="@color/loginBtnColor"
+        android:text="@string/registerBtnText" />
+
+</LinearLayout>
