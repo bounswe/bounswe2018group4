@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input';
 
 class SignupForm extends React.Component {
   state = {
@@ -23,43 +26,25 @@ class SignupForm extends React.Component {
   render() {
     return (
       <form onSubmit={e => this.props.handle_signup(e, this.state)}>
-        <h4>Sign Up</h4>
-        <label htmlFor="first_name">First Name</label>
-        <input
-          type="text"
-          name="first_name"
-          value={this.state.first_name}
-          onChange={this.handle_change}
-        />
-        <label htmlFor="last_name">Last Name</label>
-        <input
-          type="text"
-          name="last_name"
-          value={this.state.last_name}
-          onChange={this.handle_change}
-        />
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handle_change}
-        />
-        <label htmlFor="email">E-mail</label>
-        <input
-          type="text"
-          name="email"
-          value={this.state.email}
-          onChange={this.handle_change}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handle_change}
-        />
-        <input type="submit" />
+        <Typography component="h2" variant="display1" gutterBottom>Sign Up</Typography>
+        <Input ref="first_name" type="text" name="first_name" placeholder="First Name" />
+        <br />
+        <br />
+        <Input ref="last_name" type="text" name="last_name" placeholder="Last Name" />
+        <br />
+        <br />
+        <Input ref="username" type="text" name="username" placeholder="Username" />
+        <br />
+        <br />
+        <Input ref="email" type="text" name="email" placeholder="E-mail" />
+        <br />
+        <br />
+        <Input ref="password" type="password" name="password" placeholder="Password" />
+        <br />
+        <br />
+        <Button variant="contained" >
+          Sign up
+        </Button>
       </form>
     );
   }
