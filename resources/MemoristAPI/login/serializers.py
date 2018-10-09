@@ -39,12 +39,14 @@ class LoginSerializer(ModelSerializer):
         }
 
     def validate(self, data):
+        print (data)
 
-        username = data['username']
-        user = RegisteredUser.objects.filter(Q(username=username) | Q(email=username))
-
-        password = data['password']
+        usernam = data['username']
+        print ("11111")
+        user = RegisteredUser.objects.filter(email=usernam)  # | RegisteredUser.objects.filter(email=usernam)
+        print (user)
         if user.exists():
+            password = data['password']
             user = user.first()
             if user.check_password(password):
                 payload = jwt_payload_handler(user)
