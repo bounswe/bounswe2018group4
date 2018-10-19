@@ -22,8 +22,11 @@ function login(username, password) {
                     history.push('/');
                 },
                 error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+                    if(error.toString() == 'Bad Request'){
+                        dispatch(failure(error.toString()));
+                        dispatch(alertActions.error("Username or password is wrong"));
+                    }
+                    
                 }
             );
     };
@@ -48,10 +51,13 @@ function register(user) {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));
+
                 },
                 error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+                    if(error.toString() == 'Bad Request'){
+                        dispatch(failure(error.toString()));
+                        dispatch(alertActions.error("Username has taken"));
+                    }
                 }
             );
     };

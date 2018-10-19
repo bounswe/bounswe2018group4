@@ -6,6 +6,7 @@ import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
     componentDidMount() {
+        //change this line for get posts of user
         this.props.dispatch(userActions.getAll());
     }
 
