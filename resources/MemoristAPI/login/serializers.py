@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework.serializers import *
+from rest_framework import serializers
 from login.models import RegisteredUser
 from rest_framework_jwt.settings import api_settings
 
@@ -7,7 +7,7 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegisteredUser
         fields = [
@@ -19,8 +19,8 @@ class UserSerializer(ModelSerializer):
         ]
 
 
-class LoginSerializer(ModelSerializer):
-    token = CharField(allow_blank=True, read_only=True)
+class LoginSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(allow_blank=True, read_only=True)
     user = UserSerializer(read_only=True)
 
     class Meta:
@@ -60,8 +60,8 @@ class LoginSerializer(ModelSerializer):
             raise ValidationError({"detail": "Incorrect credentials"})
 
 
-class RegisterSerializer(ModelSerializer):
-    token = CharField(allow_blank=True, read_only=True)
+class RegisterSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(allow_blank=True, read_only=True)
     user = UserSerializer(read_only=True)
 
     class Meta:
@@ -89,7 +89,7 @@ class RegisterSerializer(ModelSerializer):
             password = validated_data['password']
             username = validated_data['username']
         except:
-            raise ValidationError({"detail": "Incorrect Data1111111"})
+            raise serializers.ValidationError({"detail": "Incorrect Data1111111"})
 
         user_obj = RegisteredUser(
             username=username,
@@ -102,7 +102,7 @@ class RegisterSerializer(ModelSerializer):
             user_obj.set_password(password)
             user_obj.save()
         else:
-            raise ValidationError({'detail': "This email has already been registered"})
+            raise serializers.ValidationError({'detail': "This email has already been registered"})
 
         payload = jwt_payload_handler(user_obj)
         token = jwt_encode_handler(payload)
