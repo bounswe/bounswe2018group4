@@ -6,7 +6,7 @@ import { userActions } from '../_actions';
 import { alertActions } from '../_actions';
 
 
-class RegisterPage extends React.Component {
+class CreatePostPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -128,5 +128,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedRegisterPage = connect(mapStateToProps)(RegisterPage);
-export { connectedRegisterPage as RegisterPage };
+const connectedCreatePostPage = connect(mapStateToProps)(CreatePostPage);
+export { connectedCreatePostPage as CreatePostPage };

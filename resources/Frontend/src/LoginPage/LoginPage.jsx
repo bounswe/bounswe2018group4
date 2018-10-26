@@ -66,7 +66,6 @@ class LoginPage extends React.Component {
                         <Link to="/register" className="btn btn-link">Register</Link>
 
                     </div>
-                    <Link to="/forgotpassword" className="btn btn-link">Forgot Password</Link>
                 </form>
             </div>
         );

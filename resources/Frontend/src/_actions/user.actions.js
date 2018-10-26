@@ -24,7 +24,7 @@ function login(username, password) {
                 error => {
                     if(error.toString() == 'Bad Request'){
                         dispatch(failure(error.toString()));
-                        dispatch(alertActions.error("Username or password is wrong"));
+                        dispatch(alertActions.error("Check your E-Mail/Password"));
                     }
                     
                 }
@@ -50,13 +50,13 @@ function register(user) {
                 user => { 
                     dispatch(success());
                     history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success('Verify your E-Mail address'));
 
                 },
                 error => {
                     if(error.toString() == 'Bad Request'){
                         dispatch(failure(error.toString()));
-                        dispatch(alertActions.error("Username has taken"));
+                        dispatch(alertActions.error("Check your E-Mail"));
                     }
                 }
             );
