@@ -97,6 +97,7 @@ public class RegisterLoginActivity extends BaseActivity
         @Override
         public void onResponse(ApiResultUser response) {
             Toast.makeText(getApplicationContext(), "Register is successful", Toast.LENGTH_LONG).show();
+            onBackPressed();
         }
     };
 
