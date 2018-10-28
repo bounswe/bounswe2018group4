@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userActions } from '../_actions';
 import { alertActions } from '../_actions';
 
 
@@ -11,12 +10,15 @@ class CreatePostPage extends React.Component {
         super(props);
 
         this.state = {
-            user: {
-                first_name: '',
-                last_name: '',
-                username: '',
-                email:'',
-                password: ''
+            memory: {
+                title: '',
+                story: '',
+                multimedia: '',
+                tags: '',
+                locations: '',
+                time:'',
+                password: '',
+                decade: ''
             },
             submitted: false
         };
@@ -27,10 +29,10 @@ class CreatePostPage extends React.Component {
 
     handleChange(event) {
         const { name, value } = event.target;
-        const { user } = this.state;
+        const { memory } = this.state;
         this.setState({
-            user: {
-                ...user,
+            memory: {
+                ...memory,
                 [name]: value
             }
         });
@@ -40,23 +42,11 @@ class CreatePostPage extends React.Component {
         event.preventDefault();
 
         this.setState({ submitted: true });
-        const { user } = this.state;
+        const { memory } = this.state;
         const { dispatch } = this.props;
-        console.log(user.password.length)
        
-
-        if (!user.email.includes("@")) {
-            dispatch(alertActions.error("Invalid email address"));
-
-        }else if(user.password.length < 7){
-            dispatch(alertActions.error("Password should be at least 7 characters"));
-
-        }else if(!onlyLettersAndDigits(user.password)){
-            dispatch(alertActions.error("Password should contain both number and letter"));
-
-        }else if (user.first_name && user.last_name && user.username && user.password && user.email){
-            
-            dispatch(userActions.register(user));
+        if (memory.title && memory.story && memory.tags && memory.locations && memory.password && memory.time && memory.decade && memory.multimedia){
+            // TODO: add memory
         }
     }
 
@@ -64,52 +54,74 @@ class CreatePostPage extends React.Component {
 
     render() {
         const { registering  } = this.props;
-        const { user, submitted } = this.state;
+        const { memory, submitted } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
-                <h2>Register</h2>
+                <h2>Create memory</h2>
+                Share your memorable experience!
+                <p />
                 <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && !user.first_name ? ' has-error' : '')}>
-                        <label htmlFor="first_name">First Name</label>
-                        <input type="text" className="form-control" name="first_name" value={user.first_name} onChange={this.handleChange} />
-                        {submitted && !user.first_name &&
-                            <div className="help-block">First Name is required</div>
+                    <div className={'form-group' + (submitted && !memory.title ? ' has-error' : '')}>
+                        <label htmlFor="title">Title</label> <br />
+                        eg. My summer vacation in Ayvalık
+                        <input type="text" className="form-control" name="title" value={memory.title} onChange={this.handleChange} />
+                        {submitted && !memory.title &&
+                            <div className="help-block">Title is required</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !user.last_name ? ' has-error' : '')}>
-                        <label htmlFor="last_name">Last Name</label>
-                        <input type="text" className="form-control" name="last_name" value={user.last_name} onChange={this.handleChange} />
-                        {submitted && !user.last_name &&
-                            <div className="help-block">Last Name is required</div>
+                    <div className={'form-group' + (submitted && !memory.story ? ' has-error' : '')}>
+                        <label htmlFor="story">Story</label> <br />
+                        What happened?
+                        <textarea type="text" className="form-control" name="story"  rows="10" value={memory.story} onChange={this.handleChange} />
+                    </div>
+                    <div className={'form-group' + (submitted && !memory.multimedia ? ' has-error' : '')}>
+                        <label htmlFor="multimedia">Multimedia</label> <br />
+                        <input type="file" className="form-control" name="multimedia"  accept="audio/*,image/*,video/*" value={memory.multimedia} onChange={this.handleChange} />
+                    </div>
+                    <div className={'form-group' + (submitted && !memory.tags ? ' has-error' : '')}>
+                        <label htmlFor="tags">Tags</label> <br />
+                        Seperate tags by comma (eg. nokia, snake, game)
+                        <input type="text" className="form-control" name="tags" value={memory.tags} onChange={this.handleChange} />
+                    </div>
+                    <div className={'form-group' + (submitted && !memory.locations ? ' has-error' : '')}>
+                        <label htmlFor="locations">Locations</label> <br />
+                        If your memory includes more than one location, seperate them by comma
+                        <input type="text" className="form-control" name="locations" value={memory.locations} onChange={this.handleChange} />
+                        {submitted && !memory.locations &&
+                            <div className="help-block">At least one location is required</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !user.username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={user.username} onChange={this.handleChange} />
-                        {submitted && !user.username &&
-                            <div className="help-block">Username is required</div>
+                    <div className={'form-group' + (submitted && !memory.time ? ' has-error' : '')}>
+                        <label htmlFor="time">Time</label> <br />
+                        Fill one of the following. <br />
+                        1. Exact time
+                        <input type="datetime-local" className="form-control" name="time" value={memory.time} onChange={this.handleChange} />
+                        {submitted && !memory.time &&
+                            <div className="help-block">Time is required</div>
                         }
-                    </div>
-                    <div className={'form-group' + (submitted && !user.email ? ' has-error' : '')}>
-                        <label htmlFor="email">Email</label>
-                        <input type="text" className="form-control" name="email" value={user.email} onChange={this.handleChange} />
-                        {submitted && !user.email &&
-                            <div className="help-block">Email is required</div>
-                        }
-                    </div>
-                    <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
-                        {submitted && !user.password &&
-                            <div className="help-block">Password is required</div>
-                        }
+                        2. Decade <br />
+                        <select id="decade" className="form-control"  name="decade" value={memory.decade} onChange={this.handleChange}>
+                            <option value="">--</option>
+                            <option value="2010">2010s</option>
+                            <option value="2000">2000s</option>
+                            <option value="1990">1990s</option>
+                            <option value="1980">1980s</option>
+                            <option value="1970">1970s</option>
+                            <option value="1960">1980s</option>
+                            <option value="1950">1950s</option>
+                            <option value="1940">1940s</option>
+                            <option value="1930">1930s</option>
+                            <option value="1920">1920s</option>
+                            <option value="1910">1910s</option>
+                            <option value="1900">1900s</option>
+                        </select>
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-primary">Register</button>
+                        <button className="btn btn-primary">Share!</button>
                         {registering && 
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         }
-                        <Link to="/login" className="btn btn-link">Cancel</Link>
+                        <Link to="/" className="btn btn-link">Cancel</Link>
                     </div>
                 </form>
             </div>

@@ -19,10 +19,10 @@ class HomePage extends React.Component {
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h1>Hi {user.user.username}!</h1>
-                <p>You're logged in with React!!</p>
+                <p>Welcome to Memorist!</p>
                 
                 <p>
-                    <Link to="/login">Logout</Link>
+                    <Link to="/createpost">Create memory</Link>
                 </p>
             </div>
         );
