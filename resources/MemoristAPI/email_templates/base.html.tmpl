@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ sender }}</title>
+    <style type="text/css">
+      span.bold {font-weight: bold;}
+      table.noborder {border: 0px; padding: 8px;}
+      th {text-align: left;}
+
+    </style>
+  </head>
+  <body>
+
+
+{% block content %}
+{% endblock %}
+
+    <p>
+      Regards, <br />
+      <br />
+      {{ sender }}
+    </p>
+</body>

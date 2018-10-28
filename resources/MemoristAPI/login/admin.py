@@ -1,5 +1,6 @@
 from django.contrib import admin
-from login.models import RegisteredUser
+from login import models as lm
 
 # Register your models here.
-admin.site.register(RegisteredUser)
+admin.site.register(lm.RegisteredUser)
+admin.site.register(lm.Activation)

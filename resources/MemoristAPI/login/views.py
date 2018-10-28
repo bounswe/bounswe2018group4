@@ -1,25 +1,94 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
-from rest_framework.status import *
+from rest_framework import status as st
 from rest_framework.views import APIView
-from login.serializers import *
+from login import serializers as ls
+from login import models as lm
+from datetime import datetime, timedelta
+from django.urls import reverse_lazy
+from rest_framework import status
+import hashlib
+from random import randint
+from django.utils.crypto import get_random_string
+from .index import send_aws_email, render, send_aws_sms
+from jinja2 import Environment
 
 
-# Create your views here.
+def sendVerifyEmail(dt, request):
+    data = {}
+    data['to'] = dt['user']['email']
+
+    encoded = (dt['user']['email'] + str(datetime.now()))
+    hash_object = hashlib.sha1(encoded.encode())
+    hex_dig = hash_object.hexdigest()
+
+    url = "http://" + str(request._get_raw_host()) + str(reverse_lazy("emailverify")) + "?uh=" + str(hex_dig)
+    data['url'] = url
+    data['email'] = dt['user']['email']
+    user = lm.RegisteredUser.objects.filter(email=dt['user']['email']).first()
+    old_acts = lm.Activation.objects.filter(user=user)
+    for act in old_acts:
+        act.is_active = False
+        act.save()
+
+    activation = lm.Activation(
+        user=user,
+        code=str(hex_dig),
+    )
+    activation.save()
+
+    EMAIL_HTML_TEMPLATE = 'email_templates/email_verify.html.tmpl'
+    EMAIL_TXT_TEMPLATE = 'email_templates/email_verify.txt.tmpl'
+    result_html = render(EMAIL_HTML_TEMPLATE, data)
+    result_txt = render(EMAIL_TXT_TEMPLATE, data)
+
+    subject_template = "Memorist sent you an Activation URL"
+    subject = Environment().from_string(subject_template).render()
+    if (send_aws_email(subject, data['to'], result_txt, result_html)):
+        user.save()
+        return Response({'status': 'ok', 'url': url}, status=status.HTTP_200_OK)
+    return Response({'status': 'fail'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VerifyEmail(APIView):
+    def get(self, request):
+        uh = request.GET['uh']
+        activation = lm.Activation.objects.filter(code=uh).first()
+
+        if not activation:
+            return Response({'status': 'fail', 'detail': 'Activation is not registered'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = activation.user
+        user.activeEmail_status = True
+        user.save()
+
+        return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+
 
 class RegisterAPIView(CreateAPIView):
-    serializer_class = RegisterSerializer
-    queryset = RegisteredUser.objects.all()
+    serializer_class = ls.RegisterSerializer
+    queryset = lm.RegisteredUser.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        serializer = ls.RegisterSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            sendVerifyEmail(serializer.data, request)
+            return Response(serializer.data, status=st.HTTP_201_CREATED)
+        return Response(serializer.errors, status=st.HTTP_400_BAD_REQUEST)
 
 
 class LoginAPIView(APIView):
 
     def post(self, *args, **kwargs):
         data = self.request.data
-        user = self.request.user
-        serializer = LoginSerializer(data=data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        user = lm.RegisteredUser.objects.filter(username=data['username']) | RegisteredUser.objects.filter(email=data['username'])
+        if not user.exists():
+            return Response({"detail": "Incorrect Credentials"}, status=HTTP_400_OK)
+        user = user.first()
+        data['username'] = user.email
+        serializer = ls.LoginSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=st.HTTP_200_OK)
