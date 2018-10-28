@@ -1,6 +1,7 @@
 package com.memorist.memorist_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -82,6 +83,9 @@ public class RegisterLoginActivity extends BaseActivity
         @Override
         public void onResponse(ApiResultUser response) {
             Toast.makeText(getApplicationContext(), "Login is successful", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
+            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
+            finish();
         }
     };
 
