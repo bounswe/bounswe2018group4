@@ -14,7 +14,9 @@
     <string name="memoryTitleHint">Title</string>
     <string name="memoryStoryHint">Story</string>
 
-    <string name="addedMultimedia">Added Multimedia</string>
+    <string name="addedImages">Added Photos</string>
+    <string name="addedVideos">Added Videos</string>
+    <string name="addedAudios">Added Audios</string>
 
     <string name="btnCreateMemory">Share</string>
     <string name="btnCanceleMemory">Cancel</string>
