@@ -36,6 +36,8 @@ import butterknife.OnClick;
 public class CreateMemoryFragment extends Fragment {
 
     @BindView(R.id.et_memoryTitle) EditText etMemoryTitle;
+    @BindView(R.id.et_memoryMentionedTime) EditText etMemoryMentionedTime;
+    @BindView(R.id.et_memoryLocation) EditText etMemoryLocation;
     @BindView(R.id.et_memoryStory) EditText etMemoryStory;
     @BindView(R.id.et_memoryTags) EditText etMemoryTags;
 
@@ -187,6 +189,8 @@ public class CreateMemoryFragment extends Fragment {
         }
 
         String title = etMemoryTitle.getText().toString();
+        String mentionedTime = etMemoryMentionedTime.getText().toString();
+        String location = etMemoryLocation.getText().toString();
         String story = etMemoryStory.getText().toString();
         String tags = etMemoryTags.getText().toString();
 
@@ -197,7 +201,7 @@ public class CreateMemoryFragment extends Fragment {
             memoryTags.add(tag);
         }
 
-        mListener.memoryShared(title, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
+        mListener.memoryShared(title, mentionedTime, location, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
     /**
@@ -212,7 +216,7 @@ public class CreateMemoryFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void memoryCanceled();
-        void memoryShared(String title, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+        void memoryShared(String title, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
                           ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
     }

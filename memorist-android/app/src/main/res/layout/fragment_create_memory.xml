@@ -23,6 +23,26 @@
             android:hint="@string/memoryTitleHint" />
 
         <EditText
+            android:id="@+id/et_memoryMentionedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:inputType="text"
+            android:hint="@string/memoryMentionedTimeHint" />
+
+        <EditText
+            android:id="@+id/et_memoryLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:inputType="text"
+            android:hint="@string/memoryLocationHint" />
+
+        <EditText
             android:id="@+id/et_memoryStory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
