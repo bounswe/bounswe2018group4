@@ -55,12 +55,4 @@ public class MemoristApi {
 
         coreApi.addToRequestQueue(request);
     }
-
-    public static void createNewMemory(String title, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                                       ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
-                                       ArrayList<String> memoryTags, Response.Listener<ApiResultCreatePost> createPostListener,
-                                       Response.ErrorListener createPostErrorListener) {
-        // TODO: This method will be done.
-
-    }
 }
