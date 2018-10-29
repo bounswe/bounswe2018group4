@@ -6,4 +6,7 @@
 
     <color name="btnLoginColor">#c0e0e0</color>
     <color name="btnRegisterColor">#163a3d</color>
+    <color name="tagColor">#6ba3ff</color>
+
+    <color name="black">#000000</color>
 </resources>
