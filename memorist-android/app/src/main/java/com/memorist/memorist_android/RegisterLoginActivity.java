@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.memorist.memorist_android.fragment.LoginFragment;
 import com.memorist.memorist_android.fragment.RegisterFragment;
+import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.ws.MemoristApi;
 
@@ -86,6 +87,9 @@ public class RegisterLoginActivity extends BaseActivity
             startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
             overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
             finish();
+
+            String token = response.getToken();
+            SharedPrefHelper.setUserToken(getApplicationContext(), token);
         }
     };
 
