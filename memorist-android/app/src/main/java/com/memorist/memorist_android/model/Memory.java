@@ -12,6 +12,8 @@ public class Memory {
     private String mentionedTime;
     private String location;
 
+    private boolean isLiked;
+
     private ArrayList<String> memoryFormat;
     private ArrayList<String> memoryText;
     private ArrayList<Uri> memoryImage;
@@ -33,10 +35,19 @@ public class Memory {
         this.memoryVideo = memoryVideo;
         this.memoryAudio = memoryAudio;
         this.memoryTags = memoryTags;
+        this.isLiked = false;
     }
 
     public long getMemoryId() {
         return memoryId;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
     }
 
     public String getLocation() {

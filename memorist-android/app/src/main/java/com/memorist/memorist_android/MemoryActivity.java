@@ -35,6 +35,32 @@ public class MemoryActivity extends AppCompatActivity
     }
 
     @Override
+    public void createDummyData() {
+        ArrayList<String> memoryFormat = new ArrayList<>();
+        ArrayList<String> memoryText = new ArrayList<>();
+        ArrayList<Uri> memoryImage = new ArrayList<>();
+        ArrayList<Uri> memoryVideo = new ArrayList<>();
+        ArrayList<Uri> memoryAudio = new ArrayList<>();
+        ArrayList<String> memoryTags = new ArrayList<>();
+
+        memoryFormat.add("T");
+        memoryText.add("I was a lovely day.. We had just got out of preparation exam called PROFICIENCY. It was the first day of summer and we planned a night we can spend on the sands of Kilyos." +
+                " We torched a light and we played guitar, we sang together. I had the chance to speak with her first time in that night. Until the dawn... So, Kilyos has a special meaning for us. " +
+                " If you stay in there for your preparation year as I did, do not forget that what happens in Kilyos stays in Kilyos except the love...");
+        memoryTags.add("FirstLove");
+        memoryTags.add("MyDearKilyos");
+
+        Memory memory = new Memory(1, new User(1, "cemalaytekin", "Cemal", "Aytekin", "cemalaytekinnn@gmail.com"),
+                "October 20 17:23", "June 1st, 2016", "Kilyos", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
+
+        FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
+                getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
+
+        feedMemoryFragment.getMemories().add(memory);
+        feedMemoryFragment.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_memory_feed, menu);

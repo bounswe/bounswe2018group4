@@ -4,11 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +42,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_feedMentionedTime) TextView tvFeedMentionedTime;
         @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
+        @BindView(R.id.btn_feedLike) Button btnLike;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -102,7 +103,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      * @param viewHolder, the holder of view which will be displayed.
      * @param memory: The meeting object which holds the content.
      */
-    private void setViewContent(int position, @Nullable View convertView, ViewHolder viewHolder, Memory memory) {
+    private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
             String username = "@" + memory.getMemoryOwner().getUsername();
             String postedTime = "Posted on " + memory.getPostedTime();
@@ -115,6 +116,20 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             viewHolder.tvFeedMentionedTime.setText(mentionedTime);
             viewHolder.tvFeedLocation.setText(location);
             viewHolder.tvFeedStory.setText(story);
+
+            if(memory.isLiked()) {
+                viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
+            }
+
+            viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!memory.isLiked()) {
+                        memory.setLiked(true);
+                        viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
+                    }
+                }
+            });
 
             ArrayList<Uri> memoryImage = memory.getMemoryImage();
             ArrayList<Uri> memoryVideo = memory.getMemoryVideo();

@@ -70,6 +70,7 @@ public class FeedMemoryFragment extends Fragment {
         lvMemoryList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+        mListener.createDummyData();
         return view;
     }
 
@@ -110,6 +111,6 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
+        void createDummyData();
     }
 }
