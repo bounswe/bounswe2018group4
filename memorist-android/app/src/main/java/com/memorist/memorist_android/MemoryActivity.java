@@ -8,16 +8,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
+import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 
 public class MemoryActivity extends AppCompatActivity
-    implements CreateMemoryFragment.OnFragmentInteractionListener {
+    implements CreateMemoryFragment.OnFragmentInteractionListener,
+    FeedMemoryFragment.OnFragmentInteractionListener {
 
+    private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
+
+        FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
+                fragment, TAG_FEED_MEMORY_FRAGMENT).commit();
     }
 
     @Override
