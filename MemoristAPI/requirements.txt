@@ -7,7 +7,6 @@ djangorestframework==3.9.0
 djangorestframework-jwt==1.11.0
 docutils==0.14
 Flask==1.0.2
-ItsDangerous==1.0.0
 Jinja2==2.10
 jmespath==0.9.3
 MarkupSafe==1.0

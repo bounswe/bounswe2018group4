@@ -49,12 +49,12 @@ class MemoryTag(models.Model):
 
 class PointLocation(models.Model):
     location = models.CharField(max_length=30, null=False, blank=False)
-    location_coordinates = PlainLocationField(based_fields=['city'])
+    location_coordinates = PlainLocationField(based_fields=['city'], null=True, blank=True)
 
 
 class PathLocation(models.Model):
-    location_from = models.ForeignKey(PointLocation, related_name="from", on_delete=models.CASCADE)
-    location_to = models.ForeignKey(PointLocation, related_name="to", on_delete=models.CASCADE)
+    location_from = models.ForeignKey(PointLocation, related_name="location_from", on_delete=models.CASCADE)
+    location_to = models.ForeignKey(PointLocation, related_name="location_to", on_delete=models.CASCADE)
 
 
 class PointMentionedTime(models.Model):
@@ -69,8 +69,8 @@ class PointMentionedTime(models.Model):
 
 
 class MentionedTimePeriod(models.Model):
-    time_begin = models.ForeignKey(PointMentionedTime, related_name="begin")
-    time_end = models.ForeignKey(PointMentionedTime, related_name="end")
+    time_begin = models.ForeignKey(PointMentionedTime, related_name="begin", on_delete=models.CASCADE)
+    time_end = models.ForeignKey(PointMentionedTime, related_name="end", on_delete=models.CASCADE)
 
 
 class Memory(models.Model):
@@ -78,12 +78,12 @@ class Memory(models.Model):
     posting_time = models.DateTimeField(auto_now_add=True, editable=False)
     title = models.CharField(max_length=50, null=True, blank=True)
     numlikes = models.IntegerField(default=0, null=True, blank=True)
-    comments = models.ManyToManyField(MemoryComment, null=True, blank=True)
-    tags = models.ManyToManyField(MemoryTag, null=True, blank=True)
-    pointlocations = models.ManyToManyField(PointLocation, null=True, blank=True)
-    pathlocations = models.ManyToManyField(PathLocation, null=True, blank=True)
-    mentioned_time = models.ManyToManyField(PointMentionedTime, null=True, blank=True)
-    mentioned_time_period = models.ManyToManyField(MentionedTimePeriod, null=True, blank=True)
+    comments = models.ManyToManyField(MemoryComment)
+    tags = models.ManyToManyField(MemoryTag)
+    pointlocations = models.ManyToManyField(PointLocation)
+    pathlocations = models.ManyToManyField(PathLocation)
+    mentioned_time = models.ManyToManyField(PointMentionedTime)
+    mentioned_time_period = models.ManyToManyField(MentionedTimePeriod)
 
 
 class MemoryItemText(models.Model):
