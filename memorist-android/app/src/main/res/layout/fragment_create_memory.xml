@@ -70,14 +70,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_memoryAddedMultimedia"
+            android:id="@+id/tv_memoryAddedImages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_md"
             android:layout_marginStart="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
             android:textSize="@dimen/addedMultimediaTextSize"
-            android:text="@string/addedMultimedia"
+            android:text="@string/addedImages"
             android:visibility="gone"
             fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
@@ -96,6 +96,26 @@
 
             </LinearLayout>
 
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tv_memoryAddedVideos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:textSize="@dimen/addedMultimediaTextSize"
+            android:text="@string/addedVideos"
+            android:visibility="gone"
+            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md" >
+
             <LinearLayout
                 android:id="@+id/layoutVideoContent"
                 android:layout_width="wrap_content"
@@ -104,6 +124,26 @@
                 android:orientation="horizontal" >
 
             </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tv_memoryAddedAudios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:textSize="@dimen/addedMultimediaTextSize"
+            android:text="@string/addedAudios"
+            android:visibility="gone"
+            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md" >
 
             <LinearLayout
                 android:id="@+id/layoutAudioContent"
