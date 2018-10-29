@@ -1,1 +1,0 @@
-Example screenshots from application.
