@@ -59,6 +59,10 @@ public class FeedMemoryFragment extends Fragment {
         setHasOptionsMenu(true);
 
         memories = new ArrayList<Memory>();
+        memories.add(new Memory(1, new User(1, "BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com"),
+                "October 28th, 2018", "September 2018", "Gaziantep", "In the first week of september, we went to Gaziantep all together with 10 friends. It was a week we ate all the time. It was awesome. I can't tell whether I went there to travel or eat lol."));
+        memories.add(new Memory(2, new User(2, "cemalaytekinnn", "Cemal", "Aytekin", "cemalaytekinnn@gmail.com"),
+                "October 29th, 2018", "October 29th", "Turkey", "Cumhuriyet bayramınız kutlu olsun. \nNe mutlu TÜRKÜM diyene..."));
     }
 
     @Override
