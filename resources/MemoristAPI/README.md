@@ -1,9 +1,7 @@
 
 python -m venv venv
 
-venv\Scripts\activate.bat (Windows)
-
-source venv/bin/activate (Linux)
+venv\Scripts\activate.bat
 
 pip install -r requirements.txt
 
