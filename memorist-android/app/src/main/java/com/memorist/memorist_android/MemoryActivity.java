@@ -52,4 +52,9 @@ public class MemoryActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void memoryCanceled() {
+        onBackPressed();
+    }
 }

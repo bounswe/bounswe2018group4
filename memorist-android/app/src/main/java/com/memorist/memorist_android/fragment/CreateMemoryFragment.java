@@ -3,19 +3,25 @@ package com.memorist.memorist_android.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.memorist.memorist_android.R;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,9 +35,18 @@ import butterknife.OnClick;
  */
 public class CreateMemoryFragment extends Fragment {
 
+    @BindView(R.id.et_memoryTitle) EditText etMemoryTitle;
+    @BindView(R.id.et_memoryStory) EditText etMemoryStory;
+
     private final int GALLERY_REQUEST = 1;
     private final int VIDEO_REQUEST = 2;
     private OnFragmentInteractionListener mListener;
+
+    private ArrayList<String> memoryFormat;
+    private ArrayList<String> memoryText;
+    private ArrayList<Uri> memoryImage;
+    private ArrayList<Uri> memoryVideo;
+    private ArrayList<Uri> memoryAudio;
 
     public CreateMemoryFragment() {
         // Required empty public constructor
@@ -51,6 +66,12 @@ public class CreateMemoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        memoryFormat = new ArrayList<>();
+        memoryText = new ArrayList<>();
+        memoryImage = new ArrayList<>();
+        memoryVideo = new ArrayList<>();
+        memoryAudio = new ArrayList<>();
     }
 
     @Override
@@ -104,19 +125,66 @@ public class CreateMemoryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case GALLERY_REQUEST:
-                    Uri selectedImage = data.getData();
+            if (requestCode == 1) {
+                Uri selectedImage = data.getData();
+                memoryImage.add(selectedImage);
 
-                    ViewGroup layout = (ViewGroup) getView().findViewById(R.id.imagelaout);
-                    ImageView addImage = new ImageView(getContext());
-                    addImage.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    addImage.setImageURI(selectedImage);
-                    layout.addView(addImage);
+                ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutImageContent);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
 
-                    break;
+                ImageView addImage = new ImageView(getContext());
+                addImage.setLayoutParams(params);
+                addImage.setImageURI(selectedImage);
+                layout.addView(addImage);
+
+                TextView tvAddedMultimedia = getView().findViewById(R.id.tv_memoryAddedImages);
+                tvAddedMultimedia.setVisibility(View.VISIBLE);
+            } else if (requestCode == 2) {
+                Uri selectedVideo = data.getData();
+                memoryVideo.add(selectedVideo);
+                Log.v("uri", selectedVideo.toString());
+
+                ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutVideoContent);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(512, 256);
+                params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
+
+                VideoView addVideo = new VideoView(getContext());
+                addVideo.setLayoutParams(params);
+                addVideo.setVideoURI(selectedVideo);
+                layout.addView(addVideo);
+
+                TextView tvAddedMultimedia = getView().findViewById(R.id.tv_memoryAddedVideos);
+                tvAddedMultimedia.setVisibility(View.VISIBLE);
+            } else {
+                // Nothing for now.
             }
         }
+    }
+
+    @OnClick(R.id.btn_cancelMemory)
+    public void cancelMemory(View view) {
+        mListener.memoryCanceled();
+    }
+
+    @OnClick(R.id.btn_postMemory)
+    public void shareMemory() {
+        memoryFormat.add("T");
+
+        for(Uri memoryImageUri: memoryImage) {
+            memoryFormat.add("I");
+        }
+
+        for(Uri memoryVideoUri: memoryVideo) {
+            memoryFormat.add("V");
+        }
+
+        for(Uri memoryAudioUri: memoryAudio) {
+            memoryFormat.add("A");
+        }
+
+        String title = etMemoryTitle.getText().toString();
+        String story = etMemoryStory.getText().toString();
     }
 
     /**
@@ -130,6 +198,6 @@ public class CreateMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
+        void memoryCanceled();
     }
 }
