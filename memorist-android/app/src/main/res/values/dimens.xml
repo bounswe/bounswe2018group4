@@ -9,5 +9,6 @@
     <dimen name="projectLogo_height">150dp</dimen>
     <dimen name="loginNotRegisteredTextSize">14sp</dimen>
     <dimen name="registerWelcomeTextSize">24sp</dimen>
+    <dimen name="addedMultimediaTextSize">14sp</dimen>
 
 </resources>
