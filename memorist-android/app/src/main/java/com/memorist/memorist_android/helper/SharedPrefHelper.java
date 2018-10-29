@@ -11,15 +11,15 @@ public class SharedPrefHelper {
     // Database table name used in shared preferences.
     private static final String PREFS_NAME = "com.memorist.memorist_android";
 
-    // Key value used in storing mail address.
-    private static final String KEY_USERNAME = "user_email";
+    // Key value used in storing token address.
+    private static final String USER_TOKEN = "user_token";
 
-    public static String getUserEmail(Context context) {
-        return getStringValue(context, KEY_USERNAME);
+    public static String getUserToken(Context context) {
+        return getStringValue(context, USER_TOKEN);
     }
 
-    public static void setUserEmail(Context context, String value) {
-        setStringValue(context, KEY_USERNAME, value);
+    public static void setUserToken(Context context, String value) {
+        setStringValue(context, USER_TOKEN, value);
     }
 
     private static String getStringValue(Context context, String key) {
