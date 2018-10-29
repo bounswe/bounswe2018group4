@@ -41,6 +41,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_feedTags) TextView tvFeedTags;
         @BindView(R.id.tv_feedMentionedTime) TextView tvFeedMentionedTime;
         @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
+        @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
         @BindView(R.id.btn_feedLike) Button btnLike;
 
@@ -110,12 +111,14 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String mentionedTime = "Mentioned about " + memory.getMentionedTime();
             String location = "Place is " + memory.getLocation();
             String story = memory.getMemoryText().get(0);
+            String title = memory.getTitle();
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
             viewHolder.tvFeedMentionedTime.setText(mentionedTime);
             viewHolder.tvFeedLocation.setText(location);
             viewHolder.tvFeedStory.setText(story);
+            viewHolder.tvFeedTitle.setText(title);
 
             if(memory.isLiked()) {
                 viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));

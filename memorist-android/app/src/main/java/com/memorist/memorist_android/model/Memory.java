@@ -11,6 +11,7 @@ public class Memory {
     private String postedTime;
     private String mentionedTime;
     private String location;
+    private String title;
 
     private boolean isLiked;
 
@@ -21,7 +22,7 @@ public class Memory {
     private ArrayList<Uri> memoryAudio;
     private ArrayList<String> memoryTags;
 
-    public Memory(long memoryId, User memoryOwner, String postedTime, String mentionedTime, String location,
+    public Memory(long memoryId, User memoryOwner, String postedTime, String mentionedTime, String location, String title,
                   ArrayList<String> memoryFormat, ArrayList<String> memoryText, ArrayList<Uri> memoryImage,
                   ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
         this.memoryId = memoryId;
@@ -29,6 +30,7 @@ public class Memory {
         this.postedTime = postedTime;
         this.mentionedTime = mentionedTime;
         this.location = location;
+        this.title = title;
         this.memoryFormat = memoryFormat;
         this.memoryText = memoryText;
         this.memoryImage = memoryImage;
@@ -132,5 +134,13 @@ public class Memory {
 
     public void setMemoryTags(ArrayList<String> memoryTags) {
         this.memoryTags = memoryTags;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -69,10 +69,17 @@
         android:layout_marginStart="@dimen/margin_md" />
 
     <TextView
+        android:id="@+id/tv_feedTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md" />
+
+    <TextView
         android:id="@+id/tv_feedStory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_md"
         android:layout_marginStart="@dimen/margin_md" />
 
     <TextView
