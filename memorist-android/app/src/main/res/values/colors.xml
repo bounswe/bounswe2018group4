@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="loginBtnColor">#c0e0e0</color>
-    <color name="loginNotRegisteredColor">#163a3d</color>
+    <color name="btnLoginColor">#c0e0e0</color>
+    <color name="btnRegisterColor">#163a3d</color>
 </resources>
