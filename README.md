@@ -1,6 +1,6 @@
 <p align="center">
   <a href = "https://github.com/bounswe/bounswe2018group4/wiki">
-<img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
+<img src="https://github.com/bounswe/bounswe2018group4/blob/master/resources/Team%20Logo/Logo%20(With%20Background).png?raw=true" width="50%" height="50%" >
   </a>
   </p>
 <hr />
