@@ -14,6 +14,7 @@
     <string name="passwordInputHint">Password</string>
     <string name="memoryTitleHint">Title</string>
     <string name="memoryStoryHint">Story</string>
+    <string name="memoryTagsHint">Tags</string>
     <string name="registerUsernameHint">Username</string>
     <string name="registerPasswordHint">Password</string>
     <string name="registerEmailHint">E-mail</string>

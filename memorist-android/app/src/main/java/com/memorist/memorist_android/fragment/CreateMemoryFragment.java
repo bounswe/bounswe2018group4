@@ -37,6 +37,7 @@ public class CreateMemoryFragment extends Fragment {
 
     @BindView(R.id.et_memoryTitle) EditText etMemoryTitle;
     @BindView(R.id.et_memoryStory) EditText etMemoryStory;
+    @BindView(R.id.et_memoryTags) EditText etMemoryTags;
 
     private final int GALLERY_REQUEST = 1;
     private final int VIDEO_REQUEST = 2;
@@ -185,6 +186,7 @@ public class CreateMemoryFragment extends Fragment {
 
         String title = etMemoryTitle.getText().toString();
         String story = etMemoryStory.getText().toString();
+        String tags = etMemoryTags.getText().toString();
     }
 
     /**
