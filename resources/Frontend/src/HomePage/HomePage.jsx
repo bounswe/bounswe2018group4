@@ -22,6 +22,7 @@ class HomePage extends React.Component {
                 <p>Welcome to Memorist!</p>
                 
                 <p>
+                    <Link to="/login">Log out</Link> <br />
                     <Link to="/createpost">Create memory</Link>
                 </p>
             </div>
