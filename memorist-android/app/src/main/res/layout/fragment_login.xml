@@ -53,7 +53,7 @@
             android:layout_marginTop="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
             android:background="@color/loginBtnColor"
-            android:text="@string/loginBtnText" />
+            android:text="@string/btnLogin" />
 
     </LinearLayout>
 
@@ -71,7 +71,7 @@
         android:focusable="true"
         android:textColor="@color/loginNotRegisteredColor"
         android:textSize="@dimen/loginNotRegisteredTextSize"
-        android:text="@string/loginNotRegistered"
+        android:text="@string/btnRegister"
         fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
 </RelativeLayout>

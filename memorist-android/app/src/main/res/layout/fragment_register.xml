@@ -80,6 +80,6 @@
         android:layout_marginTop="@dimen/margin_md"
         android:layout_marginEnd="@dimen/margin_md"
         android:background="@color/loginBtnColor"
-        android:text="@string/registerBtnText" />
+        android:text="@string/btnRegisterSend" />
 
 </LinearLayout>

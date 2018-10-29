@@ -169,7 +169,7 @@
                 android:layout_marginTop="@dimen/margin_md"
                 android:layout_marginStart="@dimen/margin_md"
                 android:layout_weight="1"
-                android:text="@string/btnCanceleMemory"
+                android:text="@string/btnCancelMemory"
                 android:background="@color/loginNotRegisteredColor"
                 android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
 
