@@ -1,11 +1,15 @@
 package com.memorist.memorist_android.ws;
 
+import android.net.Uri;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
+import com.memorist.memorist_android.model.ApiResultCreatePost;
 import com.memorist.memorist_android.model.ApiResultUser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +54,13 @@ public class MemoristApi {
                 ApiResultUser.class, headers, params, registerListener, registerErrorListener);
 
         coreApi.addToRequestQueue(request);
+    }
 
+    public static void createNewMemory(String title, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                                       ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+                                       ArrayList<String> memoryTags, Response.Listener<ApiResultCreatePost> createPostListener,
+                                       Response.ErrorListener createPostErrorListener) {
+        // TODO: This method will be done.
 
     }
 }

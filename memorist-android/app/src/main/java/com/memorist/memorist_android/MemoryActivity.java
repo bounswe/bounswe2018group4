@@ -1,14 +1,23 @@
 package com.memorist.memorist_android;
 
+import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
+import com.memorist.memorist_android.model.ApiResultCreatePost;
+import com.memorist.memorist_android.ws.MemoristApi;
+
+import java.util.ArrayList;
 
 public class MemoryActivity extends AppCompatActivity
     implements CreateMemoryFragment.OnFragmentInteractionListener,
@@ -57,4 +66,27 @@ public class MemoryActivity extends AppCompatActivity
     public void memoryCanceled() {
         onBackPressed();
     }
+
+    @Override
+    public void memoryShared(String title, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                             ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+                             ArrayList<String> memoryTags) {
+        MemoristApi.createNewMemory(title, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags, createPostListener, createPostErrorListener);
+    }
+
+    private Response.Listener<ApiResultCreatePost> createPostListener = new Response.Listener<ApiResultCreatePost>() {
+        @Override
+        public void onResponse(ApiResultCreatePost response) {
+            Toast.makeText(getApplicationContext(), "Create post is successful", Toast.LENGTH_LONG).show();
+            onBackPressed();
+        }
+    };
+
+    private Response.ErrorListener createPostErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(getApplicationContext(), "Create post is NOT successful", Toast.LENGTH_LONG).show();
+            Log.v("Error", error.toString());
+        }
+    };
 }

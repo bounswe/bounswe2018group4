@@ -48,6 +48,7 @@ public class CreateMemoryFragment extends Fragment {
     private ArrayList<Uri> memoryImage;
     private ArrayList<Uri> memoryVideo;
     private ArrayList<Uri> memoryAudio;
+    private ArrayList<String> memoryTags;
 
     public CreateMemoryFragment() {
         // Required empty public constructor
@@ -73,6 +74,7 @@ public class CreateMemoryFragment extends Fragment {
         memoryImage = new ArrayList<>();
         memoryVideo = new ArrayList<>();
         memoryAudio = new ArrayList<>();
+        memoryTags = new ArrayList<>();
     }
 
     @Override
@@ -187,6 +189,15 @@ public class CreateMemoryFragment extends Fragment {
         String title = etMemoryTitle.getText().toString();
         String story = etMemoryStory.getText().toString();
         String tags = etMemoryTags.getText().toString();
+
+        memoryText.add(story);
+        String[] tagsArr = tags.split(",");
+
+        for(String tag: tagsArr) {
+            memoryTags.add(tag);
+        }
+
+        mListener.memoryShared(title, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
     /**
@@ -201,5 +212,8 @@ public class CreateMemoryFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void memoryCanceled();
+        void memoryShared(String title, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                          ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+                          ArrayList<String> memoryTags);
     }
 }
