@@ -7,6 +7,7 @@
     <string name="audioButtonContentDescription">Add audio</string>
     <string name="postMemoryButtonContentDescription">Post</string>
     <string name="cancelMemoryButtonContentDescription">Cancel</string>
+    <string name="feedProfilePictureContentDescription">Profile Picture</string>
 
     <string name="usernameInputHint">Username</string>
     <string name="passwordInputHint">Password</string>
@@ -15,6 +16,9 @@
 
     <string name="btnCreateMemory">Share</string>
     <string name="btnCanceleMemory">Cancel</string>
+    <string name="btnFeedLike">Like</string>
+    <string name="btnFeedComment">Comment</string>
+    <string name="btnFeedAnnotate">Annotate</string>
 
     <string name="loginBtnText">Login</string>
     <string name="loginNotRegistered">You haven\'t registered yet?</string>
@@ -28,5 +32,4 @@
 
 
     <string name="menu_newMemory">Add Memory</string>
-
 </resources>
