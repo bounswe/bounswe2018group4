@@ -69,12 +69,52 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/imagelaout"
+        <TextView
+            android:id="@+id/tv_memoryAddedMultimedia"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:textSize="@dimen/addedMultimediaTextSize"
+            android:text="@string/addedMultimedia"
+            android:visibility="gone"
+            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
-        </LinearLayout>
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md" >
+
+            <LinearLayout
+                android:id="@+id/layoutImageContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:orientation="horizontal" >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutVideoContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:orientation="horizontal" >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutAudioContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:orientation="horizontal" >
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
