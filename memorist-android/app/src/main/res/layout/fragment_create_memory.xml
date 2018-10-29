@@ -1,98 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.CreateMemoryFragment">
-
-    <EditText
-        android:id="@+id/et_memoryTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_md"
-        android:layout_marginEnd="@dimen/margin_md"
-        android:layout_marginStart="@dimen/margin_md"
-        android:inputType="text"
-        android:hint="@string/memoryTitleHint" />
-
-    <EditText
-        android:id="@+id/et_memoryStory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_md"
-        android:layout_marginEnd="@dimen/margin_md"
-        android:layout_marginStart="@dimen/margin_md"
-        android:layout_weight="1"
-        android:inputType="text"
-        android:hint="@string/memoryStoryHint" />
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        tools:context=".fragment.CreateMemoryFragment">
 
-        <ImageButton
-            android:id="@+id/btn_addImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginStart="@dimen/margin_md"
-            android:layout_weight="1"
-            android:src="@drawable/image_icon"
-            android:contentDescription="@string/imageButtonContentDescription"/>
-
-        <ImageButton
-            android:id="@+id/btn_addVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_weight="1"
-            android:src="@drawable/video_icon"
-            android:contentDescription="@string/videoButtonContentDescription"/>
-
-        <ImageButton
-            android:id="@+id/btn_addAudio"
+        <EditText
+            android:id="@+id/et_memoryTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:layout_weight="1"
-            android:src="@drawable/audio_icon"
-            android:contentDescription="@string/audioButtonContentDescription"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/margin_md" >
-
-        <Button
-            android:id="@+id/btn_cancelMemory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
             android:layout_marginStart="@dimen/margin_md"
-            android:layout_weight="1"
-            android:text="@string/btnCanceleMemory"
-            android:background="@color/loginNotRegisteredColor"
-            android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
+            android:inputType="text"
+            android:hint="@string/memoryTitleHint" />
 
-        <Button
-            android:id="@+id/btn_postMemory"
+        <EditText
+            android:id="@+id/et_memoryStory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:layout_weight="1"
-            android:text="@string/btnCreateMemory"
-            android:background="@color/loginBtnColor"
-            android:contentDescription="@string/postMemoryButtonContentDescription"/>
+            android:layout_marginStart="@dimen/margin_md"
+            android:inputType="textMultiLine"
+            android:minLines="7"
+            android:hint="@string/memoryStoryHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btn_addImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_weight="1"
+                android:src="@drawable/image_icon"
+                android:contentDescription="@string/imageButtonContentDescription"/>
+
+            <ImageButton
+                android:id="@+id/btn_addVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_weight="1"
+                android:src="@drawable/video_icon"
+                android:contentDescription="@string/videoButtonContentDescription"/>
+
+            <ImageButton
+                android:id="@+id/btn_addAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_weight="1"
+                android:src="@drawable/audio_icon"
+                android:contentDescription="@string/audioButtonContentDescription"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imagelaout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_md" >
+
+            <Button
+                android:id="@+id/btn_cancelMemory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_weight="1"
+                android:text="@string/btnCanceleMemory"
+                android:background="@color/loginNotRegisteredColor"
+                android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
+
+            <Button
+                android:id="@+id/btn_postMemory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_weight="1"
+                android:text="@string/btnCreateMemory"
+                android:background="@color/loginBtnColor"
+                android:contentDescription="@string/postMemoryButtonContentDescription"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

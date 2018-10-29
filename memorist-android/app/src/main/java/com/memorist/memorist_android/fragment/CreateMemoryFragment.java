@@ -1,14 +1,23 @@
 package com.memorist.memorist_android.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.memorist.memorist_android.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +29,8 @@ import com.memorist.memorist_android.R;
  */
 public class CreateMemoryFragment extends Fragment {
 
+    private final int GALLERY_REQUEST = 1;
+    private final int VIDEO_REQUEST = 2;
     private OnFragmentInteractionListener mListener;
 
     public CreateMemoryFragment() {
@@ -44,7 +55,11 @@ public class CreateMemoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_create_memory, container, false);
+        // Inflate the fragment layout and bind view components.
+        View view = inflater.inflate(R.layout.fragment_create_memory, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 
     @Override
@@ -68,6 +83,40 @@ public class CreateMemoryFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.clear();
+    }
+
+    @OnClick(R.id.btn_addImage)
+    public void addImageClicked() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+    }
+
+    @OnClick(R.id.btn_addVideo)
+    public void addVideoClicked() {
+        Intent videoPickerIntent = new Intent(Intent.ACTION_PICK);
+        videoPickerIntent.setType("video/*");
+        startActivityForResult(videoPickerIntent, VIDEO_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case GALLERY_REQUEST:
+                    Uri selectedImage = data.getData();
+
+                    ViewGroup layout = (ViewGroup) getView().findViewById(R.id.imagelaout);
+                    ImageView addImage = new ImageView(getContext());
+                    addImage.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    addImage.setImageURI(selectedImage);
+                    layout.addView(addImage);
+
+                    break;
+            }
+        }
     }
 
     /**
