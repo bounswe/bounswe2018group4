@@ -10,17 +10,20 @@
     <string name="cancelMemoryButtonContentDescription">Cancel</string>
     <string name="feedProfilePictureContentDescription">Profile Picture</string>
 
-    <string name="usernameInputHint">Username</string>
+    <string name="usernameInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
     <string name="memoryTitleHint">Title</string>
     <string name="memoryStoryHint">Story</string>
     <string name="memoryTagsHint">Tags</string>
+    <string name="memoryMentionedTimeHint">When?</string>
+    <string name="memoryLocationHint">Where?</string>
     <string name="registerUsernameHint">Username</string>
     <string name="registerPasswordHint">Password</string>
     <string name="registerEmailHint">E-mail</string>
     <string name="registerFirstNameHint">First Name</string>
     <string name="registerLastNameHint">Last Name</string>
 
+    <string name="addedMultimedia">Added Multimedia</string>
     <string name="addedImages">Added Photos</string>
     <string name="addedVideos">Added Videos</string>
     <string name="addedAudios">Added Audios</string>
