@@ -28,6 +28,7 @@ public class Memory {
         this.mentionedTime = mentionedTime;
         this.location = location;
         this.memoryFormat = memoryFormat;
+        this.memoryText = memoryText;
         this.memoryImage = memoryImage;
         this.memoryVideo = memoryVideo;
         this.memoryAudio = memoryAudio;

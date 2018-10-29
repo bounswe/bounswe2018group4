@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical" >
 
     <LinearLayout
@@ -32,13 +31,25 @@
                 android:id="@+id/tv_feedUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 fontPath="fonts/HelveticaNeueCondensedBold.ttf"/>
 
             <TextView
                 android:id="@+id/tv_feedPostedTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                fontPath="fonts/HelvaticaNeue.ttf"/>
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
+
+            <TextView
+                android:id="@+id/tv_feedTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tagColor"
+                android:textStyle="bold"
+                fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
 
         </LinearLayout>
 
@@ -63,6 +74,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_md"
         android:layout_marginStart="@dimen/margin_md" />
+
+    <TextView
+        android:id="@+id/tv_feedAddedMultimedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_sm"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:textSize="@dimen/addedMultimediaTextSize"
+        android:text="@string/addedMultimedia"
+        android:visibility="gone"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md" >
+
+        <LinearLayout
+            android:id="@+id/layoutMultimediaContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

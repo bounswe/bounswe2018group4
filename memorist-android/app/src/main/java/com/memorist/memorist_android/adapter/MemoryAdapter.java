@@ -1,14 +1,18 @@
 package com.memorist.memorist_android.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.model.Memory;
@@ -34,6 +38,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.iv_feedProfilePicture) ImageView ivFeedProfilePicture;
         @BindView(R.id.tv_feedUsername) TextView tvFeedUsername;
         @BindView(R.id.tv_feedPostedTime) TextView tvFeedPostedTime;
+        @BindView(R.id.tv_feedTags) TextView tvFeedTags;
         @BindView(R.id.tv_feedMentionedTime) TextView tvFeedMentionedTime;
         @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
@@ -87,7 +92,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         }
 
         // Sets the content of the view.
-        setViewContent(viewHolder, memory);
+        setViewContent(position, convertView, viewHolder, memory);
         return convertView;
     }
 
@@ -97,20 +102,58 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      * @param viewHolder, the holder of view which will be displayed.
      * @param memory: The meeting object which holds the content.
      */
-    private void setViewContent(ViewHolder viewHolder, Memory memory) {
+    private void setViewContent(int position, @Nullable View convertView, ViewHolder viewHolder, Memory memory) {
         if(memory != null) {
-
             String username = "@" + memory.getMemoryOwner().getUsername();
             String postedTime = "Posted on " + memory.getPostedTime();
             String mentionedTime = "Mentioned about " + memory.getMentionedTime();
             String location = "Place is " + memory.getLocation();
-            String story = memory.getStory();
+            String story = memory.getMemoryText().get(0);
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
             viewHolder.tvFeedMentionedTime.setText(mentionedTime);
             viewHolder.tvFeedLocation.setText(location);
             viewHolder.tvFeedStory.setText(story);
+
+            ArrayList<Uri> memoryImage = memory.getMemoryImage();
+            ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
+            ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
+            ArrayList<String> memoryTags = memory.getMemoryTags();
+
+            for(String tag: memoryTags) {
+                String existing = viewHolder.tvFeedTags.getText().toString();
+                tag = " #" + tag;
+
+                viewHolder.tvFeedTags.setText(existing + tag);
+            }
+
+            for(Uri selectedImage: memoryImage) {
+                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                params.setMargins(0, 0, 10, 0);
+
+                ImageView addImage = new ImageView(getContext());
+                addImage.setLayoutParams(params);
+                addImage.setImageURI(selectedImage);
+                layout.addView(addImage);
+            }
+
+            for(Uri selectedVideo: memoryVideo) {
+                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                params.setMargins(0, 0, 10, 0);
+
+                VideoView addVideo = new VideoView(getContext());
+                addVideo.setLayoutParams(params);
+                addVideo.setVideoURI(selectedVideo);
+                layout.addView(addVideo);
+            }
+
+            if(!memoryImage.isEmpty() && !memoryVideo.isEmpty()) {
+                TextView tvAddedMultimedia = convertView.findViewById(R.id.tv_feedAddedMultimedia);
+                tvAddedMultimedia.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
