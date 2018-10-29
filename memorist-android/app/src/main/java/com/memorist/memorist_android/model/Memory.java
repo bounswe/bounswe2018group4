@@ -1,5 +1,9 @@
 package com.memorist.memorist_android.model;
 
+import android.net.Uri;
+
+import java.util.ArrayList;
+
 public class Memory {
 
     private long memoryId;
@@ -7,15 +11,27 @@ public class Memory {
     private String postedTime;
     private String mentionedTime;
     private String location;
-    private String story;
 
-    public Memory(long memoryId, User memoryOwner, String postedTime, String mentionedTime, String location, String story) {
+    private ArrayList<String> memoryFormat;
+    private ArrayList<String> memoryText;
+    private ArrayList<Uri> memoryImage;
+    private ArrayList<Uri> memoryVideo;
+    private ArrayList<Uri> memoryAudio;
+    private ArrayList<String> memoryTags;
+
+    public Memory(long memoryId, User memoryOwner, String postedTime, String mentionedTime, String location,
+                  ArrayList<String> memoryFormat, ArrayList<String> memoryText, ArrayList<Uri> memoryImage,
+                  ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
         this.memoryId = memoryId;
         this.memoryOwner = memoryOwner;
         this.postedTime = postedTime;
         this.mentionedTime = mentionedTime;
         this.location = location;
-        this.story = story;
+        this.memoryFormat = memoryFormat;
+        this.memoryImage = memoryImage;
+        this.memoryVideo = memoryVideo;
+        this.memoryAudio = memoryAudio;
+        this.memoryTags = memoryTags;
     }
 
     public long getMemoryId() {
@@ -34,12 +50,32 @@ public class Memory {
         return postedTime;
     }
 
-    public String getStory() {
-        return story;
-    }
-
     public User getMemoryOwner() {
         return memoryOwner;
+    }
+
+    public ArrayList<String> getMemoryFormat() {
+        return memoryFormat;
+    }
+
+    public ArrayList<String> getMemoryText() {
+        return memoryText;
+    }
+
+    public ArrayList<Uri> getMemoryImage() {
+        return memoryImage;
+    }
+
+    public ArrayList<Uri> getMemoryVideo() {
+        return memoryVideo;
+    }
+
+    public ArrayList<Uri> getMemoryAudio() {
+        return memoryAudio;
+    }
+
+    public ArrayList<String> getMemoryTags() {
+        return memoryTags;
     }
 
     public void setLocation(String location) {
@@ -62,7 +98,27 @@ public class Memory {
         this.postedTime = postedTime;
     }
 
-    public void setStory(String story) {
-        this.story = story;
+    public void setMemoryFormat(ArrayList<String> memoryFormat) {
+        this.memoryFormat = memoryFormat;
+    }
+
+    public void setMemoryImage(ArrayList<Uri> memoryImage) {
+        this.memoryImage = memoryImage;
+    }
+
+    public void setMemoryText(ArrayList<String> memoryText) {
+        this.memoryText = memoryText;
+    }
+
+    public void setMemoryVideo(ArrayList<Uri> memoryVideo) {
+        this.memoryVideo = memoryVideo;
+    }
+
+    public void setMemoryAudio(ArrayList<Uri> memoryAudio) {
+        this.memoryAudio = memoryAudio;
+    }
+
+    public void setMemoryTags(ArrayList<String> memoryTags) {
+        this.memoryTags = memoryTags;
     }
 }
