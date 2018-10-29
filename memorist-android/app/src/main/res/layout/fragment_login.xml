@@ -58,10 +58,26 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_loginNotRegistered"
+        android:id="@+id/tv_forgetMyPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_marginBottom="@dimen/margin_md"
+        android:layout_above="@id/tv_loginNotRegistered"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/btnRegisterColor"
+        android:textSize="@dimen/loginNotRegisteredTextSize"
+        android:text="@string/btnForgetPassword"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+    <TextView
+        android:id="@+id/tv_loginNotRegistered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_md"
         android:layout_marginEnd="@dimen/margin_md"
         android:layout_marginBottom="@dimen/margin_md"

@@ -170,7 +170,7 @@
                 android:layout_marginStart="@dimen/margin_md"
                 android:layout_weight="1"
                 android:text="@string/btnCancelMemory"
-                android:background="@color/loginNotRegisteredColor"
+                android:background="@color/btnRegisterColor"
                 android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
 
             <Button
@@ -181,7 +181,7 @@
                 android:layout_marginEnd="@dimen/margin_md"
                 android:layout_weight="1"
                 android:text="@string/btnCreateMemory"
-                android:background="@color/loginBtnColor"
+                android:background="@color/btnLoginColor"
                 android:contentDescription="@string/postMemoryButtonContentDescription"/>
 
         </LinearLayout>
