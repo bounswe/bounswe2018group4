@@ -158,7 +158,7 @@ public class MemoryActivity extends AppCompatActivity
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, HH:mm");
         String postedTime = sdf.format(new Date());
 
-        Memory memory = new Memory(4, new User(3, "berkeesmer", "Berke", "Esmer", "berkee.eesmer@gmail.com"),
+        Memory memory = new Memory(4, new User(3, "@BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com"),
                 postedTime, mentionedTime, location, memoryTitle, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
         FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
                 getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);

@@ -108,7 +108,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         if(memory != null) {
             String username = "@" + memory.getMemoryOwner().getUsername();
             String postedTime = "Posted on " + memory.getPostedTime();
-            String mentionedTime = "Mentioned about " + memory.getMentionedTime();
+            String mentionedTime = "Mentions about " + memory.getMentionedTime();
             String location = "Place is " + memory.getLocation();
             String story = memory.getMemoryText().get(0);
             String title = memory.getTitle();
