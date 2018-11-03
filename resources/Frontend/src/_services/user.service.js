@@ -8,6 +8,7 @@ export const userService = {
     getAll,
     getById,
     update,
+    postMemory,
     delete: _delete
 };
 
@@ -18,7 +19,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`http://127.0.0.1:8000/auth/login`, requestOptions)
+    return fetch(`https://dev.panel.tropertymanagement.com/auth/login/`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -42,7 +43,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`http://127.0.0.1:8000/users`, requestOptions).then(handleResponse);
+    return fetch(`https://dev.panel.tropertymanagement.com/users/`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
@@ -51,7 +52,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`http://127.0.0.1:8000/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`https://dev.panel.tropertymanagement.com/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -61,7 +62,17 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`http://127.0.0.1:8000/auth/register`, requestOptions).then(handleResponse);
+    return fetch(`https://dev.panel.tropertymanagement.com/auth/register/`, requestOptions).then(handleResponse);
+}
+
+function postMemory(memory) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(memory)
+    };
+
+    return fetch(`https://dev.panel.tropertymanagement.com/auth/createpost/`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -71,7 +82,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`http://127.0.0.1:8000/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`https://dev.panel.tropertymanagement.com/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -81,7 +92,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`http://127.0.0.1:8000/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`https://dev.panel.tropertymanagement.com/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

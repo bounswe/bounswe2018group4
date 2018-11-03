@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     getAll,
+    postMemory,
     delete: _delete
 };
 
@@ -64,6 +65,30 @@ function register(user) {
 
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+function postMemory(memory) {
+    return dispatch => {
+        dispatch(request(memory));
+
+        userService.postMemory(memory)
+            .then(
+                memory => { 
+                    dispatch(success());
+                    history.push('/');
+                    dispatch(alertActions.success('Your memory is created!'));
+                },
+                error => {
+                    if(error.toString() == 'Bad Request'){
+                        dispatch(failure(error.toString()));
+                        dispatch(alertActions.error("Bad Request"));
+                    }
+                }
+            );
+    };
+
+    function request(memory) { return { type: userConstants.REGISTER_REQUEST, memory } }
+    function success(memory) { return { type: userConstants.REGISTER_SUCCESS, memory } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 

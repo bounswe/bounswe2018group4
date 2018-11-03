@@ -109,3 +109,4 @@ class RegisterSerializer(ModelSerializer):
         data["token"] = token
         data["user"] = user_obj
         return data
+
