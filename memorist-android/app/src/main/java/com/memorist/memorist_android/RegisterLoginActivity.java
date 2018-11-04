@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.memorist.memorist_android.fragment.LoginFragment;
+import com.memorist.memorist_android.fragment.RecoverPasswordFragment;
 import com.memorist.memorist_android.fragment.RegisterFragment;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.model.ApiResultUser;
@@ -20,11 +21,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RegisterLoginActivity extends BaseActivity
     implements LoginFragment.OnFragmentInteractionListener,
-        RegisterFragment.OnFragmentInteractionListener {
+        RegisterFragment.OnFragmentInteractionListener,
+        RecoverPasswordFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "RegisterLoginActivity";
     private static final String TAG_LOGIN_FRAGMENT = "fragment_login";
     private static final String TAG_REGISTER_FRAGMENT = "fragment_register";
+    private static final String TAG_RECOVER_PASSWORD = "fragment_recover_password";
 
     // The database manager used in application.
     private Realm realm;
@@ -64,6 +67,11 @@ public class RegisterLoginActivity extends BaseActivity
     }
 
     @Override
+    public void processRegister(String username, String password, String email, String firstName, String lastName) {
+        MemoristApi.registerNewUser(username, password, email, firstName, lastName, registerListener, registerErrorListener);
+    }
+
+    @Override
     public void proceedToRegister() {
         RegisterFragment fragment = RegisterFragment.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -76,8 +84,15 @@ public class RegisterLoginActivity extends BaseActivity
     }
 
     @Override
-    public void processRegister(String username, String password, String email, String firstName, String lastName) {
-        MemoristApi.registerNewUser(username, password, email, firstName, lastName, registerListener, registerErrorListener);
+    public void proceedToRecover() {
+        RecoverPasswordFragment fragment = RecoverPasswordFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
+                .enter_from_right, R.anim.exit_to_left);
+        fragmentTransaction.replace(R.id.registerLoginFragmentContent, fragment, TAG_RECOVER_PASSWORD);
+        fragmentTransaction.addToBackStack(TAG_RECOVER_PASSWORD);
+        fragmentTransaction.commit();
     }
 
     private Response.Listener<ApiResultUser> loginListener = new Response.Listener<ApiResultUser>() {

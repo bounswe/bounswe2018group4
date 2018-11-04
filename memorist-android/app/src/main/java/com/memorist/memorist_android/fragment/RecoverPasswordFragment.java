@@ -18,23 +18,21 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
+ * {@link RecoverPasswordFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LoginFragment#newInstance} factory method to
+ * Use the {@link RecoverPasswordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class RecoverPasswordFragment extends Fragment {
 
     // Binding the view components.
-    @BindView(R.id.et_username) EditText etUsername;
-    @BindView(R.id.et_password) EditText etPassword;
-    @BindView(R.id.tv_loginNotRegistered) TextView tvNotRegistered;
-    @BindView(R.id.tv_forgetMyPassword) TextView tvRecoverPassword;
+    @BindView(R.id.et_recoverUsername) EditText etUsername;
+    @BindView(R.id.et_recoverEmail) EditText etPassword;
 
     // The interaction listener is defined.
     private OnFragmentInteractionListener mListener;
 
-    public LoginFragment() {
+    public RecoverPasswordFragment() {
         // Required empty public constructor
     }
 
@@ -44,8 +42,8 @@ public class LoginFragment extends Fragment {
      *
      * @return A new instance of fragment LoginFragment.
      */
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
+    public static RecoverPasswordFragment newInstance() {
+        return new RecoverPasswordFragment();
     }
 
     @Override
@@ -56,11 +54,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_recover_password, container, false);
         ButterKnife.bind(this, view);
 
-        tvNotRegistered.setOnClickListener(notRegisteredClickListener);
-        tvRecoverPassword.setOnClickListener(recoverPasswordClickListener);
         return view;
     }
 
@@ -82,29 +78,13 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
-    @OnClick(R.id.btn_login)
-    public void btnLoginClicked(View view) {
+    @OnClick({R.id.btn_recoverMe})
+    public void btnRecoverClicked(View view) {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
 
-        if(!username.equals("") && !password.equals("")) {
-            mListener.processLogin(username, password);
-        }
+        // TODO: Do your job.
     }
-
-    private TextView.OnClickListener notRegisteredClickListener = new TextView.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mListener.proceedToRegister();
-        }
-    };
-
-    private TextView.OnClickListener recoverPasswordClickListener = new TextView.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mListener.proceedToRecover();
-        }
-    };
 
     /**
      * This interface must be implemented by activities that contain this
@@ -117,8 +97,6 @@ public class LoginFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void processLogin(String username, String password);
-        void proceedToRegister();
-        void proceedToRecover();
+
     }
 }
