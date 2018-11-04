@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,8 +144,8 @@ public class CreateMemoryFragment extends Fragment {
                 addImage.setImageURI(selectedImage);
                 layout.addView(addImage);
 
-                TextView tvAddedMultimedia = getView().findViewById(R.id.tv_memoryAddedImages);
-                tvAddedMultimedia.setVisibility(View.VISIBLE);
+                MaterialCardView mcAddedImage = getView().findViewById(R.id.mc_createMemoryImage);
+                mcAddedImage.setVisibility(View.VISIBLE);
             } else if (requestCode == 2) {
                 Uri selectedVideo = data.getData();
                 memoryVideo.add(selectedVideo);
@@ -159,8 +160,8 @@ public class CreateMemoryFragment extends Fragment {
                 addVideo.setVideoURI(selectedVideo);
                 layout.addView(addVideo);
 
-                TextView tvAddedMultimedia = getView().findViewById(R.id.tv_memoryAddedVideos);
-                tvAddedMultimedia.setVisibility(View.VISIBLE);
+                MaterialCardView mcAddedVideo = getView().findViewById(R.id.mc_createMemoryVideo);
+                mcAddedVideo.setVisibility(View.VISIBLE);
             } else {
                 // Nothing for now.
             }

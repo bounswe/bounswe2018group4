@@ -2,214 +2,427 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".fragment.CreateMemoryFragment">
+        android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/et_memoryTitle"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md"
             android:layout_marginStart="@dimen/margin_md"
-            android:inputType="text"
-            android:hint="@string/memoryTitleHint" />
+            android:layout_marginEnd="@dimen/margin_md"
+            android:textSize="@dimen/textSizeCreateMemory"
+            android:text="@string/createMemoryText"
+            android:gravity="center"
+            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
-        <EditText
-            android:id="@+id/et_memoryMentionedTime"
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md"
             android:layout_marginStart="@dimen/margin_md"
-            android:inputType="text"
-            android:hint="@string/memoryMentionedTimeHint" />
-
-        <EditText
-            android:id="@+id/et_memoryLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:layout_marginStart="@dimen/margin_md"
-            android:inputType="text"
-            android:hint="@string/memoryLocationHint" />
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
 
-        <EditText
-            android:id="@+id/et_memoryStory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md"
-            android:layout_marginStart="@dimen/margin_md"
-            android:inputType="textMultiLine"
-            android:minLines="7"
-            android:hint="@string/memoryStoryHint" />
-
-        <EditText
-            android:id="@+id/et_memoryTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md"
-            android:layout_marginStart="@dimen/margin_md"
-            android:inputType="text"
-            android:hint="@string/memoryTagsHint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/btn_addImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginStart="@dimen/margin_md"
-                android:layout_weight="1"
-                android:src="@drawable/image_icon"
-                android:contentDescription="@string/imageButtonContentDescription"/>
-
-            <ImageButton
-                android:id="@+id/btn_addVideo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_weight="1"
-                android:src="@drawable/video_icon"
-                android:contentDescription="@string/videoButtonContentDescription"/>
-
-            <ImageButton
-                android:id="@+id/btn_addAudio"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_memoryTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_md"
                 android:layout_marginEnd="@dimen/margin_md"
-                android:layout_weight="1"
-                android:src="@drawable/audio_icon"
-                android:contentDescription="@string/audioButtonContentDescription"/>
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="@string/memoryTitleHint" />
 
-        </LinearLayout>
+        </android.support.design.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tv_memoryAddedImages"
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryStory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginTop="@dimen/margin_sm"
             android:layout_marginStart="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:textSize="@dimen/addedMultimediaTextSize"
-            android:text="@string/addedImages"
-            android:visibility="gone"
-            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_memoryStory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:gravity="top"
+                android:background="@null"
+                android:inputType="textMultiLine"
+                android:minLines="7"
+                android:hint="@string/memoryStoryHint" />
+
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryTags"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
             android:layout_marginStart="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md" >
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_memoryTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="@string/memoryTagsHint" />
+
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryMentionedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_memoryMentionedTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="@string/memoryMentionedTimeHint" />
+
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_memoryLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="@string/memoryLocationHint" />
+
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryMultimedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md" >
 
             <LinearLayout
-                android:id="@+id/layoutImageContent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
+                <ImageButton
+                    android:id="@+id/btn_addImage"
+                    android:layout_width="@dimen/heightMemoryButton"
+                    android:layout_height="@dimen/heightMemoryButton"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:src="@drawable/image_icon"
+                    android:contentDescription="@string/imageButtonContentDescription"/>
+
+                <ImageButton
+                    android:id="@+id/btn_addVideo"
+                    android:layout_width="@dimen/heightMemoryButton"
+                    android:layout_height="@dimen/heightMemoryButton"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:src="@drawable/video_icon"
+                    android:contentDescription="@string/videoButtonContentDescription"/>
+
+                <ImageButton
+                    android:id="@+id/btn_addAudio"
+                    android:layout_width="@dimen/heightMemoryButton"
+                    android:layout_height="@dimen/heightMemoryButton"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:src="@drawable/audio_icon"
+                    android:contentDescription="@string/audioButtonContentDescription"/>
+
             </LinearLayout>
 
-        </HorizontalScrollView>
+        </android.support.design.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tv_memoryAddedVideos"
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginTop="@dimen/margin_sm"
             android:layout_marginStart="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:textSize="@dimen/addedMultimediaTextSize"
-            android:text="@string/addedVideos"
-            android:visibility="gone"
-            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md" >
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/layoutVideoContent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_memoryAddedImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:textSize="@dimen/textSizeAddedMultimedia"
+                    android:text="@string/addedImages"
+                    fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:scrollbars="none" >
+
+                    <android.support.design.card.MaterialCardView
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none" >
+
+                        <LinearLayout
+                            android:id="@+id/layoutImageContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                        </LinearLayout>
+
+                    </android.support.design.card.MaterialCardView>
+
+                </HorizontalScrollView>
 
             </LinearLayout>
 
-        </HorizontalScrollView>
+        </android.support.design.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tv_memoryAddedAudios"
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryVideo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
+            android:layout_marginTop="@dimen/margin_sm"
             android:layout_marginStart="@dimen/margin_md"
             android:layout_marginEnd="@dimen/margin_md"
-            android:textSize="@dimen/addedMultimediaTextSize"
-            android:text="@string/addedAudios"
-            android:visibility="gone"
-            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md" >
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/layoutAudioContent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_memoryAddedVideos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:textSize="@dimen/textSizeAddedMultimedia"
+                    android:text="@string/addedVideos"
+                    fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:scrollbars="none" >
+
+                    <android.support.design.card.MaterialCardView
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none" >
+
+                        <LinearLayout
+                            android:id="@+id/layoutVideoContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                        </LinearLayout>
+
+                    </android.support.design.card.MaterialCardView>
+
+                </HorizontalScrollView>
 
             </LinearLayout>
 
-        </HorizontalScrollView>
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_createMemoryAudio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_memoryAddedAudios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:textSize="@dimen/textSizeAddedMultimedia"
+                    android:text="@string/addedAudios"
+                    fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:scrollbars="none" >
+
+                    <android.support.design.card.MaterialCardView
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none" >
+
+                        <LinearLayout
+                            android:id="@+id/layoutAudioContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                        </LinearLayout>
+
+                    </android.support.design.card.MaterialCardView>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+        </android.support.design.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/margin_md" >
+            android:layout_marginBottom="@dimen/margin_md"
+            android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/btn_cancelMemory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginStart="@dimen/margin_md"
-                android:layout_weight="1"
-                android:text="@string/btnCancelMemory"
-                android:background="@color/btnRegisterColor"
-                android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
-
-            <Button
+            <android.support.design.button.MaterialButton
                 android:id="@+id/btn_postMemory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginTop="@dimen/margin_sm"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_sm"
                 android:layout_weight="1"
                 android:text="@string/btnCreateMemory"
-                android:background="@color/btnLoginColor"
                 android:contentDescription="@string/postMemoryButtonContentDescription"/>
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/btn_cancelMemory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_sm"
+                android:layout_marginStart="@dimen/margin_sm"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_weight="1"
+                android:text="@string/btnCancelMemory"
+                android:contentDescription="@string/cancelMemoryButtonContentDescription"/>
 
         </LinearLayout>
 
