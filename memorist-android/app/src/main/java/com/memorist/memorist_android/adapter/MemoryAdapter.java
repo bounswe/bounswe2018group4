@@ -129,7 +129,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 public void onClick(View v) {
                     if(!memory.isLiked()) {
                         memory.setLiked(true);
-                        viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
+                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
                     }
                 }
             });
