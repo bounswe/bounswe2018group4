@@ -87,6 +87,7 @@
                 android:layout_marginEnd="@dimen/margin_md"
                 android:layout_marginStart="@dimen/margin_md"
                 android:inputType="text"
+                android:imeOptions="actionSend"
                 android:hint="@string/registerLastNameHint"/>
 
             <android.support.design.button.MaterialButton

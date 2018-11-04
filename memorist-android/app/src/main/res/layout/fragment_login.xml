@@ -56,6 +56,7 @@
                 android:layout_marginEnd="@dimen/margin_md"
                 android:layout_marginStart="@dimen/margin_md"
                 android:inputType="textPassword"
+                android:imeOptions="actionSend"
                 android:hint="@string/passwordInputHint"/>
 
             <android.support.design.button.MaterialButton

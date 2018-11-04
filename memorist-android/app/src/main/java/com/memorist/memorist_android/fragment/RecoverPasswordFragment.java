@@ -3,10 +3,13 @@ package com.memorist.memorist_android.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 
@@ -56,6 +59,10 @@ public class RecoverPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recover_password, container, false);
         ButterKnife.bind(this, view);
 
+        // Keyboard send button is listened.
+        etUsername.setOnEditorActionListener(IME_SEND_PRESSED);
+        etEmail.setOnEditorActionListener(IME_SEND_PRESSED);
+
         return view;
     }
 
@@ -88,6 +95,17 @@ public class RecoverPasswordFragment extends Fragment {
             mListener.processRecovery(email);
         }
     }
+
+    TextView.OnEditorActionListener IME_SEND_PRESSED = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                btnRecoverClicked(null);
+                return true;
+            }
+            return false;
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this

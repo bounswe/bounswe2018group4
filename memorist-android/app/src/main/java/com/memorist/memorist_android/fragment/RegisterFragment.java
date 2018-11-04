@@ -3,12 +3,17 @@ package com.memorist.memorist_android.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +63,9 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
 
+        // Keyboard send button is listened.
+        etRegisterLastName.setOnEditorActionListener(IME_SEND_PRESSED);
+
         return view;
     }
 
@@ -91,6 +99,17 @@ public class RegisterFragment extends Fragment {
             mListener.processRegister(username, password, email, firstName, lastName);
         }
     }
+
+    TextView.OnEditorActionListener IME_SEND_PRESSED = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                btnRegisterClicked(null);
+                return true;
+            }
+            return false;
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this
