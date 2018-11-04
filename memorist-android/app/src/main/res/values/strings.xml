@@ -34,8 +34,8 @@
     <string name="btnFeedComment">Comment</string>
     <string name="btnFeedAnnotate">Annotate</string>
     <string name="btnLogin">Login</string>
-    <string name="btnRegister">You haven\'t registered yet?</string>
-    <string name="btnForgetPassword">Recover Password</string>
+    <string name="btnRegister">Register</string>
+    <string name="btnForgetPassword">Password ?</string>
     <string name="btnRegisterSend">Sign Up</string>
 
     <string name="menu_newMemory">Add Memory</string>
