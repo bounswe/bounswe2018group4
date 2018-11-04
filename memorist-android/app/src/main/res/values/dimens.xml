@@ -16,6 +16,7 @@
     <dimen name="textSizeXSmallMemory">11sp</dimen>
 
     <dimen name="heightMemoryOwnerAvatar">48dp</dimen>
+    <dimen name="heightMemoryButton">24dp</dimen>
 
     <dimen name="projectLogo_height">150dp</dimen>
     <dimen name="loginNotRegisteredTextSize">14sp</dimen>
