@@ -10,6 +10,9 @@
     <string name="postMemoryButtonContentDescription">Post</string>
     <string name="cancelMemoryButtonContentDescription">Cancel</string>
     <string name="feedProfilePictureContentDescription">Profile Picture</string>
+    <string name="btnLikeContentDescription">Like</string>
+    <string name="btnCommentsContentDescription">Comments</string>
+    <string name="btnAnnotationContentDescription">Annotation</string>
 
     <string name="usernameInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
