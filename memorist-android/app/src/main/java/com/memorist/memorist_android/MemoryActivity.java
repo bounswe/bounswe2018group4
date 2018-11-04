@@ -1,5 +1,6 @@
 package com.memorist.memorist_android;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import com.memorist.memorist_android.model.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MemoryActivity extends AppCompatActivity
     implements CreateMemoryFragment.OnFragmentInteractionListener,
@@ -116,6 +119,15 @@ public class MemoryActivity extends AppCompatActivity
         feedMemoryFragment.getAdapter().notifyDataSetChanged();
 
         dummyOK = true;
+    }
+
+    /**
+     * Font set up for the activity.
+     * @param newBase: The context which the fonts will be set on.
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

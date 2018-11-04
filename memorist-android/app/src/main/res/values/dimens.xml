@@ -11,6 +11,12 @@
     <dimen name="padding_lg">16dp</dimen>
     <dimen name="padding_xlg">24dp</dimen>
 
+    <dimen name="textSizeBigMemory">13sp</dimen>
+    <dimen name="textSizeSmallMemory">12sp</dimen>
+    <dimen name="textSizeXSmallMemory">11sp</dimen>
+
+    <dimen name="heightMemoryOwnerAvatar">48dp</dimen>
+
     <dimen name="projectLogo_height">150dp</dimen>
     <dimen name="loginNotRegisteredTextSize">14sp</dimen>
     <dimen name="registerWelcomeTextSize">24sp</dimen>
