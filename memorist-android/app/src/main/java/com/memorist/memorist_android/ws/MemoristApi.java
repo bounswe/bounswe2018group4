@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.model.ApiResultCreatePost;
+import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultUser;
 
 import java.util.ArrayList;
@@ -54,5 +55,12 @@ public class MemoristApi {
                 ApiResultUser.class, headers, params, registerListener, registerErrorListener);
 
         coreApi.addToRequestQueue(request);
+    }
+
+    public static void recoverUser(String userCredentials, Response.Listener<ApiResultNoData> recoveryListener,
+                                   Response.ErrorListener errorListener) {
+
+        // TODO : Connection to the api will be implemented later on.
+
     }
 }

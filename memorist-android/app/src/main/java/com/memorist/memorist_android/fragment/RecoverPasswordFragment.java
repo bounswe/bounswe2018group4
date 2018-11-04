@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 
@@ -27,7 +26,7 @@ public class RecoverPasswordFragment extends Fragment {
 
     // Binding the view components.
     @BindView(R.id.et_recoverUsername) EditText etUsername;
-    @BindView(R.id.et_recoverEmail) EditText etPassword;
+    @BindView(R.id.et_recoverEmail) EditText etEmail;
 
     // The interaction listener is defined.
     private OnFragmentInteractionListener mListener;
@@ -81,9 +80,13 @@ public class RecoverPasswordFragment extends Fragment {
     @OnClick({R.id.btn_recoverMe})
     public void btnRecoverClicked(View view) {
         String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
+        String email = etEmail.getText().toString();
 
-        // TODO: Do your job.
+        if(!username.isEmpty()) {
+            mListener.processRecovery(username);
+        } else if(!email.isEmpty()) {
+            mListener.processRecovery(email);
+        }
     }
 
     /**
@@ -97,6 +100,6 @@ public class RecoverPasswordFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-
+        void processRecovery(String userCredentials);
     }
 }

@@ -13,6 +13,7 @@ import com.memorist.memorist_android.fragment.LoginFragment;
 import com.memorist.memorist_android.fragment.RecoverPasswordFragment;
 import com.memorist.memorist_android.fragment.RegisterFragment;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
+import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.ws.MemoristApi;
 
@@ -72,6 +73,11 @@ public class RegisterLoginActivity extends BaseActivity
     }
 
     @Override
+    public void processRecovery(String userCredentials) {
+        MemoristApi.recoverUser(userCredentials, recoveryListener, recoveryErrorListener);
+    }
+
+    @Override
     public void proceedToRegister() {
         RegisterFragment fragment = RegisterFragment.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -128,6 +134,22 @@ public class RegisterLoginActivity extends BaseActivity
         @Override
         public void onErrorResponse(VolleyError error) {
             Toast.makeText(getApplicationContext(), "Register is NOT successful", Toast.LENGTH_LONG).show();
+            Log.v("Error", error.toString());
+        }
+    };
+
+    private Response.Listener<ApiResultNoData> recoveryListener = new Response.Listener<ApiResultNoData>() {
+        @Override
+        public void onResponse(ApiResultNoData response) {
+            Toast.makeText(getApplicationContext(), "Recovery is successful", Toast.LENGTH_LONG).show();
+            onBackPressed();
+        }
+    };
+
+    private Response.ErrorListener recoveryErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(getApplicationContext(), "Recovery is NOT successful", Toast.LENGTH_LONG).show();
             Log.v("Error", error.toString());
         }
     };
