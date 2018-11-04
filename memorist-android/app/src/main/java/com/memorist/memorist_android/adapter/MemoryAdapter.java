@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +43,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
         @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
-        @BindView(R.id.btn_feedLike) Button btnLike;
+        @BindView(R.id.btn_feedLike) ImageButton btnLike;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -166,11 +166,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 addVideo.setLayoutParams(params);
                 addVideo.setVideoURI(selectedVideo);
                 layout.addView(addVideo);
-            }
-
-            if(!memoryImage.isEmpty() && !memoryVideo.isEmpty()) {
-                TextView tvAddedMultimedia = convertView.findViewById(R.id.tv_feedAddedMultimedia);
-                tvAddedMultimedia.setVisibility(View.VISIBLE);
             }
         }
     }
