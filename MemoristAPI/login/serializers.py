@@ -42,8 +42,7 @@ class LoginSerializer(serializers.ModelSerializer):
     def validate(self, data):
         print(data)
 
-        usernam = self.context.get("email", "")
-        print("11111")
+        usernam = data.get("email")
         user = RegisteredUser.objects.filter(email=usernam)  # | RegisteredUser.objects.filter(email=usernam)
         print(user)
         if user.exists():
