@@ -38,8 +38,8 @@ def sendVerifyEmail(dt, request):
     )
     activation.save()
 
-    EMAIL_HTML_TEMPLATE = 'email_templates/email_verify.html.tmpl'
-    EMAIL_TXT_TEMPLATE = 'email_templates/email_verify.txt.tmpl'
+    EMAIL_HTML_TEMPLATE = '/home/ubuntu/memorist.com/email_templates/email_verify.html.tmpl'
+    EMAIL_TXT_TEMPLATE = '/home/ubuntu/memorist.com/email_templates/email_verify.txt.tmpl'
     result_html = render(EMAIL_HTML_TEMPLATE, data)
     result_txt = render(EMAIL_TXT_TEMPLATE, data)
 
