@@ -20,7 +20,7 @@ public class MemoristApi {
     private static CoreApi coreApi = ApplicationClass.getCoreApi();
 
     public static void loginUsernamePassword(String username, String password,
-                                             Response.Listener listener, Response.ErrorListener errorListener) {
+                                             Response.Listener<ApiResultUser> listener, Response.ErrorListener errorListener) {
         String url = Constants.API_LOGIN;
 
         Map<String, String> headers = new HashMap<>();
