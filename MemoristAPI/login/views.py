@@ -84,7 +84,7 @@ class LoginAPIView(APIView):
 
     def post(self, *args, **kwargs):
         data = self.request.data
-        user = lm.RegisteredUser.objects.filter(username=data['username']) | RegisteredUser.objects.filter(email=data['username'])
+        user = lm.RegisteredUser.objects.filter(username=data['username']) | lm.RegisteredUser.objects.filter(email=data['username'])
         if not user.exists():
             return Response({"detail": "Incorrect Credentials"}, status=HTTP_400_OK)
         user = user.first()
