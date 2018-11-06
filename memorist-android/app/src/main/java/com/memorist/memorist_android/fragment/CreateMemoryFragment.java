@@ -152,7 +152,7 @@ public class CreateMemoryFragment extends Fragment {
                 Log.v("uri", selectedVideo.toString());
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutVideoContent);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(512, 256);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
                 params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
 
                 VideoView addVideo = new VideoView(getContext());
