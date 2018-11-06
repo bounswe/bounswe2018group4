@@ -5,9 +5,8 @@ import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
@@ -18,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.OnClick;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MemoryActivity extends AppCompatActivity
@@ -131,33 +131,6 @@ public class MemoryActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_memory_feed, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.new_memory:
-                CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
-                        .enter_from_left, R.anim.exit_to_right);
-                fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_CREATE_MEMORY_FRAGMENT);
-                fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
-                fragmentTransaction.commit();
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void memoryCanceled() {
         onBackPressed();
     }
@@ -177,5 +150,42 @@ public class MemoryActivity extends AppCompatActivity
 
         feedMemoryFragment.getMemories().add(memory);
         feedMemoryFragment.getAdapter().notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.btn_memoristHome)
+    public void tabHomeClicked(View view) {
+        FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                .enter_from_left, R.anim.exit_to_right);
+        fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_FEED_MEMORY_FRAGMENT);
+        fragmentTransaction.addToBackStack(TAG_FEED_MEMORY_FRAGMENT);
+        fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.btn_memoristSearch)
+    public void tabSearchClicked(View view) {
+        Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.btn_memoristAdd)
+    public void tabAddClicked(View view) {
+        CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                .enter_from_left, R.anim.exit_to_right);
+        fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_CREATE_MEMORY_FRAGMENT);
+        fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
+        fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.btn_memoristRecommendation)
+    public void tabRecommendationsClicked(View view) {
+        Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.btn_memoristProfile)
+    public void tabProfileClicked(View view) {
+        Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
     }
 }
