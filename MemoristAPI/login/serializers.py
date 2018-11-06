@@ -42,7 +42,7 @@ class LoginSerializer(serializers.ModelSerializer):
     def validate(self, data):
         print(data)
 
-        usernam = data['username']
+        usernam = self.context.get("email", "")
         print("11111")
         user = RegisteredUser.objects.filter(email=usernam)  # | RegisteredUser.objects.filter(email=usernam)
         print(user)
@@ -56,9 +56,9 @@ class LoginSerializer(serializers.ModelSerializer):
                 data["user"] = user
                 return data
             else:
-                raise ValidationError({"detail": "Incorrect credentials"})
+                raise serializers.ValidationError({"detail": "Incorrect credentials"})
         else:
-            raise ValidationError({"detail": "Incorrect credentials"})
+            raise serializers.ValidationError({"detail": "Incorrect credentials"})
 
 
 class RegisterSerializer(serializers.ModelSerializer):

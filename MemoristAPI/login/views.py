@@ -88,7 +88,6 @@ class LoginAPIView(APIView):
         if not user.exists():
             return Response({"detail": "Incorrect Credentials"}, status=st.HTTP_400_BAD_REQUEST)
         user = user.first()
-        data['username'] = user.email
-        serializer = ls.LoginSerializer(data=data)
+        serializer = ls.LoginSerializer(data=data, context={"email": user.email})
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=st.HTTP_200_OK)
