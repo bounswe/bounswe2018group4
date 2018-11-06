@@ -55,7 +55,7 @@ public class MemoryActivity extends AppCompatActivity
             memoryTags.add("FirstLove");
             memoryTags.add("MyDearKilyos");
 
-            Memory memory = new Memory(1, new User(1, "cemalaytekin", "Cemal", "Aytekin", "cemalaytekinnn@gmail.com"),
+            Memory memory = new Memory(1, new User(1, "cemalaytekin", "Cemal", "Aytekin", "cemalaytekinnn@gmail.com", true),
                     "October 20 17:23", "June 1st, 2016", "Kilyos", "Day One", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
 
             FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
@@ -83,7 +83,7 @@ public class MemoryActivity extends AppCompatActivity
         memoryTags.add("SecretTunnels");
         memoryTags.add("Classified");
 
-        Memory memory = new Memory(2, new User(2, "cemiloz", "Cemil", "Öz", "cemiloz@gmail.com"),
+        Memory memory = new Memory(2, new User(2, "cemiloz", "Cemil", "Öz", "cemiloz@gmail.com", true),
                 "October 22 11:43", "1950s", "Boğaziçi University", "Secret Tunnels of Robert", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
 
         FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
@@ -109,7 +109,7 @@ public class MemoryActivity extends AppCompatActivity
         memoryTagss.add("HighSchoolGraduation");
         memoryTagss.add("Party");
 
-        Memory memory = new Memory(3, new User(3, "mehmetdrd", "Mehmet", "Durdu", "mehmet.durdu15@hotmail.com"),
+        Memory memory = new Memory(3, new User(3, "mehmetdrd", "Mehmet", "Durdu", "mehmet.durdu15@hotmail.com", true),
                 "October 25 14:21", "2015", "Mihrabat Korusu", "High School of Graduation", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTagss);
 
         FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
@@ -170,7 +170,7 @@ public class MemoryActivity extends AppCompatActivity
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, HH:mm");
         String postedTime = sdf.format(new Date());
 
-        Memory memory = new Memory(4, new User(3, "@BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com"),
+        Memory memory = new Memory(4, new User(3, "@BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com", true),
                 postedTime, mentionedTime, location, memoryTitle, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
         FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
                 getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
