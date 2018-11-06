@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/margin_md"
-    android:layout_marginBottom="@dimen/margin_md"
     android:layout_marginStart="@dimen/margin_md"
     android:layout_marginEnd="@dimen/margin_md"
     tools:context=".fragment.FeedMemoryFragment" >

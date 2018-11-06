@@ -15,6 +15,12 @@
     <string name="btnLikeContentDescription">Like</string>
     <string name="btnCommentsContentDescription">Comments</string>
     <string name="btnAnnotationContentDescription">Annotation</string>
+    <string name="btnMemoristHomeContentDescription">Home</string>
+    <string name="btnMemoristSearchContentDescription">Search</string>
+    <string name="btnMemoristAddContentDescription">Add Memory</string>
+    <string name="btnMemoristRecommendationContentDescription">Recommendation</string>
+    <string name="btnMemoristProfileContentDescription">Profile</string>
+
 
     <string name="usernameInputHint">Email</string>
     <string name="passwordInputHint">Password</string>

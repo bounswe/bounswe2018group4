@@ -11,6 +11,90 @@
     <FrameLayout
         android:id="@+id/memoryFragmentContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/tabLayout" />
+    
+    <LinearLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true" >
+
+        <ImageButton
+            android:id="@+id/btn_memoristHome"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightTabButton"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/home_icon"
+            android:contentDescription="@string/btnMemoristHomeContentDescription"/>
+
+        <ImageButton
+            android:id="@+id/btn_memoristSearch"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightTabButton"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/search_icon"
+            android:contentDescription="@string/btnMemoristSearchContentDescription"/>
+
+        <ImageButton
+            android:id="@+id/btn_memoristAdd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightTabButton"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/add_icon"
+            android:contentDescription="@string/btnMemoristAddContentDescription"/>
+
+        <ImageButton
+            android:id="@+id/btn_memoristRecommendation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightTabButton"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/recommendation_icon"
+            android:contentDescription="@string/btnMemoristRecommendationContentDescription"/>
+
+        <ImageButton
+            android:id="@+id/btn_memoristProfile"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heightTabButton"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/profile_icon"
+            android:contentDescription="@string/btnMemoristProfileContentDescription"/>
+    </LinearLayout>
 
 </RelativeLayout>
