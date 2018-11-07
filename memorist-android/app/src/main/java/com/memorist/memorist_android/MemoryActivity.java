@@ -2,6 +2,7 @@ package com.memorist.memorist_android;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,8 @@ public class MemoryActivity extends AppCompatActivity
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
 
+    private String currentTab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,30 +42,62 @@ public class MemoryActivity extends AppCompatActivity
         tabSwitcher(TAG_FEED_MEMORY_FRAGMENT);
     }
 
-    /**
-     * Font set up for the activity.
-     * @param newBase: The context which the fonts will be set on.
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
     public void tabSwitcher(String targetFragment) {
-        if (targetFragment.equals(TAG_FEED_MEMORY_FRAGMENT)) {
+        if(currentTab == null) {
+            currentTab = TAG_FEED_MEMORY_FRAGMENT;
             FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
                     fragment, TAG_FEED_MEMORY_FRAGMENT).commit();
-        } else if (targetFragment.equals(TAG_SEARCH_MEMORY_FRAGMENT)) {
-            Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
-        } else if (targetFragment.equals(TAG_CREATE_MEMORY_FRAGMENT)) {
-            CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
-                    fragment, TAG_CREATE_MEMORY_FRAGMENT).commit();
-        } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
-            Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+            if(getSupportFragmentManager().findFragmentByTag(targetFragment) != null) {
+                if (targetFragment.equals(TAG_FEED_MEMORY_FRAGMENT)) {
+                    FeedMemoryFragment fragment = (FeedMemoryFragment) getSupportFragmentManager().findFragmentByTag(targetFragment);
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_FEED_MEMORY_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_FEED_MEMORY_FRAGMENT);
+                    fragmentTransaction.commit();
+                } else if (targetFragment.equals(TAG_SEARCH_MEMORY_FRAGMENT)) {
+                    Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
+                } else if (targetFragment.equals(TAG_CREATE_MEMORY_FRAGMENT)) {
+                    CreateMemoryFragment fragment = (CreateMemoryFragment) getSupportFragmentManager().findFragmentByTag(targetFragment);
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_CREATE_MEMORY_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
+                    fragmentTransaction.commit();
+                } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
+                    Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                if (targetFragment.equals(TAG_FEED_MEMORY_FRAGMENT)) {
+                    FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_FEED_MEMORY_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_FEED_MEMORY_FRAGMENT);
+                    fragmentTransaction.commit();
+                } else if (targetFragment.equals(TAG_SEARCH_MEMORY_FRAGMENT)) {
+                    Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
+                } else if (targetFragment.equals(TAG_CREATE_MEMORY_FRAGMENT)) {
+                    CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_CREATE_MEMORY_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
+                    fragmentTransaction.commit();
+                } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
+                    Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 
@@ -95,7 +130,7 @@ public class MemoryActivity extends AppCompatActivity
     public void memoryShared(String title, String mentionedTime, String location, String memoryTitle, ArrayList<String> memoryFormat,
                              ArrayList<String> memoryText, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo,
                              ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
-        onBackPressed();
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT);
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, HH:mm");
         String postedTime = sdf.format(new Date());
 
@@ -111,5 +146,14 @@ public class MemoryActivity extends AppCompatActivity
     @Override
     public void memoryCanceled() {
         onBackPressed();
+    }
+
+    /**
+     * Font set up for the activity.
+     * @param newBase: The context which the fonts will be set on.
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
