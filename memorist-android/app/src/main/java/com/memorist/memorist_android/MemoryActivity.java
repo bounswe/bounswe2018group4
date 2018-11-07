@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -26,99 +27,16 @@ public class MemoryActivity extends AppCompatActivity
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
-    private boolean dummyOK = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
+        ButterKnife.bind(this);
 
         FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
                 fragment, TAG_FEED_MEMORY_FRAGMENT).commit();
-    }
-
-    @Override
-    public void createDummyData() {
-        if(!dummyOK) {
-            ArrayList<String> memoryFormat = new ArrayList<>();
-            ArrayList<String> memoryText = new ArrayList<>();
-            ArrayList<Uri> memoryImage = new ArrayList<>();
-            ArrayList<Uri> memoryVideo = new ArrayList<>();
-            ArrayList<Uri> memoryAudio = new ArrayList<>();
-            ArrayList<String> memoryTags = new ArrayList<>();
-
-            memoryFormat.add("T");
-            memoryText.add("I was a lovely day.. We had just got out of preparation exam called PROFICIENCY. It was the first day of summer and we planned a night we can spend on the sands of Kilyos." +
-                    " We torched a light and we played guitar, we sang together. I had the chance to speak with her first time in that night. Until the dawn... So, Kilyos has a special meaning for us. " +
-                    " If you stay in there for your preparation year as I did, do not forget that what happens in Kilyos stays in Kilyos except the love...");
-            memoryTags.add("FirstLove");
-            memoryTags.add("MyDearKilyos");
-
-            Memory memory = new Memory(1, new User(1, "cemalaytekin", "Cemal", "Aytekin", "cemalaytekinnn@gmail.com", true),
-                    "October 20 17:23", "June 1st, 2016", "Kilyos", "Day One", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
-
-            FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
-
-            feedMemoryFragment.getMemories().add(memory);
-            feedMemoryFragment.getAdapter().notifyDataSetChanged();
-
-            createDummyData2();
-        }
-    }
-
-    private void createDummyData2() {
-        ArrayList<String> memoryFormat = new ArrayList<>();
-        ArrayList<String> memoryText = new ArrayList<>();
-        ArrayList<Uri> memoryImage = new ArrayList<>();
-        ArrayList<Uri> memoryVideo = new ArrayList<>();
-        ArrayList<Uri> memoryAudio = new ArrayList<>();
-        ArrayList<String> memoryTags = new ArrayList<>();
-
-        memoryFormat.add("T");
-        memoryText.add("While we were studying at Robert College, (It is known as Boğaziçi University right now) there were tunnels between every building of faculties. " +
-                "Professors would get angry when we use them but they wouldn't lock them anyway. They were very useful.");
-        memoryTags.add("RobertCollege");
-        memoryTags.add("SecretTunnels");
-        memoryTags.add("Classified");
-
-        Memory memory = new Memory(2, new User(2, "cemiloz", "Cemil", "Öz", "cemiloz@gmail.com", true),
-                "October 22 11:43", "1950s", "Boğaziçi University", "Secret Tunnels of Robert", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
-
-        FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
-                getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
-
-        feedMemoryFragment.getMemories().add(memory);
-        feedMemoryFragment.getAdapter().notifyDataSetChanged();
-
-        createDummyData3();
-    }
-
-    public void createDummyData3() {
-        ArrayList<String> memoryFormat = new ArrayList<>();
-        ArrayList<String> memoryText = new ArrayList<>();
-        ArrayList<Uri> memoryImage = new ArrayList<>();
-        ArrayList<Uri> memoryVideo = new ArrayList<>();
-        ArrayList<Uri> memoryAudio = new ArrayList<>();
-        ArrayList<String> memoryTagss = new ArrayList<>();
-
-        memoryFormat.add("T");
-        memoryText.add("I was the organiser of our high school graduation party. When the duty was offered to me, I volunteered cheerfully. I looked over many places and " +
-                "I decided to book Mihrabat Korusu in Beykoz. There was a very beautiful scene of Bosphorus Bridge and the sea. We ate, we had fun. Everybody was grateful.");
-        memoryTagss.add("HighSchoolGraduation");
-        memoryTagss.add("Party");
-
-        Memory memory = new Memory(3, new User(3, "mehmetdrd", "Mehmet", "Durdu", "mehmet.durdu15@hotmail.com", true),
-                "October 25 14:21", "2015", "Mihrabat Korusu", "High School of Graduation", memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTagss);
-
-        FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
-                getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
-
-        feedMemoryFragment.getMemories().add(memory);
-        feedMemoryFragment.getAdapter().notifyDataSetChanged();
-
-        dummyOK = true;
     }
 
     /**

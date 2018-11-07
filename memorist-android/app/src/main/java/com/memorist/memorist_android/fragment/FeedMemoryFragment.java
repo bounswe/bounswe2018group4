@@ -11,7 +11,6 @@ import android.widget.ListView;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.model.Memory;
-import com.memorist.memorist_android.model.User;
 
 import java.util.ArrayList;
 
@@ -70,7 +69,6 @@ public class FeedMemoryFragment extends Fragment {
         lvMemoryList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        mListener.createDummyData();
         return view;
     }
 
@@ -111,6 +109,5 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void createDummyData();
     }
 }
