@@ -2,7 +2,6 @@ package com.memorist.memorist_android;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,17 +25,18 @@ public class MemoryActivity extends AppCompatActivity
     FeedMemoryFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
+    private final String TAG_SEARCH_MEMORY_FRAGMENT = "fragment_search_memory";
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
+    private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
+    private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory);
-        ButterKnife.bind(this);
 
-        FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
-                fragment, TAG_FEED_MEMORY_FRAGMENT).commit();
+        ButterKnife.bind(this);
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT);
     }
 
     /**
@@ -48,9 +48,47 @@ public class MemoryActivity extends AppCompatActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void memoryCanceled() {
-        onBackPressed();
+    public void tabSwitcher(String targetFragment) {
+        if (targetFragment.equals(TAG_FEED_MEMORY_FRAGMENT)) {
+            FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
+                    fragment, TAG_FEED_MEMORY_FRAGMENT).commit();
+        } else if (targetFragment.equals(TAG_SEARCH_MEMORY_FRAGMENT)) {
+            Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
+        } else if (targetFragment.equals(TAG_CREATE_MEMORY_FRAGMENT)) {
+            CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.memoryFragmentContent,
+                    fragment, TAG_CREATE_MEMORY_FRAGMENT).commit();
+        } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
+            Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @OnClick(R.id.btn_memoristHome)
+    public void tabHomeClicked(View view) {
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT);
+    }
+
+    @OnClick(R.id.btn_memoristSearch)
+    public void tabSearchClicked(View view) {
+        tabSwitcher(TAG_SEARCH_MEMORY_FRAGMENT);
+    }
+
+    @OnClick(R.id.btn_memoristAdd)
+    public void tabAddClicked(View view) {
+        tabSwitcher(TAG_CREATE_MEMORY_FRAGMENT);
+    }
+
+    @OnClick(R.id.btn_memoristRecommendation)
+    public void tabRecommendationsClicked(View view) {
+        tabSwitcher(TAG_RECOMMENDATIONS_FRAGMENT);
+    }
+
+    @OnClick(R.id.btn_memoristProfile)
+    public void tabProfileClicked(View view) {
+        tabSwitcher(TAG_USER_PROFILE_FRAGMENT);
     }
 
     @Override
@@ -64,46 +102,14 @@ public class MemoryActivity extends AppCompatActivity
         Memory memory = new Memory(4, new User(3, "@BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com", true),
                 postedTime, mentionedTime, location, memoryTitle, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
         FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
-                getSupportFragmentManager().findFragmentById(R.id.memoryFragmentContent);
+                getSupportFragmentManager().findFragmentByTag(TAG_FEED_MEMORY_FRAGMENT);
 
         feedMemoryFragment.getMemories().add(memory);
         feedMemoryFragment.getAdapter().notifyDataSetChanged();
     }
 
-    @OnClick(R.id.btn_memoristHome)
-    public void tabHomeClicked(View view) {
-        FeedMemoryFragment fragment = FeedMemoryFragment.newInstance();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
-                .enter_from_left, R.anim.exit_to_right);
-        fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_FEED_MEMORY_FRAGMENT);
-        fragmentTransaction.addToBackStack(TAG_FEED_MEMORY_FRAGMENT);
-        fragmentTransaction.commit();
-    }
-
-    @OnClick(R.id.btn_memoristSearch)
-    public void tabSearchClicked(View view) {
-        Toast.makeText(getApplicationContext(), "Search is not functional yet..", Toast.LENGTH_LONG).show();
-    }
-
-    @OnClick(R.id.btn_memoristAdd)
-    public void tabAddClicked(View view) {
-        CreateMemoryFragment fragment = CreateMemoryFragment.newInstance();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
-                .enter_from_left, R.anim.exit_to_right);
-        fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_CREATE_MEMORY_FRAGMENT);
-        fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
-        fragmentTransaction.commit();
-    }
-
-    @OnClick(R.id.btn_memoristRecommendation)
-    public void tabRecommendationsClicked(View view) {
-        Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
-    }
-
-    @OnClick(R.id.btn_memoristProfile)
-    public void tabProfileClicked(View view) {
-        Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+    @Override
+    public void memoryCanceled() {
+        onBackPressed();
     }
 }
