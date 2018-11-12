@@ -40,11 +40,8 @@ class LoginSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
-        print(data)
-
-        usernam = data.get("email")
-        user = RegisteredUser.objects.filter(email=usernam)  # | RegisteredUser.objects.filter(email=usernam)
-        print(user)
+        usernam = data["username"]
+        user = RegisteredUser.objects.filter(email=usernam)
         if user.exists():
             password = data['password']
             user = user.first()

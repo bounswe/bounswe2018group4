@@ -1,12 +1,15 @@
 from django.shortcuts import render
 import json
-# Create your views here.
+
+from rest_framework.status import *
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from post import serializers as postserializers
 from post import models as postmodels
+from login.models import *
 
 
 class MemoryCreateAPIView(CreateAPIView):
@@ -16,7 +19,6 @@ class MemoryCreateAPIView(CreateAPIView):
     def post(self, *args, **kwargs):
         user = self.request.user
         data = self.request.data
-        print(data)
         files = self.request.FILES.getlist("multimedia")
         data.update({"owner": user.id})
         sr = postserializers.MemorySerializer(data=data)
@@ -28,7 +30,6 @@ class MemoryCreateAPIView(CreateAPIView):
         ord = 0
         story = json.loads(data["story"])["story"]
         for f in json.loads(data["format"])["format"]:
-            print(f)
             if f is "T":
                 newstory = postmodels.MemoryItemText(
                     memory=memory,
@@ -37,7 +38,6 @@ class MemoryCreateAPIView(CreateAPIView):
                 )
                 newstory.save()
                 text += 1
-                print("a")
 
             elif f is "M":
                 newmultimedia = postmodels.MemoryItemMultimedia(
@@ -47,7 +47,51 @@ class MemoryCreateAPIView(CreateAPIView):
                 )
                 newmultimedia.save()
                 multi += 1
-                print("m")
             ord += 1
 
         return Response({"status": "ok"}, status=200)
+
+
+class MemoryLikeAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def get(self, *args, **kwargs):
+        m_id = self.kwargs["pk"]
+        user = RegisteredUser.objects.filter(id=self.request.user.id)
+        memory = postmodels.Memory.objects.filter(id=m_id)
+        if user.exists():
+            user = user.first()
+            if not memory.exists():
+                return Response({"detail": "memory does not exists"}, status=HTTP_200_OK)
+            elif memory.exists():
+                if not memory.filter(liked_users=user).exists():
+                    memory = memory.first()
+                    memory.numlikes += 1
+                    memory.liked_users.add(user)
+                    memory.save()
+                    return Response({"like": memory.numlikes}, status=HTTP_200_OK)
+                return Response({"like": memory.first().numlikes}, status=HTTP_200_OK)
+        return Response({"detail": "user does not exists"}, status=HTTP_400_BAD_REQUEST)
+
+
+class MemoryCommentCreateAPIView(CreateAPIView):
+    permission_classes = IsAuthenticated,
+
+    def post(self, *args, **kwargs):
+        user = RegisteredUser.objects.get(id=self.request.user.id)
+        data = self.request.data
+        dt = dict()
+        dt["owner"] = user.id
+        dt["comment"] = data["comment"]
+        serializer = postserializers.MemoryCommentSerializer(data=dt)
+        serializer.is_valid(raise_exception=True)
+        m_id = self.kwargs['pk']
+        memory = postmodels.Memory.objects.filter(id=m_id)
+        if not memory.exists():
+            return Response({"detail": "memory does not exists"}, status=HTTP_400_BAD_REQUEST)
+        memory = memory.first()
+        serializer.save()
+        comment = postmodels.MemoryComment.objects.get(id=serializer.data["id"])
+        memory.comments.add(comment)
+        memory.save()
+        return Response(memory.comments.all().values(), status=HTTP_200_OK)

@@ -39,14 +39,6 @@ DAYS = (
 )
 
 
-class MemoryComment(models.Model):
-    comment = models.CharField(max_length=500, null=False, blank=False)
-
-
-class MemoryTag(models.Model):
-    tag = models.CharField(max_length=50, null=False, blank=False)
-
-
 class PointLocation(models.Model):
     location = models.CharField(max_length=30, null=False, blank=False)
     location_coordinates = PlainLocationField(based_fields=['city'], null=True, blank=True)
@@ -73,17 +65,27 @@ class MentionedTimePeriod(models.Model):
     time_end = models.ForeignKey(PointMentionedTime, related_name="end", on_delete=models.CASCADE)
 
 
-class Memory(models.Model):
+class MemoryTag(models.Model):
+    tag = models.CharField(max_length=50, null=False, blank=False)
+
+
+class MemoryComment(models.Model):
     owner = models.ForeignKey(loginmodels.RegisteredUser, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=500, null=False, blank=False)
+
+
+class Memory(models.Model):
+    owner = models.ForeignKey(loginmodels.RegisteredUser, on_delete=models.CASCADE, related_name="owner")
     posting_time = models.DateTimeField(auto_now_add=True, editable=False)
     title = models.CharField(max_length=50, null=True, blank=True)
+    tags = models.ManyToManyField(MemoryTag, blank=True)
+    comments = models.ManyToManyField(MemoryComment, blank=True)
     numlikes = models.IntegerField(default=0, null=True, blank=True)
-    comments = models.ManyToManyField(MemoryComment)
-    tags = models.ManyToManyField(MemoryTag)
-    pointlocations = models.ManyToManyField(PointLocation)
-    pathlocations = models.ManyToManyField(PathLocation)
-    mentioned_time = models.ManyToManyField(PointMentionedTime)
-    mentioned_time_period = models.ManyToManyField(MentionedTimePeriod)
+    pointlocations = models.ManyToManyField(PointLocation, blank=True)
+    pathlocations = models.ManyToManyField(PathLocation, blank=True)
+    mentioned_time = models.ManyToManyField(PointMentionedTime, blank=True)
+    mentioned_time_period = models.ManyToManyField(MentionedTimePeriod, blank=True)
+    liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user")
 
 
 class MemoryItemText(models.Model):
