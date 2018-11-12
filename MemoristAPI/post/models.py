@@ -85,7 +85,7 @@ class Memory(models.Model):
     pathlocations = models.ManyToManyField(PathLocation, blank=True)
     mentioned_time = models.ManyToManyField(PointMentionedTime, blank=True)
     mentioned_time_period = models.ManyToManyField(MentionedTimePeriod, blank=True)
-    liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user")
+    liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user", blank=True)
 
 
 class MemoryItemText(models.Model):
