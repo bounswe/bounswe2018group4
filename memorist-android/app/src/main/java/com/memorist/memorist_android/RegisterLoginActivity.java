@@ -125,6 +125,16 @@ public class RegisterLoginActivity extends BaseActivity
         public void onErrorResponse(VolleyError error) {
             Toast.makeText(getApplicationContext(), "Login is NOT successful", Toast.LENGTH_LONG).show();
             Log.v("Error", error.toString());
+
+            byte[] msg = error.networkResponse.data;
+            String smsg = "";
+
+            for(byte m: msg) {
+                char c = (char)m;
+                smsg += c;
+            }
+
+            Log.v("msg", smsg);
         }
     };
 
