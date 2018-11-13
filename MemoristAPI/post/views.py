@@ -48,8 +48,16 @@ class MemoryCreateAPIView(CreateAPIView):
                 newmultimedia.save()
                 multi += 1
             ord += 1
-
-        return Response({"status": "ok"}, status=200)
+        tags = json.loads(data["tags"])["tags"]
+        print(tags)
+        for t in tags:
+            print(t)
+            tag = postmodels.MemoryTag(
+                memory=memory,
+                tag=t
+            )
+            tag.save()
+        return Response({"status": "ok"}, status=HTTP_200_OK)
 
 
 class MemoryLikeAPIView(APIView):

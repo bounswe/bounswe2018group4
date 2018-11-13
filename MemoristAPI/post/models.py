@@ -65,10 +65,6 @@ class MentionedTimePeriod(models.Model):
     time_end = models.ForeignKey(PointMentionedTime, related_name="end", on_delete=models.CASCADE)
 
 
-class MemoryTag(models.Model):
-    tag = models.CharField(max_length=50, null=False, blank=False)
-
-
 class MemoryComment(models.Model):
     owner = models.ForeignKey(loginmodels.RegisteredUser, on_delete=models.CASCADE)
     comment = models.CharField(max_length=500, null=False, blank=False)
@@ -78,7 +74,6 @@ class Memory(models.Model):
     owner = models.ForeignKey(loginmodels.RegisteredUser, on_delete=models.CASCADE, related_name="owner")
     posting_time = models.DateTimeField(auto_now_add=True, editable=False)
     title = models.CharField(max_length=50, null=True, blank=True)
-    tags = models.ManyToManyField(MemoryTag, blank=True)
     comments = models.ManyToManyField(MemoryComment, blank=True)
     numlikes = models.IntegerField(default=0, null=True, blank=True)
     pointlocations = models.ManyToManyField(PointLocation, blank=True)
@@ -86,6 +81,11 @@ class Memory(models.Model):
     mentioned_time = models.ManyToManyField(PointMentionedTime, blank=True)
     mentioned_time_period = models.ManyToManyField(MentionedTimePeriod, blank=True)
     liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user", blank=True)
+
+
+class MemoryTag(models.Model):
+    memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
+    tag = models.CharField(max_length=50, null=False, blank=False)
 
 
 class MemoryItemText(models.Model):

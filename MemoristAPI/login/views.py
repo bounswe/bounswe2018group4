@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework import status as st
 from rest_framework.views import APIView
@@ -8,6 +8,7 @@ from login import models as lm
 from datetime import datetime, timedelta
 from django.urls import reverse_lazy
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 import hashlib
 from random import randint
 from django.utils.crypto import get_random_string
@@ -87,3 +88,27 @@ class LoginAPIView(APIView):
         serializer = ls.LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=st.HTTP_200_OK)
+
+
+class UserProfileAPIView(RetrieveAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = ls.UserSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = lm.RegisteredUser.objects.filter(id=self.request.user.id)
+        if user.exists():
+            serializer = ls.UserSerializer(user.first())
+            return Response(serializer.data)
+
+
+class UserProfileUpdateAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def patch(self, *args, **kwargs):
+        data = self.request.data
+        user = self.request.user
+        serializer = ls.UserUpdateSerializer(user, data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=st.HTTP_200_OK)
+        return Response(serializer.errors, status=st.HTTP_400_BAD_REQUEST)
