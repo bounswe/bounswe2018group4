@@ -25,10 +25,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = RegisteredUser
         fields = [
             "id",
-            "username",
             "first_name",
             "last_name",
-            "email",
         ]
 
 

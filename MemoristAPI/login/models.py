@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-# Create your models here.
 class RegisteredUser(User):
     age = models.IntegerField(null=True)
     activeEmail_status = models.BooleanField(default=False)

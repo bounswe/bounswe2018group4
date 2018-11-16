@@ -3,3 +3,4 @@ venv
 *.bat
 *__pycache__*
 ../../.idea
+multimedia

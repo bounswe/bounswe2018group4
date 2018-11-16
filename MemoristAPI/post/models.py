@@ -37,6 +37,11 @@ DAYS = (
     (6, "Saturday"),
     (7, "Sunday"),
 )
+media_types = (
+    (1, "image"),
+    (2, "video"),
+    (3, "audio")
+)
 
 
 class PointLocation(models.Model):
@@ -97,4 +102,5 @@ class MemoryItemText(models.Model):
 class MemoryItemMultimedia(models.Model):
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
     multimedia = models.FileField(upload_to='multimedia')
+    media_type = models.IntegerField(choices=media_types, blank=False, null=False)
     order = models.PositiveIntegerField()

@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 
 from rest_framework.status import *
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,25 +39,33 @@ class MemoryCreateAPIView(CreateAPIView):
                 newstory.save()
                 text += 1
 
-            elif f is "M":
+            elif f in ["I", "V", "A"]:
                 newmultimedia = postmodels.MemoryItemMultimedia(
                     memory=memory,
                     order=ord,
+                    media_type=1 if (f is "I") else 2 if (f is "V") else 3,
                     multimedia=files[multi]
                 )
                 newmultimedia.save()
                 multi += 1
             ord += 1
         tags = json.loads(data["tags"])["tags"]
-        print(tags)
         for t in tags:
-            print(t)
             tag = postmodels.MemoryTag(
                 memory=memory,
                 tag=t
             )
             tag.save()
-        return Response({"status": "ok"}, status=HTTP_200_OK)
+        serializer = postserializers.MemorySerializer(memory)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+
+class MemoryListAPIView(ListAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.MemorySerializer
+
+    def get_queryset(self):
+        return postmodels.Memory.objects.filter(owner=self.request.user)
 
 
 class MemoryLikeAPIView(APIView):
