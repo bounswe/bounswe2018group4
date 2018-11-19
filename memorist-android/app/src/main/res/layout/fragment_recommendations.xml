@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_md"
+    android:layout_marginBottom="@dimen/margin_md"
+    android:layout_marginStart="@dimen/margin_md"
+    android:layout_marginEnd="@dimen/margin_md"
+    tools:context=".fragment.RegisterFragment">
+
+    <TextView
+        android:id="@+id/tv_recommendationText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:textSize="@dimen/registerWelcomeTextSize"
+        android:text="You should check these out!"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+    <ListView
+        android:id="@+id/lv_recommendationsMemoryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_recommendationText"
+        android:scrollbars="none"
+        android:divider="@null">
+
+    </ListView>
+
+</RelativeLayout>

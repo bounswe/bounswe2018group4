@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
+import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.User;
@@ -25,7 +26,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MemoryActivity extends AppCompatActivity
     implements CreateMemoryFragment.OnFragmentInteractionListener,
     FeedMemoryFragment.OnFragmentInteractionListener,
-    SearchMemoryFragment.OnFragmentInteractionListener {
+    SearchMemoryFragment.OnFragmentInteractionListener,
+    RecommendationsFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
     private final String TAG_SEARCH_MEMORY_FRAGMENT = "fragment_search_memory";
@@ -77,7 +79,13 @@ public class MemoryActivity extends AppCompatActivity
                     fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
                     fragmentTransaction.commit();
                 } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
-                    Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+                    RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(targetFragment);
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_RECOMMENDATIONS_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_RECOMMENDATIONS_FRAGMENT);
+                    fragmentTransaction.commit();
                 } else {
                     Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
                 }
@@ -107,7 +115,13 @@ public class MemoryActivity extends AppCompatActivity
                     fragmentTransaction.addToBackStack(TAG_CREATE_MEMORY_FRAGMENT);
                     fragmentTransaction.commit();
                 } else if (targetFragment.equals(TAG_RECOMMENDATIONS_FRAGMENT)) {
-                    Toast.makeText(getApplicationContext(), "Recommendation is not functional yet..", Toast.LENGTH_LONG).show();
+                    RecommendationsFragment fragment = RecommendationsFragment.newInstance();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_RECOMMENDATIONS_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_RECOMMENDATIONS_FRAGMENT);
+                    fragmentTransaction.commit();
                 } else {
                     Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
                 }
