@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
+import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.model.Memory;
@@ -27,7 +28,8 @@ public class MemoryActivity extends AppCompatActivity
     implements CreateMemoryFragment.OnFragmentInteractionListener,
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
-    RecommendationsFragment.OnFragmentInteractionListener {
+    RecommendationsFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
     private final String TAG_SEARCH_MEMORY_FRAGMENT = "fragment_search_memory";
@@ -87,7 +89,13 @@ public class MemoryActivity extends AppCompatActivity
                     fragmentTransaction.addToBackStack(TAG_RECOMMENDATIONS_FRAGMENT);
                     fragmentTransaction.commit();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+                    ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(targetFragment);
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_USER_PROFILE_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_USER_PROFILE_FRAGMENT);
+                    fragmentTransaction.commit();
                 }
             } else {
                 if (targetFragment.equals(TAG_FEED_MEMORY_FRAGMENT)) {
@@ -123,7 +131,13 @@ public class MemoryActivity extends AppCompatActivity
                     fragmentTransaction.addToBackStack(TAG_RECOMMENDATIONS_FRAGMENT);
                     fragmentTransaction.commit();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Profile is not functional yet..", Toast.LENGTH_LONG).show();
+                    ProfileFragment fragment = ProfileFragment.newInstance();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                            .enter_from_left, R.anim.exit_to_right);
+                    fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, TAG_USER_PROFILE_FRAGMENT);
+                    fragmentTransaction.addToBackStack(TAG_USER_PROFILE_FRAGMENT);
+                    fragmentTransaction.commit();
                 }
             }
         }
