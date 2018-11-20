@@ -6,6 +6,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 import { Link } from "react-router-dom";
 // @material-ui/icons
+import Footer from "components/Footer/Footer.jsx";
 import Email from "@material-ui/icons/Email";
 //import People from "@material-ui/icons/People";
 // core components
@@ -71,8 +72,8 @@ class LoginPage extends React.Component {
       success: (res) => {
         var token = res.token;
         console.log("SUCCESS! Token: " + token);
-        //setCookie("token", token);
-        window.location.replace("/profile-page");
+        setCookie("token", token);
+        window.location.replace("/home-page");
       },
       error: (res, err) => {
         console.log(body);
@@ -84,6 +85,11 @@ class LoginPage extends React.Component {
   }
 
   componentDidMount() {
+    if(getCookie("token") != null){
+      this.setState({isLoggedIn: true});
+    } else{
+      this.setState({isLoggedIn: false});     
+    }
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
@@ -94,7 +100,11 @@ class LoginPage extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    return (
+    const isLoggedIn = this.state.isLoggedIn;   
+    if(isLoggedIn){
+      window.location.replace("/creatememory-page");     
+    } else {
+      return (
       <div>
         <Header
           absolute
@@ -166,9 +176,9 @@ class LoginPage extends React.Component {
                       </Button>
                       
                       <Link to={"/signup-page"} className={classes.link}>
-	                      <Button simple color="primary" size="lg">
-	                        Sign Up
-	                      </Button>
+                        <Button simple color="primary" size="lg">
+                          Sign Up
+                        </Button>
                       </Link>
                     </CardFooter>
                   </form>
@@ -178,9 +188,22 @@ class LoginPage extends React.Component {
           </div>
         
         </div>
+        <Footer />
       </div>
     );
+    }
   }
+}
+
+function setCookie(key, value) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+    document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+}
+
+function getCookie(key) {
+    var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+    return keyValue ? keyValue[2] : null;
 }
 
 export default withStyles(loginPageStyle)(LoginPage);

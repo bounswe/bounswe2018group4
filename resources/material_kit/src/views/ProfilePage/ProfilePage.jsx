@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Camera from "@material-ui/icons/Camera";
 import Palette from "@material-ui/icons/Palette";
 import Favorite from "@material-ui/icons/Favorite";
+import Footer from "components/Footer/Footer.jsx";
 // core components
 import Header from "components/Header/Header.jsx";
 //import Footer from "components/Footer/Footer.jsx";
@@ -206,6 +207,7 @@ class ProfilePage extends React.Component {
               </GridContainer>
             </div>
           </div>
+          <Footer />
         </div>
        
       </div>

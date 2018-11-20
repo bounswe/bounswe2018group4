@@ -5,6 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
+import Footer from "components/Footer/Footer.jsx";
 import Email from "@material-ui/icons/Email";
 import { Link } from "react-router-dom";
 //import People from "@material-ui/icons/People";
@@ -83,7 +84,7 @@ class SignUpPage extends React.Component {
       success: (res) => {
         var token = res.token;
         console.log("SUCCESS! Token: " + token);
-        //setCookie("token", token);
+        setCookie("token", token);
         window.location.replace("/profile-page");
       },
       error: (res, err) => {
@@ -240,9 +241,16 @@ class SignUpPage extends React.Component {
           </div>
         
         </div>
+        <Footer />
       </div>
     );
   }
+}
+
+function setCookie(key, value) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+    document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
 }
 
 export default withStyles(loginPageStyle)(SignUpPage);
