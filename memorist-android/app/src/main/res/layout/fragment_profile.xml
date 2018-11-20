@@ -65,7 +65,7 @@
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="@dimen/textSizeBigMemory"
-                        android:text="\@berkeesmer"
+                        android:text="\@BerkeTheTechNerd"
                         fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
 
                 </LinearLayout>
