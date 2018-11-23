@@ -42,15 +42,9 @@ public class RegisterLoginActivity extends BaseActivity
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
 
-        // Whether the user has already credentials.
-        if(SharedPrefHelper.getUserToken(getApplicationContext()) != null) {
-            startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
-            finish();
-        } else {
-            LoginFragment fragment = LoginFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.registerLoginFragmentContent,
-                    fragment, TAG_LOGIN_FRAGMENT).commit();
-        }
+        LoginFragment fragment = LoginFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.registerLoginFragmentContent,
+                fragment, TAG_LOGIN_FRAGMENT).commit();
     }
 
     @Override
