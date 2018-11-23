@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework import serializers
-from login.models import RegisteredUser
+from login.models import *
 from rest_framework_jwt.settings import api_settings
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -27,6 +27,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
+            "gender"
         ]
 
 
@@ -118,3 +119,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         data["token"] = token
         data["user"] = user_obj
         return data
+
+class ProfilePhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfilePhoto
+        fields = "__all__"

@@ -112,3 +112,31 @@ class UserProfileUpdateAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=st.HTTP_200_OK)
         return Response(serializer.errors, status=st.HTTP_400_BAD_REQUEST)
+
+class UploadProfilePhotoAPIView(CreateAPIView):
+    serializer_class = ls.ProfilePhotoSerializer
+
+    permission_classes = IsAuthenticated,
+
+    def post(self, request):
+        user = lm.RegisteredUser.objects.filter(id = self.request.user.id).first()
+        photo = lm.ProfilePhoto.objects.filter(user = user.id)
+        if(photo.exists()):
+            photo = photo.first()
+        else:
+            photo = lm.ProfilePhoto()
+        photo.user = user
+        photo.image = self.request.FILES.getlist("image")[0]
+        photo.save()
+        serializer = ls.ProfilePhotoSerializer(photo)
+        return Response(serializer.data, status =st.HTTP_200_OK)
+
+class GetProfilePhotoAPIView(ListAPIView):
+    serializer_class = ls.ProfilePhotoSerializer
+
+    def get_queryset(self):
+        photo = lm.ProfilePhoto.objects.filter(user = self.request.user.id)
+        if(photo.exists()):
+            return photo
+        else:
+            return None
