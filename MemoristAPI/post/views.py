@@ -18,10 +18,21 @@ class MemoryCreateAPIView(CreateAPIView):
 
     def post(self, *args, **kwargs):
         user = self.request.user
-        data = {}
-        data.update(self.request.data)
+        data = self.request.data
+        print(data)
+        print(type(data))
         files = self.request.FILES.getlist("multimedia")
         data.update({"owner": user.id})
+        print(data)
+        print(type(data))
+        print("111")
+        print(data["story"])
+        print("222")
+        print(data["format"])
+        print("333")
+        print(data["tags"])
+        print("444")
+        print(data["title"])
         sr = postserializers.MemorySerializer(data=data)
         sr.is_valid(raise_exception=True)
         sr.save()
