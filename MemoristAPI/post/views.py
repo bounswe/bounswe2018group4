@@ -30,6 +30,8 @@ class MemoryCreateAPIView(CreateAPIView):
         multi = 0
         text = 0
         ord = 0
+        print(json.loads(data["story"]))
+        print(json.loads(data["format"]))
         story = json.loads(data["story"])["story"]
         for f in json.loads(data["format"])["format"]:
             if f is "T":
