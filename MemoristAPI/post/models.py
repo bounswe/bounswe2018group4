@@ -37,7 +37,7 @@ DAYS = (
     (6, "Saturday"),
     (7, "Sunday"),
 )
-media_types = (
+MEDIA_TYPES = (
     (1, "image"),
     (2, "video"),
     (3, "audio")
@@ -93,6 +93,11 @@ class MemoryTag(models.Model):
     tag = models.CharField(max_length=50, null=False, blank=False)
 
 
+class MemoryMultimediaUpload(models.Model):
+    media = models.FileField(upload_to='memory_image')
+    media_type = models.IntegerField(choices=MEDIA_TYPES, blank=False, null=False)
+
+
 class MemoryItemText(models.Model):
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
     text = models.CharField(max_length=1000000000)
@@ -101,6 +106,6 @@ class MemoryItemText(models.Model):
 
 class MemoryItemMultimedia(models.Model):
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
-    multimedia = models.FileField(upload_to='multimedia')
-    media_type = models.IntegerField(choices=media_types, blank=False, null=False)
+    multimedia = models.ForeignKey(MemoryMultimediaUpload, on_delete=models.CASCADE)
+    media_type = models.IntegerField(choices=MEDIA_TYPES, blank=False, null=False)
     order = models.PositiveIntegerField()

@@ -68,3 +68,15 @@ class MemoryCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MemoryComment
         fields = "__all__"
+
+
+class MemoryMultimediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MemoryMultimediaUpload
+        fields = "__all__"
+
+
+class MemoryCreate1Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Memory
+        fields = "__all__"
