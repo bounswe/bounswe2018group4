@@ -61,7 +61,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://dev.tppagent.api.dev.birlikte.al/'
     'http://127.0.0.1:8000/',
     'http://127.0.0.1:8080/',
-    'http://localhost:8080'
+    'http://localhost:8080',
+    'ec2-18-234-162-48.compute-1.amazonaws.com',
 )
 
 CORS_ALLOW_METHODS = (
