@@ -24,7 +24,7 @@ SECRET_KEY = '95*n4j5cpsmyjj4_h&k&hl^slk4o8$05s%k7l_w^5j@$&rn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -41,7 +41,38 @@ INSTALLED_APPS = [
     'post',
     'location_field.apps.DefaultConfig'
 ]
+
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+
+CORS_ORIGIN_WHITELIST = (
+    'dev.westerops.com',
+    'http://dev.tppagent.api.dev.birlikte.al/'
+    'http://127.0.0.1:8000/',
+    'http://127.0.0.1:8080/',
+    'http://localhost:8080'
+)
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
