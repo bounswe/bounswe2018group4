@@ -122,7 +122,7 @@ class UploadMemoryMultimediaAPIView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         media = postmodels.MemoryMultimediaUpload(
-            media=self.request.FILES["media"],
+            media=self.request.FILES.get("media"),
             media_type=self.kwargs["pk"] if (int(self.kwargs["pk"]) < 4) else 3
         )
         media.save()
