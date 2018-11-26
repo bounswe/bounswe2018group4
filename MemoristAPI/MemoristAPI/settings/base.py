@@ -42,37 +42,7 @@ INSTALLED_APPS = [
     'location_field.apps.DefaultConfig'
 ]
 
-#CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_HEADERS = (
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-)
-
-CORS_ORIGIN_WHITELIST = (
-    'dev.westerops.com',
-    'http://dev.tppagent.api.dev.birlikte.al/'
-    'http://127.0.0.1:8000/',
-    'http://127.0.0.1:8080/',
-    'http://localhost:8080',
-    'ec2-18-234-162-48.compute-1.amazonaws.com',
-)
-
-CORS_ALLOW_METHODS = (
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-)
+CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

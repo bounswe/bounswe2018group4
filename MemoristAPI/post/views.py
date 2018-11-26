@@ -66,7 +66,7 @@ class MemoryCreateAPIView(CreateAPIView):
 
 class MemoryListAPIView(ListAPIView):
     permission_classes = IsAuthenticated,
-    serializer_class = postserializers.MemorySerializer
+    serializer_class = postserializers.Memory1Serializer
 
     def get_queryset(self):
         return postmodels.Memory.objects.filter(owner=self.request.user)
@@ -122,7 +122,7 @@ class UploadMemoryMultimediaAPIView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         media = postmodels.MemoryMultimediaUpload(
-            media=self.request.FILES.getlist("media")[0],
+            media=self.request.FILES["media"],
             media_type=self.kwargs["pk"] if (int(self.kwargs["pk"]) < 4) else 3
         )
         media.save()
@@ -174,5 +174,5 @@ class MemoryCreate1APIView(CreateAPIView):
                 tag=t
             )
             tag.save()
-        serializer = postserializers.MemorySerializer(memory)
+        serializer = postserializers.Memory1Serializer(memory)
         return Response(serializer.data, status=HTTP_200_OK)
