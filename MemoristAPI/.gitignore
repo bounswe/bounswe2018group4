@@ -4,4 +4,4 @@ venv
 *__pycache__*
 ../../.idea
 multimedia
-db.sqlite3
+*db.sqlite3*
