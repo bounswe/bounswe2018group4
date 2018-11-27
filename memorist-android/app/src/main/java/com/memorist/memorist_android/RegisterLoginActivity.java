@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.error.VolleyError;
 import com.memorist.memorist_android.fragment.LoginFragment;
 import com.memorist.memorist_android.fragment.RecoverPasswordFragment;
 import com.memorist.memorist_android.fragment.RegisterFragment;
