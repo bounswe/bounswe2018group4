@@ -92,9 +92,13 @@ public class SearchMemoryFragment extends Fragment {
             if(spSearchSpinner.getSelectedItemId() == 0) {
                 result += "Search by keyword.";
             } else if(spSearchSpinner.getSelectedItemId() == 1) {
-                result += "Search by location";
-            } else {
+                result += "Search by location.";
+            } else if(spSearchSpinner.getSelectedItemId() == 2){
                 result += "Search by posted time.";
+            } else if(spSearchSpinner.getSelectedItemId() == 3){
+                result += "Search by mentioned time.";
+            } else {
+                result += "Search by tag.";
             }
 
             tvSearchIsReady.setText(result);
