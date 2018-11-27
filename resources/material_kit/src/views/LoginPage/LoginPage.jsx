@@ -73,7 +73,7 @@ class LoginPage extends React.Component {
         var token = res.token;
         console.log("SUCCESS! Token: " + token);
         setCookie("token", token);
-        window.location.replace("/home-page");
+        window.location.replace("/profile-page");
       },
       error: (res, err) => {
         console.log(body);
@@ -198,7 +198,7 @@ class LoginPage extends React.Component {
 function setCookie(key, value) {
     var expires = new Date();
     expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
-    document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+    document.cookie = key + '=' + value + ";path=/" + ';expires=' + expires.toUTCString();
 }
 
 function getCookie(key) {

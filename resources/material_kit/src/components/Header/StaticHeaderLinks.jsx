@@ -58,7 +58,6 @@ function StaticHeaderLinks({ ...props }) {
         <Button
           color="transparent"
           target="_blank"
-          onClick={delete_cookie("token")}
         >
       Log out
         </Button>
@@ -71,10 +70,6 @@ function StaticHeaderLinks({ ...props }) {
 function getCookie(key) {
     var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
     return keyValue ? keyValue[2] : null;
-}
-
-function delete_cookie( name ) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 export default withStyles(headerLinksStyle)(StaticHeaderLinks);
