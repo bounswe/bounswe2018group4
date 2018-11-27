@@ -6,14 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +31,7 @@ public class SearchMemoryFragment extends Fragment {
     @BindView(R.id.et_searchMemory) EditText etSearchMemory;
     @BindView(R.id.tv_searchIsReady) TextView tvSearchIsReady;
     @BindView(R.id.lv_searchMemoryList) ListView lv_searchMemory;
+    @BindView(R.id.sp_searchSpinner) Spinner spSearchSpinner;
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,6 +60,10 @@ public class SearchMemoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_memory, container, false);
         ButterKnife.bind(this, view);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.search_list, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spSearchSpinner.setAdapter(adapter);
+
         return view;
     }
 
@@ -74,6 +82,23 @@ public class SearchMemoryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @OnClick(R.id.btn_searchClicked)
+    public void searchClicked(View view) {
+        if(!etSearchMemory.getText().toString().isEmpty()) {
+            String result = "You searched \"" + etSearchMemory.getText().toString() + "\" with ";
+
+            if(spSearchSpinner.getSelectedItemId() == 0) {
+                result += "Search by keyword.";
+            } else if(spSearchSpinner.getSelectedItemId() == 1) {
+                result += "Search by location";
+            } else {
+                result += "Search by posted time.";
+            }
+
+            tvSearchIsReady.setText(result);
+        }
     }
 
     /**
