@@ -120,20 +120,24 @@ class RegisterSerializer(serializers.ModelSerializer):
         data["user"] = user_obj
         return data
 
+
 class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfilePhoto
         fields = "__all__"
+
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = "__all__"
 
+
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ["follower"]
+
 
 class FollowedSerializer(serializers.ModelSerializer):
     class Meta:

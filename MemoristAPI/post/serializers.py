@@ -39,7 +39,7 @@ class MemoryItemMultimediaSerializer(serializers.ModelSerializer):
 
     def get_multimedia(self, obj):
         multimedia = models.MemoryMultimediaUpload.objects.filter(id=obj.multimedia.id).first()
-        return  MemoryMultimediaUploadSerializer(multimedia).data
+        return MemoryMultimediaUploadSerializer(multimedia).data
 
 
 class MemorySerializer(serializers.ModelSerializer):
