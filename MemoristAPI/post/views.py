@@ -18,7 +18,9 @@ class MemoryCreateAPIView(CreateAPIView):
 
     def post(self, *args, **kwargs):
         user = self.request.user
-        data = self.request.data
+        data = self.request.data.copy()
+        print(data)
+        print(type(data))
         files = self.request.FILES.getlist("multimedia")
         data.update({"owner": user.id})
         sr = postserializers.MemorySerializer(data=data)
@@ -28,6 +30,8 @@ class MemoryCreateAPIView(CreateAPIView):
         multi = 0
         text = 0
         ord = 0
+        print(json.loads(data["story"]))
+        print(json.loads(data["format"]))
         story = json.loads(data["story"])["story"]
         for f in json.loads(data["format"])["format"]:
             if f is "T":
@@ -62,7 +66,7 @@ class MemoryCreateAPIView(CreateAPIView):
 
 class MemoryListAPIView(ListAPIView):
     permission_classes = IsAuthenticated,
-    serializer_class = postserializers.MemorySerializer
+    serializer_class = postserializers.Memory1Serializer
 
     def get_queryset(self):
         return postmodels.Memory.objects.filter(owner=self.request.user)
@@ -111,3 +115,67 @@ class MemoryCommentCreateAPIView(CreateAPIView):
         memory.comments.add(comment)
         memory.save()
         return Response(memory.comments.all().values(), status=HTTP_200_OK)
+
+
+class UploadMemoryMultimediaAPIView(CreateAPIView):
+    serializer_class = postmodels.MemoryMultimediaUpload
+
+    def post(self, request, *args, **kwargs):
+        for p in self.request.FILES.getlist('media'):
+            m = p
+
+        media = postmodels.MemoryMultimediaUpload(
+            media=m,
+            media_type=self.kwargs["pk"] if (int(self.kwargs["pk"]) < 4) else 3
+        )
+        media.save()
+        serializer = postserializers.MemoryMultimediaSerializer(media)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+
+class MemoryCreate1APIView(CreateAPIView):
+    serializer_class = postserializers.MemorySerializer
+    permission_classes = IsAuthenticated,
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        data = self.request.data.copy()
+        data.update({"owner": user.id})
+        sr = postserializers.MemorySerializer(data=data)
+        sr.is_valid(raise_exception=True)
+        sr.save()
+        memory = postmodels.Memory.objects.filter(id=sr.data["id"]).first()
+        multi = 0
+        text = 0
+        ord = 0
+        story = data["story"]
+        media = data["media"]
+        for f in data["format"]:
+            if f is "T":
+                newstory = postmodels.MemoryItemText(
+                    memory=memory,
+                    order=ord,
+                    text=story[text]
+                )
+                newstory.save()
+                text += 1
+
+            elif f in ["I", "V", "A"]:
+                newmultimedia = postmodels.MemoryItemMultimedia(
+                    memory=memory,
+                    order=ord,
+                    media_type=1 if (f is "I") else 2 if (f is "V") else 3,
+                    multimedia=postmodels.MemoryMultimediaUpload.objects.get(id=media[multi])
+                )
+                newmultimedia.save()
+                multi += 1
+            ord += 1
+        tags = data["tags"]
+        for t in tags:
+            tag = postmodels.MemoryTag(
+                memory=memory,
+                tag=t
+            )
+            tag.save()
+        serializer = postserializers.Memory1Serializer(memory)
+        return Response(serializer.data, status=HTTP_200_OK)

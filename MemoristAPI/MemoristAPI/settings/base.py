@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'post',
     'location_field.apps.DefaultConfig'
 ]
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
