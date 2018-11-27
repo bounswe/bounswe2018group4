@@ -140,3 +140,54 @@ class GetProfilePhotoAPIView(ListAPIView):
             return photo
         else:
             return None
+
+class FollowAPIView(CreateAPIView):
+    serializer_class = ls.FollowSerializer
+
+    permission_classes = IsAuthenticated,
+
+    def post(self, request, *args, **kwargs):
+        user = lm.RegisteredUser.objects.filter(id = self.request.user.id).first()
+        followedUser = lm.RegisteredUser.objects.filter(id = self.request.data["id"]).first()
+
+        followLink = lm.Follow(follower = user,followed = followedUser)
+        followLink.save()
+
+        serializer = ls.FollowSerializer(followLink)
+
+        return Response(serializer.data, status = st.HTTP_200_OK)
+
+class UnfollowAPIView(APIView):
+    serializer_class = ls.FollowSerializer
+
+    permission_classes = IsAuthenticated,
+
+    def post(self, request, *args, **kwargs):
+        user = lm.RegisteredUser.objects.filter(id = self.request.user.id).first()
+        followedUser = lm.RegisteredUser.objects.filter(id = self.request.data["id"]).first()
+
+        followLink = lm.Follow.objects.filter(follower = user, followed = followedUser)
+        if(followLink.exists()):
+            followLink.delete()
+
+        return Response(status = st.HTTP_200_OK)
+
+class GetFollowersAPIView(ListAPIView):
+    serializer_class = ls.FollowerSerializer
+
+    def get_queryset(self):
+        followLink = lm.Follow.objects.filter(followed = self.request.user.id)
+        if(followLink.exists()):
+            return followLink
+        else:
+            return None
+
+class GetFollowingsAPIView(ListAPIView):
+    serializer_class = ls.FollowedSerializer
+
+    def get_queryset(self):
+        followLink = lm.Follow.objects.filter(follower = self.request.user.id)
+        if(followLink.exists()):
+            return followLink
+        else:
+            return None

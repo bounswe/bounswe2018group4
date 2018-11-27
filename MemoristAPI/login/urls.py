@@ -8,6 +8,10 @@ urlpatterns = [
     url(r'^profile_update/$', UserProfileUpdateAPIView.as_view(), name="profile-update"),
     url(r'^profile_photo/$', UploadProfilePhotoAPIView.as_view()),
     url(r'^get_profile_photo/$', GetProfilePhotoAPIView.as_view()),
+    url(r'^follow/$', FollowAPIView.as_view()),
+    url(r'^unfollow/$', UnfollowAPIView.as_view()),
+    url(r'^get_follwers/$', GetFollowersAPIView.as_view()),
+    url(r'^get_followings/$', GetFollowingsAPIView.as_view()),
 
 
 

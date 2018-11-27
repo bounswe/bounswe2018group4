@@ -13,7 +13,6 @@ class RegisteredUser(User):
     age = models.IntegerField(null=True)
     activeEmail_status = models.BooleanField(default=False)
     gender = models.IntegerField(choices=GENDER, null=True, blank=True)
-
     def __str__(self):
         return self.first_name.__str__() + " " + self.last_name.__str__()
 
@@ -30,3 +29,7 @@ class Activation(models.Model):
 class ProfilePhoto(models.Model):
     user = models.ForeignKey(RegisteredUser, on_delete=models.CASCADE)
     image = models.FileField(upload_to='profile_photos')
+
+class Follow(models.Model):
+    follower = models.ForeignKey(RegisteredUser, on_delete=models.CASCADE, related_name="follower")
+    followed = models.ForeignKey(RegisteredUser, on_delete=models.CASCADE, related_name="followed")
