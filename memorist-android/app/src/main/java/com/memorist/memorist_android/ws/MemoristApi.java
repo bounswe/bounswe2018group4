@@ -1,16 +1,17 @@
 package com.memorist.memorist_android.ws;
 
-import android.net.Uri;
+import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
-import com.memorist.memorist_android.model.ApiResultCreatePost;
+import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultUser;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,5 +63,16 @@ public class MemoristApi {
 
         // TODO : Connection to the api will be implemented later on.
 
+    }
+
+    public static void createMemoryImage(final Context context, final File imageFile, final Bitmap imageBitmap,
+                                         Response.Listener<ApiResultMediaUpload> mediaUploadListener,
+                                         Response.ErrorListener mediaUploadErrorListener) {
+        String url = Constants.API_CREATE_PHOTO;
+
+        VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
+                ApiResultMediaUpload.class, imageFile, imageBitmap, mediaUploadListener, mediaUploadErrorListener);
+
+        coreApi.addToRequestQueue(request);
     }
 }
