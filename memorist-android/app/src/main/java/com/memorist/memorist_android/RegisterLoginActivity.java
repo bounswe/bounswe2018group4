@@ -1,8 +1,10 @@
 package com.memorist.memorist_android;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
@@ -36,6 +38,8 @@ public class RegisterLoginActivity extends BaseActivity
         LoginFragment fragment = LoginFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.registerLoginFragmentContent,
                 fragment, TAG_LOGIN_FRAGMENT).commit();
+
+        askPermissions();
     }
 
     @Override
@@ -89,6 +93,11 @@ public class RegisterLoginActivity extends BaseActivity
         fragmentTransaction.replace(R.id.registerLoginFragmentContent, fragment, TAG_RECOVER_PASSWORD);
         fragmentTransaction.addToBackStack(TAG_RECOVER_PASSWORD);
         fragmentTransaction.commit();
+    }
+
+    public void askPermissions() {
+        ActivityCompat.requestPermissions(RegisterLoginActivity.this, new String[]
+                {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private Response.Listener<ApiResultUser> loginListener = new Response.Listener<ApiResultUser>() {
