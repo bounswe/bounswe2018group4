@@ -6,25 +6,26 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
-import com.memorist.memorist_android.model.Memory;
-import com.memorist.memorist_android.model.User;
+import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.ws.MemoristApi;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,6 +45,7 @@ public class MemoryActivity extends AppCompatActivity
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
 
+    private ArrayList<Integer> memoryMultimediaID;
     private int currentTab = 0;
 
     @Override
@@ -55,39 +57,43 @@ public class MemoryActivity extends AppCompatActivity
         tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
     }
 
-    public void tabSwitcher(String targetFragment, int targetTab) {
-        Fragment fragment;
+    /**
+     * Font set up for the activity.
+     * @param newBase: The context which the fonts will be set on.
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
-        if(getSupportFragmentManager().findFragmentByTag(targetFragment) != null) {
-            fragment = getSupportFragmentManager().findFragmentByTag(targetFragment);
-        } else if(targetTab == 1) {
-            fragment = FeedMemoryFragment.newInstance();
-        } else if(targetTab == 2) {
-            fragment = SearchMemoryFragment.newInstance();
-        } else if(targetTab == 3) {
-            fragment = CreateMemoryFragment.newInstance();
-        } else if(targetTab == 4) {
-            fragment = RecommendationsFragment.newInstance();
-        } else {
-            fragment = ProfileFragment.newInstance();
+    @Override
+    public void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                             ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
+        memoryMultimediaID = new ArrayList<>();
+
+        for(Uri uri: memoryImage) {
+            String filePath = getPathFromURI(this, uri);
+
+            if(filePath != null) {
+                File imageFile = new File(getPathFromURI(this, uri));
+                Bitmap imageBitmap = null;
+
+                try {
+                    imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+
+                MemoristApi.createMemoryImage(getApplicationContext(), imageFile, imageBitmap, mediaUploadListener, mediaUploadErrorListener);
+            }
         }
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
+    }
 
-        if(targetTab < currentTab) {
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
-                    .enter_from_right, R.anim.exit_to_left);
-        } else {
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
-                    .enter_from_left, R.anim.exit_to_right);
-        }
-
-        if(fragment != null) {
-            currentTab = targetTab;
-            fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, targetFragment);
-            fragmentTransaction.addToBackStack(targetFragment);
-            fragmentTransaction.commit();
-        }
+    @Override
+    public void memoryCanceled() {
+        onBackPressed();
     }
 
     @OnClick(R.id.btn_memoristHome)
@@ -115,62 +121,65 @@ public class MemoryActivity extends AppCompatActivity
         tabSwitcher(TAG_USER_PROFILE_FRAGMENT, 5);
     }
 
-    @Override
-    public void memoryShared(String title, String mentionedTime, String location, String memoryTitle, ArrayList<String> memoryFormat,
-                             ArrayList<String> memoryText, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo,
-                             ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
-        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, HH:mm");
-        String postedTime = sdf.format(new Date());
+    public void tabSwitcher(String targetFragment, int targetTab) {
+        if(currentTab != targetTab) {
+            Fragment fragment;
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        String filePath = getPathFromURI(this, memoryImage.get(0));
-        File F = new File(filePath);
+            if(targetTab == 1) {
+                fragment = FeedMemoryFragment.newInstance();
+            } else if(targetTab == 2) {
+                fragment = SearchMemoryFragment.newInstance();
+            } else if(targetTab == 3) {
+                fragment = CreateMemoryFragment.newInstance();
+            } else if(targetTab == 4) {
+                fragment = RecommendationsFragment.newInstance();
+            } else {
+                fragment = ProfileFragment.newInstance();
+            }
 
-        Bitmap bitmap = null;
+            if(targetTab < currentTab) {
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
+                        .enter_from_right, R.anim.exit_to_left);
+            } else {
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                        .enter_from_left, R.anim.exit_to_right);
+            }
 
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), memoryImage.get(0));
-        } catch (IOException e) {
-            e.printStackTrace();
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.replace(R.id.memoryFragmentContent, fragment, targetFragment);
+            fragmentTransaction.addToBackStack(targetFragment);
+            fragmentTransaction.commit();
+
+            currentTab = targetTab;
         }
-
-        MemoristApi.createMemorySendMedia(F, bitmap, getApplicationContext());
-
-        Memory memory = new Memory(4, new User(3, "@BerkeTheTechNerd", "Berke", "Esmer", "berkee.eesmer@gmail.com", true),
-                postedTime, mentionedTime, location, memoryTitle, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
-        FeedMemoryFragment feedMemoryFragment = (FeedMemoryFragment)
-                getSupportFragmentManager().findFragmentByTag(TAG_FEED_MEMORY_FRAGMENT);
-
-        feedMemoryFragment.getMemories().add(memory);
-        feedMemoryFragment.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    public void memoryCanceled() {
-        onBackPressed();
-    }
-
-    /**
-     * Font set up for the activity.
-     * @param newBase: The context which the fonts will be set on.
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public String getPathFromURI(Context context, Uri contentUri) {
-        Cursor mediaCursor = null;
-        try {
-            String[] dataPath = { MediaStore.Images.Media.DATA };
-            mediaCursor = context.getContentResolver().query(contentUri,  dataPath, null, null, null);
-            int column_index = mediaCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            mediaCursor.moveToFirst();
-            return mediaCursor.getString(column_index);
-        } finally {
+        String[] dataPath = { MediaStore.Images.Media.DATA };
+        try (Cursor mediaCursor = context.getContentResolver().query(contentUri, dataPath, null, null, null)) {
             if (mediaCursor != null) {
-                mediaCursor.close();
+                int column_index = mediaCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                mediaCursor.moveToFirst();
+
+                return mediaCursor.getString(column_index);
             }
         }
+
+        return null;
     }
+
+    private Response.Listener<ApiResultMediaUpload> mediaUploadListener = new Response.Listener<ApiResultMediaUpload>() {
+        @Override
+        public void onResponse(ApiResultMediaUpload response) {
+            memoryMultimediaID.add(response.getId());
+        }
+    };
+
+    private Response.ErrorListener mediaUploadErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(getApplicationContext(), Integer.toString(error.networkResponse.statusCode), Toast.LENGTH_LONG).show();
+        }
+    };
 }
