@@ -6,13 +6,19 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 abstract class BaseActivity extends AppCompatActivity {
 
+    KProgressHUD hud;
+
     protected void showIndicator() {
-        KProgressHUD.create(this)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel("Please wait")
-                .setCancellable(false)
-                .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+        hud = new KProgressHUD(this);
+        hud.setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setLabel("Please wait")
+            .setCancellable(false)
+            .setAnimationSpeed(2)
+            .setDimAmount(0.5f)
+            .show();
+    }
+
+    protected void hideIndicator() {
+        hud.dismiss();
     }
 }
