@@ -189,7 +189,7 @@ public class CreateMemoryFragment extends Fragment {
             memoryFormat.add("A");
         }
 
-        String title = etMemoryTitle.getText().toString();
+        String memoryTitle = etMemoryTitle.getText().toString();
         String mentionedTime = etMemoryMentionedTime.getText().toString();
         String location = etMemoryLocation.getText().toString();
         String story = etMemoryStory.getText().toString();
@@ -202,7 +202,7 @@ public class CreateMemoryFragment extends Fragment {
             memoryTags.add(tag);
         }
 
-        mListener.memoryShared(title, mentionedTime, location, title, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
+        mListener.memoryShared(memoryTitle, mentionedTime, location, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
     /**
@@ -217,7 +217,7 @@ public class CreateMemoryFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void memoryCanceled();
-        void memoryShared(String title, String mentionedTime, String location, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+        void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
                           ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
     }
