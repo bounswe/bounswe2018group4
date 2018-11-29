@@ -2,16 +2,24 @@ package com.memorist.memorist_android.ws;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonObjectRequest;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
+import com.memorist.memorist_android.helper.JSONHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +71,40 @@ public class MemoristApi {
 
         // TODO : Connection to the api will be implemented later on.
 
+    }
+
+    public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                                    ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags) throws JSONException {
+        String url = Constants.API_CREATE_MEMORY;
+
+        JSONObject JRequestObject = new JSONObject();
+        JRequestObject.put("title", memoryTitle);
+        JRequestObject.put("story", JSONHelper.listToJSONArray(memoryText));
+        JRequestObject.put("media", JSONHelper.listToJSONArray2(memoryMultimediaID));
+        JRequestObject.put("format", JSONHelper.listToJSONArray(memoryFormat));
+        JRequestObject.put("tags", JSONHelper.listToJSONArray(memoryTags));
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.v("Response", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("Erroneous Response", error.toString());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token);
+
+                return headers;
+            }
+        };
+
+        coreApi.addToRequestQueue(request);
     }
 
     public static void createMemoryImage(final Context context, final File imageFile, final Bitmap imageBitmap,
