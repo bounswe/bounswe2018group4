@@ -104,7 +104,7 @@ public class RegisterLoginActivity extends BaseActivity
         @Override
         public void onResponse(ApiResultUser response) {
             String userWelcome = "Welcome, " + response.getUser().getFirst_name() + " " + response.getUser().getLast_name();
-            String userToken = response.getToken();
+            String userToken = "JWT " + response.getToken();
 
             SharedPrefHelper.setUserToken(getApplicationContext(), userToken);
             Toast.makeText(getApplicationContext(), userWelcome, Toast.LENGTH_LONG).show();
