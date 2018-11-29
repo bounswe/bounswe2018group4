@@ -1,7 +1,6 @@
 package com.memorist.memorist_android.ws;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -107,13 +106,35 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
-    public static void createMemoryImage(final Context context, final File imageFile, final Bitmap imageBitmap,
+    public static void createMemoryImage(final Context context, final File imageFile, final String filePath,
                                          Response.Listener<ApiResultMediaUpload> mediaUploadListener,
                                          Response.ErrorListener mediaUploadErrorListener) {
         String url = Constants.API_CREATE_PHOTO;
 
         VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
-                ApiResultMediaUpload.class, imageFile, imageBitmap, mediaUploadListener, mediaUploadErrorListener);
+                ApiResultMediaUpload.class, imageFile, filePath, mediaUploadListener, mediaUploadErrorListener);
+
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void createMemoryVideo(final Context context, final File videoFile, final String filePath,
+                                         Response.Listener<ApiResultMediaUpload> mediaUploadListener,
+                                         Response.ErrorListener mediaUploadErrorListener) {
+        String url = Constants.API_CREATE_VIDEO;
+
+        VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
+                ApiResultMediaUpload.class, videoFile, filePath, mediaUploadListener, mediaUploadErrorListener);
+
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void createMemoryAudio(final Context context, final File audioFile, final String filePath,
+                                         Response.Listener<ApiResultMediaUpload> mediaUploadListener,
+                                         Response.ErrorListener mediaUploadErrorListener) {
+        String url = Constants.API_CREATE_AUDIO;
+
+        VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
+                ApiResultMediaUpload.class, audioFile, filePath, mediaUploadListener, mediaUploadErrorListener);
 
         coreApi.addToRequestQueue(request);
     }
