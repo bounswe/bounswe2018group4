@@ -1,7 +1,5 @@
 package com.memorist.memorist_android.ws;
 
-import android.graphics.Bitmap;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -15,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -28,18 +27,18 @@ public class VolleyMultipartRequest<T> extends Request<T> {
 
     private final Gson gson = new Gson();
     private File file;
-    private Bitmap bitmap;
+    private String filePath;
 
     private Class<T> clazz;
     private Map<String, String> mHeaders;
     private Response.Listener<T> mListener;
     private Response.ErrorListener mErrorListener;
 
-    public VolleyMultipartRequest(int method, String url, Class<T> clazz, File file, Bitmap bitmap, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public VolleyMultipartRequest(int method, String url, Class<T> clazz, File file, String filePath, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.clazz = clazz;
         this.file = file;
-        this.bitmap = bitmap;
+        this.filePath = filePath;
         this.mListener = listener;
         this.mErrorListener = errorListener;
     }
@@ -88,7 +87,7 @@ public class VolleyMultipartRequest<T> extends Request<T> {
      */
     private Map<String, DataPart> getByteData() {
         Map<String, DataPart> params = new HashMap<>();
-        params.put("media", new DataPart(file.getName(), getFileDataFromDrawable(bitmap)));
+        params.put("media", new DataPart(file.getName(), getFileDataFromFilePath(filePath)));
         return params;
     }
 
@@ -208,10 +207,27 @@ public class VolleyMultipartRequest<T> extends Request<T> {
         dataOutputStream.writeBytes(lineEnd);
     }
 
-    private byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
+    private byte[] getFileDataFromFilePath(String filePath) {
+        FileInputStream fis = null;
+        ByteArrayOutputStream bos = null;
+
+        try {
+            fis = new FileInputStream(filePath);
+            bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+
+            for (int readNum; (readNum = fis.read(b)) != -1;) {
+                bos.write(b, 0, readNum);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (bos != null) {
+            return bos.toByteArray();
+        } else {
+            return null;
+        }
     }
 
     class DataPart {
