@@ -1,10 +1,7 @@
 package com.memorist.memorist_android;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,11 +17,14 @@ import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
+import com.memorist.memorist_android.helper.SharedPrefHelper;
+import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.ws.MemoristApi;
 
+import org.json.JSONException;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -46,6 +46,12 @@ public class MemoryActivity extends AppCompatActivity
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
 
     private ArrayList<Integer> memoryMultimediaID;
+    private ArrayList<String> memoryFormat;
+    private ArrayList<String> memoryText;
+    private ArrayList<String> memoryTags;
+    private String memoryTitle;
+    private int multimediaCounter;
+
     private int currentTab = 0;
 
     @Override
@@ -69,22 +75,40 @@ public class MemoryActivity extends AppCompatActivity
     @Override
     public void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
                              ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
-        memoryMultimediaID = new ArrayList<>();
+        this.memoryMultimediaID = new ArrayList<>();
+        this.memoryTitle = memoryTitle;
+        this.memoryFormat = memoryFormat;
+        this.memoryText = memoryText;
+        this.memoryTags = memoryTags;
+        this.multimediaCounter = 0;
 
         for(Uri uri: memoryImage) {
-            String filePath = getPathFromURI(this, uri);
+            String filePath = UriPathHelper.getPathFromURI_Image(this, uri);
 
             if(filePath != null) {
-                File imageFile = new File(getPathFromURI(this, uri));
-                Bitmap imageBitmap = null;
+                File imageFile = new File(filePath);
+                MemoristApi.createMemoryImage(getApplicationContext(), imageFile, filePath, mediaUploadListener, mediaUploadErrorListener);
+                multimediaCounter++;
+            }
+        }
 
-                try {
-                    imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                } catch(IOException e) {
-                    e.printStackTrace();
-                }
+        for(Uri uri: memoryVideo) {
+            String filePath = UriPathHelper.getPathFromURI_Video(this, uri);
 
-                MemoristApi.createMemoryImage(getApplicationContext(), imageFile, imageBitmap, mediaUploadListener, mediaUploadErrorListener);
+            if(filePath != null) {
+                File videoFile = new File(filePath);
+                MemoristApi.createMemoryVideo(getApplicationContext(), videoFile, filePath, mediaUploadListener, mediaUploadErrorListener);
+                multimediaCounter++;
+            }
+        }
+
+        for(Uri uri: memoryAudio) {
+            String filePath = UriPathHelper.getPathFromURI_Audio(this, uri);
+
+            if(filePath != null) {
+                File audioFile = new File(filePath);
+                MemoristApi.createMemoryAudio(getApplicationContext(), audioFile, filePath, mediaUploadListener, mediaUploadErrorListener);
+                multimediaCounter++;
             }
         }
 
@@ -155,24 +179,18 @@ public class MemoryActivity extends AppCompatActivity
         }
     }
 
-    public String getPathFromURI(Context context, Uri contentUri) {
-        String[] dataPath = { MediaStore.Images.Media.DATA };
-        try (Cursor mediaCursor = context.getContentResolver().query(contentUri, dataPath, null, null, null)) {
-            if (mediaCursor != null) {
-                int column_index = mediaCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                mediaCursor.moveToFirst();
-
-                return mediaCursor.getString(column_index);
-            }
-        }
-
-        return null;
-    }
-
     private Response.Listener<ApiResultMediaUpload> mediaUploadListener = new Response.Listener<ApiResultMediaUpload>() {
         @Override
         public void onResponse(ApiResultMediaUpload response) {
             memoryMultimediaID.add(response.getId());
+
+            if(memoryMultimediaID.size() == multimediaCounter) {
+                try {
+                    MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat, memoryText, memoryMultimediaID, memoryTags);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     };
 
