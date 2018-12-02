@@ -18,4 +18,28 @@ public class Tag {
         this.tag = tag;
         this.memory = memory;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public int getMemory() {
+        return memory;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setMemory(int memory) {
+        this.memory = memory;
+    }
 }
