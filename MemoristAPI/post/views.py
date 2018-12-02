@@ -180,22 +180,43 @@ class MemoryCreate1APIView(CreateAPIView):
         serializer = postserializers.Memory1Serializer(memory)
         return Response(serializer.data, status=HTTP_200_OK)
 
-class MemoryDeleteAPIView(APIView):
 
-    def post(self,*args,**kwargs):
+class MemoryDeleteAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def post(self, *args, **kwargs):
         userId = self.request.user.id
-        user = RegisteredUser.objects.filter(id = userId)
+        user = RegisteredUser.objects.filter(id=userId)
         if user.exists():
             user = user.first()
-            memory = postmodels.Memory.objects.filter(owner=userId, id = self.kwargs["pk"])
+            memory = postmodels.Memory.objects.filter(owner=userId, id=self.kwargs["pk"])
             if memory.exists():
                 memory = memory.first()
                 memory.delete()
-                return Response({"status":"ok"},status=HTTP_200_OK)
+                return Response({"status": "ok"}, status=HTTP_200_OK)
             else:
                 return Response({"Status": "Memory does not exist."}, status=HTTP_200_OK)
         else:
             return Response({"Status": "User does not exist."}, status=HTTP_400_BAD_REQUEST)
 
 
+class CommentDeleteAPIView(APIView):
+    permission_classes = IsAuthenticated,
 
+    def post(self, *args, **kwargs):
+        userId = self.request.user.id
+        user = RegisteredUser.objects.filter(id=userId)
+        if user.exists():
+            user = user.first()
+            memory = postmodels.Memory.objects.filter(id=self.request.data["memoryId"])
+            if memory.exists():
+                memory = memory.first()
+                comment = postmodels.MemoryComment.objects.filter(id=self.request.data["commentId"])
+                if comment.exists():
+                    comment.first().delete()
+                else:
+                    return Response({"Status": "Comment does not exists"}, status=HTTP_200_OK)
+            else:
+                return Response({"Status": "Memory does not exist."}, status=HTTP_200_OK)
+        else:
+            return Response({"Status": "User does not exist."}, status=HTTP_400_BAD_REQUEST)
