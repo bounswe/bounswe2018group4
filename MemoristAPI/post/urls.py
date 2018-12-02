@@ -10,5 +10,6 @@ urlpatterns = [
     url('^create_comment/(?P<pk>\d+)/$', MemoryCommentCreateAPIView.as_view()),
     url('^media/(?P<pk>\d+)/$', UploadMemoryMultimediaAPIView.as_view()),
     url('^delete_comment/$', CommentDeleteAPIView.as_view()),
-    url('^dislike/(?P<pk>\d+)/$', MemoryDislikeAPIView.as_view())
+    url('^dislike/(?P<pk>\d+)/$', MemoryDislikeAPIView.as_view()),
+    url('^homepage/$', HomepageAPIView.as_view())
 ]

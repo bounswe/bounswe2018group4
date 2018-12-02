@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
 from post import serializers as postserializers
 from post import models as postmodels
 from login.models import *
@@ -241,3 +242,24 @@ class MemoryDislikeAPIView(APIView):
                     return Response({"like": memory.numlikes}, status=HTTP_200_OK)
                 return Response({"like": memory.first().numlikes}, status=HTTP_200_OK)
         return Response({"detail": "user does not exists"}, status=HTTP_400_BAD_REQUEST)
+
+class HomepageAPIView(ListAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        followLinks = Follow.objects.filter(follower=self.request.user.id)
+
+        memories = postmodels.Memory.objects.none()
+        memories |= postmodels.Memory.objects.filter(owner=self.request.user.id)
+
+        if not followLinks.exists():
+            return memories.order_by('-posting_time')[0:20]
+
+        for followLink in followLinks:
+            followedUser = followLink.followed
+            memories |= postmodels.Memory.objects.filter(owner=followedUser)
+
+        memories = memories.order_by('-posting_time')[0:20]
+
+        return memories
