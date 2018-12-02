@@ -220,3 +220,24 @@ class CommentDeleteAPIView(APIView):
                 return Response({"Status": "Memory does not exist."}, status=HTTP_200_OK)
         else:
             return Response({"Status": "User does not exist."}, status=HTTP_400_BAD_REQUEST)
+
+class MemoryDislikeAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def get(self, *args, **kwargs):
+        m_id = self.kwargs["pk"]
+        user = RegisteredUser.objects.filter(id=self.request.user.id)
+        memory = postmodels.Memory.objects.filter(id=m_id)
+        if user.exists():
+            user = user.first()
+            if not memory.exists():
+                return Response({"detail": "memory does not exists"}, status=HTTP_200_OK)
+            elif memory.exists():
+                if memory.filter(liked_users=user).exists():
+                    memory = memory.first()
+                    memory.numlikes -= 1
+                    memory.liked_users.remove(user)
+                    memory.save()
+                    return Response({"like": memory.numlikes}, status=HTTP_200_OK)
+                return Response({"like": memory.first().numlikes}, status=HTTP_200_OK)
+        return Response({"detail": "user does not exists"}, status=HTTP_400_BAD_REQUEST)
