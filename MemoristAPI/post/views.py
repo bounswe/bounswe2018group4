@@ -147,26 +147,29 @@ class MemoryCreate1APIView(CreateAPIView):
         ord = 0
         story = data["story"]
         media = data["media"]
-        for f in data["format"]:
-            if f is "T":
-                newstory = postmodels.MemoryItemText(
-                    memory=memory,
-                    order=ord,
-                    text=story[text]
-                )
-                newstory.save()
-                text += 1
+        try:
+            for f in data["format"]:
+                if f is "T":
+                    newstory = postmodels.MemoryItemText(
+                        memory=memory,
+                        order=ord,
+                        text=story[text]
+                    )
+                    newstory.save()
+                    text += 1
 
-            elif f in ["I", "V", "A"]:
-                newmultimedia = postmodels.MemoryItemMultimedia(
-                    memory=memory,
-                    order=ord,
-                    media_type=1 if (f is "I") else 2 if (f is "V") else 3,
-                    multimedia=postmodels.MemoryMultimediaUpload.objects.get(id=media[multi])
-                )
-                newmultimedia.save()
-                multi += 1
-            ord += 1
+                elif f in ["I", "V", "A"]:
+                    newmultimedia = postmodels.MemoryItemMultimedia(
+                        memory=memory,
+                        order=ord,
+                        media_type=1 if (f is "I") else 2 if (f is "V") else 3,
+                        multimedia=postmodels.MemoryMultimediaUpload.objects.get(id=media[multi])
+                    )
+                    newmultimedia.save()
+                    multi += 1
+                ord += 1
+        except:
+            return Response({"Status": "Format does not match with content."}, status=HTTP_400_BAD_REQUEST)
         tags = data["tags"]
         for t in tags:
             tag = postmodels.MemoryTag(
