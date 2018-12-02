@@ -118,7 +118,6 @@ class UserProfileUpdateAPIView(APIView):
 
 class UploadProfilePhotoAPIView(CreateAPIView):
     serializer_class = ls.ProfilePhotoSerializer
-
     permission_classes = IsAuthenticated,
 
     def post(self, request):
@@ -145,12 +144,14 @@ class GetProfilePhotoAPIView(ListAPIView):
         else:
             return None
 
+
 class FollowAPIView(CreateAPIView):
     serializer_class = ls.FollowSerializer
 
     permission_classes = IsAuthenticated,
 
     def post(self, request, *args, **kwargs):
+
         user = lm.RegisteredUser.objects.filter(id = self.request.user.id)
         if(user.exists()):
             user = user.first()
@@ -167,12 +168,12 @@ class FollowAPIView(CreateAPIView):
             return Response({"Status": "User already follows the target user."}, status=st.HTTP_200_OK)
 
         followLink = lm.Follow(follower = user,followed = followedUser)
-
         followLink.save()
 
         serializer = ls.FollowSerializer(followLink)
 
-        return Response(serializer.data, status = st.HTTP_200_OK)
+        return Response(serializer.data, status=st.HTTP_200_OK)
+
 
 class UnfollowAPIView(APIView):
     serializer_class = ls.FollowSerializer
@@ -180,6 +181,7 @@ class UnfollowAPIView(APIView):
     permission_classes = IsAuthenticated,
 
     def post(self, request, *args, **kwargs):
+
         user = lm.RegisteredUser.objects.filter(id = self.request.user.id)
         if (user.exists()):
             user = user.first()
@@ -192,33 +194,36 @@ class UnfollowAPIView(APIView):
         else:
             return Response({"Status": "Followed User does not exist."}, status=st.HTTP_400_BAD_REQUEST)
 
-        followLink = lm.Follow.objects.filter(follower = user, followed = followedUser)
-        if(followLink.exists()):
+        followLink = lm.Follow.objects.filter(follower=user, followed=followedUser)
+        if (followLink.exists()):
             followLink.delete()
         else:
             return Response({"Status": "User does not follow the target user."}, status=st.HTTP_200_OK)
 
-        return Response(status = st.HTTP_200_OK)
+        return Response(status=st.HTTP_200_OK)
+
 
 class GetFollowersAPIView(ListAPIView):
     serializer_class = ls.FollowerSerializer
 
     def get_queryset(self):
-        followLink = lm.Follow.objects.filter(followed = self.request.user.id)
-        if(followLink.exists()):
+        followLink = lm.Follow.objects.filter(followed=self.request.user.id)
+        if (followLink.exists()):
             return followLink
         else:
             return None
+
 
 class GetFollowingsAPIView(ListAPIView):
     serializer_class = ls.FollowedSerializer
 
     def get_queryset(self):
-        followLink = lm.Follow.objects.filter(follower = self.request.user.id)
-        if(followLink.exists()):
+        followLink = lm.Follow.objects.filter(follower=self.request.user.id)
+        if (followLink.exists()):
             return followLink
         else:
             return None
+
 
 class DeleteProfilePhotoAPIView(APIView):
 
@@ -235,3 +240,4 @@ class DeleteProfilePhotoAPIView(APIView):
                 return Response({"Status": "Profile Photo does not exist."}, status=st.HTTP_200_OK)
         else:
             return Response({"Status": "User does not exist."}, status=st.HTTP_400_BAD_REQUEST)
+

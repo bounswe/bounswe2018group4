@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from login.views import *
+
 urlpatterns = [
     url(r'^login/$', LoginAPIView.as_view()),
     url(r'^register/$', RegisterAPIView.as_view()),
@@ -13,7 +14,5 @@ urlpatterns = [
     url(r'^get_followers/$', GetFollowersAPIView.as_view()),
     url(r'^get_followings/$', GetFollowingsAPIView.as_view()),
     url(r'^delete_profile_photo/$', DeleteProfilePhotoAPIView.as_view()),
-
-
 
 ]
