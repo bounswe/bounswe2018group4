@@ -2,6 +2,7 @@ from post import models
 from rest_framework import serializers
 from utils import *
 from datetime import *
+from login import models as lm
 
 
 class MemoryTagSerializer(serializers.ModelSerializer):
@@ -44,6 +45,7 @@ class MemoryItemMultimediaSerializer(serializers.ModelSerializer):
 
 class MemorySerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
     texts = serializers.SerializerMethodField()
     multimedia = serializers.SerializerMethodField()
     posting_time = serializers.SerializerMethodField()
@@ -66,6 +68,11 @@ class MemorySerializer(serializers.ModelSerializer):
             "mentioned_time_period",
             "liked_users"
         ]
+
+    def get_owner(self, obj):
+        owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
+        owner = owner.username
+        return owner
 
     def get_posting_time(self, obj):
         return dateFormat_hour(obj.posting_time)
@@ -85,6 +92,7 @@ class MemorySerializer(serializers.ModelSerializer):
 
 class Memory1Serializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
     texts = serializers.SerializerMethodField()
     multimedia = serializers.SerializerMethodField()
     posting_time = serializers.SerializerMethodField()
@@ -107,6 +115,11 @@ class Memory1Serializer(serializers.ModelSerializer):
             "mentioned_time_period",
             "liked_users"
         ]
+
+    def get_owner(self, obj):
+        owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
+        owner = owner.username
+        return owner
 
     def get_posting_time(self, obj):
         return dateFormat_hour(obj.posting_time)
