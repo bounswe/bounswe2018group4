@@ -16,6 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
+            "gender",
+            "location",
             "activeEmail_status"
         ]
 
@@ -27,7 +29,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
-            "gender"
+            "gender",
+            "location"
         ]
 
 

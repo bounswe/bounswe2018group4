@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^unfollow/$', UnfollowAPIView.as_view()),
     url(r'^get_followers/$', GetFollowersAPIView.as_view()),
     url(r'^get_followings/$', GetFollowingsAPIView.as_view()),
+    url(r'^delete_profile_photo/$', DeleteProfilePhotoAPIView.as_view()),
 
 ]

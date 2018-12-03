@@ -12,6 +12,7 @@ class RegisteredUser(User):
     age = models.IntegerField(null=True)
     activeEmail_status = models.BooleanField(default=False)
     gender = models.IntegerField(choices=GENDER, null=True, blank=True)
+    location = models.CharField(null=True, blank=True, max_length=30)
 
     def __str__(self):
         return self.first_name.__str__() + " " + self.last_name.__str__()

@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
 from post import serializers as postserializers
 from post import models as postmodels
 from login.models import *
@@ -147,26 +148,29 @@ class MemoryCreate1APIView(CreateAPIView):
         ord = 0
         story = data["story"]
         media = data["media"]
-        for f in data["format"]:
-            if f is "T":
-                newstory = postmodels.MemoryItemText(
-                    memory=memory,
-                    order=ord,
-                    text=story[text]
-                )
-                newstory.save()
-                text += 1
+        try:
+            for f in data["format"]:
+                if f is "T":
+                    newstory = postmodels.MemoryItemText(
+                        memory=memory,
+                        order=ord,
+                        text=story[text]
+                    )
+                    newstory.save()
+                    text += 1
 
-            elif f in ["I", "V", "A"]:
-                newmultimedia = postmodels.MemoryItemMultimedia(
-                    memory=memory,
-                    order=ord,
-                    media_type=1 if (f is "I") else 2 if (f is "V") else 3,
-                    multimedia=postmodels.MemoryMultimediaUpload.objects.get(id=media[multi])
-                )
-                newmultimedia.save()
-                multi += 1
-            ord += 1
+                elif f in ["I", "V", "A"]:
+                    newmultimedia = postmodels.MemoryItemMultimedia(
+                        memory=memory,
+                        order=ord,
+                        media_type=1 if (f is "I") else 2 if (f is "V") else 3,
+                        multimedia=postmodels.MemoryMultimediaUpload.objects.get(id=media[multi])
+                    )
+                    newmultimedia.save()
+                    multi += 1
+                ord += 1
+        except:
+            return Response({"Status": "Format does not match with content."}, status=HTTP_400_BAD_REQUEST)
         tags = data["tags"]
         for t in tags:
             tag = postmodels.MemoryTag(
@@ -176,3 +180,86 @@ class MemoryCreate1APIView(CreateAPIView):
             tag.save()
         serializer = postserializers.Memory1Serializer(memory)
         return Response(serializer.data, status=HTTP_200_OK)
+
+
+class MemoryDeleteAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def post(self, *args, **kwargs):
+        userId = self.request.user.id
+        user = RegisteredUser.objects.filter(id=userId)
+        if user.exists():
+            user = user.first()
+            memory = postmodels.Memory.objects.filter(owner=userId, id=self.kwargs["pk"])
+            if memory.exists():
+                memory = memory.first()
+                memory.delete()
+                return Response({"status": "ok"}, status=HTTP_200_OK)
+            else:
+                return Response({"Status": "Memory does not exist."}, status=HTTP_200_OK)
+        else:
+            return Response({"Status": "User does not exist."}, status=HTTP_400_BAD_REQUEST)
+
+
+class CommentDeleteAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def post(self, *args, **kwargs):
+        userId = self.request.user.id
+        user = RegisteredUser.objects.filter(id=userId)
+        if user.exists():
+            user = user.first()
+            memory = postmodels.Memory.objects.filter(id=self.request.data["memoryId"])
+            if memory.exists():
+                memory = memory.first()
+                comment = postmodels.MemoryComment.objects.filter(id=self.request.data["commentId"])
+                if comment.exists():
+                    comment.first().delete()
+                else:
+                    return Response({"Status": "Comment does not exists"}, status=HTTP_200_OK)
+            else:
+                return Response({"Status": "Memory does not exist."}, status=HTTP_200_OK)
+        else:
+            return Response({"Status": "User does not exist."}, status=HTTP_400_BAD_REQUEST)
+
+class MemoryDislikeAPIView(APIView):
+    permission_classes = IsAuthenticated,
+
+    def get(self, *args, **kwargs):
+        m_id = self.kwargs["pk"]
+        user = RegisteredUser.objects.filter(id=self.request.user.id)
+        memory = postmodels.Memory.objects.filter(id=m_id)
+        if user.exists():
+            user = user.first()
+            if not memory.exists():
+                return Response({"detail": "memory does not exists"}, status=HTTP_200_OK)
+            elif memory.exists():
+                if memory.filter(liked_users=user).exists():
+                    memory = memory.first()
+                    memory.numlikes -= 1
+                    memory.liked_users.remove(user)
+                    memory.save()
+                    return Response({"like": memory.numlikes}, status=HTTP_200_OK)
+                return Response({"like": memory.first().numlikes}, status=HTTP_200_OK)
+        return Response({"detail": "user does not exists"}, status=HTTP_400_BAD_REQUEST)
+
+class HomepageAPIView(ListAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        followLinks = Follow.objects.filter(follower=self.request.user.id)
+
+        memories = postmodels.Memory.objects.none()
+        memories |= postmodels.Memory.objects.filter(owner=self.request.user.id)
+
+        if not followLinks.exists():
+            return memories.order_by('-posting_time')[0:20]
+
+        for followLink in followLinks:
+            followedUser = followLink.followed
+            memories |= postmodels.Memory.objects.filter(owner=followedUser)
+
+        memories = memories.order_by('-posting_time')[0:20]
+
+        return memories
