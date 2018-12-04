@@ -69,16 +69,17 @@ class CreateMemoryPage extends React.Component {
     return (
       <div>
           <Header
-            color="transparent"
-            routes={dashboardRoutes}
-            brand="MEMORIST"
-            fixed
-            changeColorOnScroll={{
-              height: 400,
-              color: "white"
-            }}
-            {...rest}
-          />
+          color="transparent"
+          routes={dashboardRoutes}
+          brand="MEMORIST"
+          rightLinks={<HeaderLinks />}
+          fixed
+          changeColorOnScroll={{
+            height: 400,
+            color: "white"
+          }}
+          {...rest}
+        />
         <div
           className={classes.pageHeader}
           style={{

@@ -14,7 +14,7 @@ import Header from "components/Header/Header.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import HeaderLinks from "components/Header/StaticHeaderLinks.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
@@ -40,7 +40,7 @@ import PropTypes from 'prop-types';
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
 
-
+const dashboardRoutes = [];
 
 class ProfilePage extends React.Component {
   static propTypes = {
@@ -83,11 +83,12 @@ class ProfilePage extends React.Component {
      
         <Header
           color="transparent"
-          brand="Memorist"
-          
+          routes={dashboardRoutes}
+          brand="MEMORIST"
+          rightLinks={<HeaderLinks />}
           fixed
           changeColorOnScroll={{
-            height: 200,
+            height: 400,
             color: "white"
           }}
           {...rest}
@@ -112,7 +113,7 @@ class ProfilePage extends React.Component {
               
               
               
-                  <label for="username">Username</label>
+                  <label htmlFor="username">Username</label>
                   <CustomInput
                         labelText={this.props.profileInfo.username}
                         id="username"
@@ -134,7 +135,7 @@ class ProfilePage extends React.Component {
                           
                         }}
                       />
-                      <label for="email">Email Address</label>
+                      <label htmlFor="email">Email Address</label>
                       <CustomInput
                         labelText={this.props.profileInfo.email}
                         id="email"
@@ -153,7 +154,7 @@ class ProfilePage extends React.Component {
                           )
                         }}
                       />
-                      <label for="first_name">First Name</label>
+                      <label htmlFor="first_name">First Name</label>
                       <CustomInput
                         labelText={this.props.profileInfo.first_name}
                         id="first_name"
@@ -169,7 +170,7 @@ class ProfilePage extends React.Component {
 
                         }}
                       />
-                      <label for="last_name">Lastname</label>
+                      <label htmlFor="last_name">Lastname</label>
                       <CustomInput
                         labelText={this.props.profileInfo.last_name}
                         id="last_name"
@@ -184,7 +185,7 @@ class ProfilePage extends React.Component {
                           
                         }}
                       />
-                      <label for="locations">Locations</label>
+                      <label htmlFor="locations">Locations</label>
                       <CustomInput
                         labelText={this.props.profileInfo.locations}
                         id="locations"
@@ -199,7 +200,7 @@ class ProfilePage extends React.Component {
                           
                         }}
                       />
-                      <label for="gender">Gender</label>
+                      <label htmlFor="gender">Gender</label>
                       <CustomDropdown
                         buttonText="Gender"
                         dropdownList={[

@@ -17,7 +17,7 @@ class Profile extends React.Component {
 		var userToken = localStorage.getItem('token');
     var _this = this;
     console.log(userToken);
-    fetch('http://18.234.162.48:8000/auth/profile/',
+    fetch('http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/auth/profile/',
     {
       mode: 'cors',
       headers: {
