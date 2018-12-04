@@ -18,7 +18,12 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
-import profile from "assets/img/faces/christian.jpg";
+import profile from "assets/img/faces/profile.jpg";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
+import Email from "@material-ui/icons/Email";
 
 import studio1 from "assets/img/examples/studio-1.jpg";
 import studio2 from "assets/img/examples/studio-2.jpg";
@@ -30,11 +35,42 @@ import work2 from "assets/img/examples/clem-onojeghuo.jpg";
 import work3 from "assets/img/examples/cynthia-del-rio.jpg";
 import work4 from "assets/img/examples/mariya-georgieva.jpg";
 import work5 from "assets/img/examples/clem-onojegaw.jpg";
+import PropTypes from 'prop-types';
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
+
+
+
 class ProfilePage extends React.Component {
+  static propTypes = {
+        /** Current user */
+        profileInfo: PropTypes.oneOfType([PropTypes.object,PropTypes.array])
+    }
+  
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      first_name: '',
+      last_name: '',
+      email:'',
+      gender: '',
+      locations: '',
+    }
+      
+
+  }
+
+  componentDidMount(){
+
+    
+  }
+
+
   render() {
+    console.log(this.props.profileInfo);
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
       classes.imgRaised,
@@ -44,6 +80,7 @@ class ProfilePage extends React.Component {
     const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
     return (
       <div>
+     
         <Header
           color="transparent"
           brand="Memorist"
@@ -66,150 +103,138 @@ class ProfilePage extends React.Component {
                       <img src={profile} alt="..." className={imageClasses} />
                     </div>
                     <div className={classes.name}>
-                      <h3 className={classes.title}>Christian Louboutin</h3>
-                      <h6>DESIGNER</h6>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-twitter"} />
-                      </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-instagram"} />
-                      </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-facebook"} />
-                      </Button>
+                      <h3 className={classes.title}></h3>
+                      
                     </div>
                   </div>
                 </GridItem>
               </GridContainer>
-              <div className={classes.description}>
-                <p>
-                  An artist of considerable range, Chet Faker — the name taken
-                  by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                  performs and records all of his own music, giving it a warm,
-                  intimate feel with a solid groove structure.{" "}
-                </p>
-              </div>
-              <GridContainer justify="center">
-                <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
-                  <NavPills
-                    alignCenter
-                    color="primary"
-                    tabs={[
-                      {
-                        tabButton: "Studio",
-                        tabIcon: Camera,
-                        tabContent: (
-                          <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={studio1}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={studio2}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={studio5}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={studio4}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      },
-                      {
-                        tabButton: "Work",
-                        tabIcon: Palette,
-                        tabContent: (
-                          <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={work1}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={work2}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={work3}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={work4}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={work5}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      },
-                      {
-                        tabButton: "Favorite",
-                        tabIcon: Favorite,
-                        tabContent: (
-                          <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={work4}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={studio3}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                            <GridItem xs={12} sm={12} md={4}>
-                              <img
-                                alt="..."
-                                src={work2}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={work1}
-                                className={navImageClasses}
-                              />
-                              <img
-                                alt="..."
-                                src={studio1}
-                                className={navImageClasses}
-                              />
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      }
-                    ]}
-                  />
-                </GridItem>
-              </GridContainer>
+              
+              
+              
+                  <label for="username">Username</label>
+                  <CustomInput
+                        labelText={this.props.profileInfo.username}
+                        id="username"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "text",
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>
+                                account_box
+                              </Icon>
+                            </InputAdornment>
+                          )
+                          
+                        }}
+                      />
+                      <label for="email">Email Address</label>
+                      <CustomInput
+                        labelText={this.props.profileInfo.email}
+                        id="email"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "email",
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Email className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                      <label for="first_name">First Name</label>
+                      <CustomInput
+                        labelText={this.props.profileInfo.first_name}
+                        id="first_name"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "text",
+                          
+
+                        }}
+                      />
+                      <label for="last_name">Lastname</label>
+                      <CustomInput
+                        labelText={this.props.profileInfo.last_name}
+                        id="last_name"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "text",
+                          
+                        }}
+                      />
+                      <label for="locations">Locations</label>
+                      <CustomInput
+                        labelText={this.props.profileInfo.locations}
+                        id="locations"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "text",
+                          
+                        }}
+                      />
+                      <label for="gender">Gender</label>
+                      <CustomDropdown
+                        buttonText="Gender"
+                        dropdownList={[
+                          "Woman",
+                          "Man",
+                          "Other/Don't wanna say",
+                        ]}
+                        id="gender"
+                        onChange={this.handleChange}
+                        
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.handleChange,
+                          type: "text",
+                          
+                        }}
+                      />
+                      
+                  
+
+                <Button simple color="primary" size="lg" onClick={this.handleRegister}>
+                        Edit Profile
+                </Button>
+             
+                      
             </div>
+            
           </div>
-          <Footer />
+          <Footer
+
+           />
         </div>
-       
+      
       </div>
     );
   }

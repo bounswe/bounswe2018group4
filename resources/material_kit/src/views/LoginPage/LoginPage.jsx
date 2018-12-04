@@ -73,7 +73,8 @@ class LoginPage extends React.Component {
         var token = res.token;
         console.log("SUCCESS! Token: " + token);
         setCookie("token", token);
-        window.location.replace("/profile-page");
+        localStorage.setItem('token', token);
+        window.location.replace("/home-page");
       },
       error: (res, err) => {
         console.log(body);
@@ -101,9 +102,9 @@ class LoginPage extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     const isLoggedIn = this.state.isLoggedIn;   
-    if(isLoggedIn){
+    /*if(isLoggedIn){
       window.location.replace("/creatememory-page");     
-    } else {
+    } else {*/
       return (
       <div>
         <Header
@@ -191,7 +192,7 @@ class LoginPage extends React.Component {
         <Footer />
       </div>
     );
-    }
+    
   }
 }
 

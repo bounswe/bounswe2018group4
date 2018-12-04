@@ -1,6 +1,6 @@
 import Components from "views/Components/Components.jsx";
 import LandingPage from "views/LandingPage/LandingPage.jsx";
-import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
+import ProfilePage from "views/ProfilePage/Profile.js";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import SignUpPage from "views/SignUpPage/SignUpPage.jsx";
 import CreateMemoryPage from "views/CreateMemoryPage/CreateMemoryPage.jsx";

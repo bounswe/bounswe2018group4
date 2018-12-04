@@ -27,7 +27,6 @@ function StaticHeaderLinks({ ...props }) {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Typography variant="h2" gutterBottom>
-        Hi
       </Typography>
       </ListItem>
       <ListItem className={classes.listItem}>
