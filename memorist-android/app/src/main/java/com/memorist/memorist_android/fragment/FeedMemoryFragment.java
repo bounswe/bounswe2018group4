@@ -2,6 +2,7 @@ package com.memorist.memorist_android.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.model.Memory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateMemoryFragment.OnFragmentInteractionListener} interface
+ * {@link FeedMemoryFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CreateMemoryFragment#newInstance} factory method to
+ * Use the {@link FeedMemoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class FeedMemoryFragment extends Fragment {
@@ -46,7 +46,7 @@ public class FeedMemoryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment CreateMemoryFragment.
+     * @return A new instance of fragment FeedMemoryFragment.
      */
     public static FeedMemoryFragment newInstance() {
         return new FeedMemoryFragment();
@@ -55,21 +55,16 @@ public class FeedMemoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        memories = new ArrayList<Memory>();
-        mListener.getMemoriesFromAPI();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_feed_memory, container, false);
         ButterKnife.bind(this, view);
 
-        adapter = new MemoryAdapter(memories, getContext());
-        lvMemoryList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        memories = new ArrayList<>();
+        mListener.getUserMemoryList();
 
         return view;
     }
@@ -92,20 +87,16 @@ public class FeedMemoryFragment extends Fragment {
         mListener = null;
     }
 
-    public ArrayList<Memory> getMemories() {
-        return memories;
-    }
+    public void updateMemories(ArrayList<Memory> memoryList) {
+        memories.clear();
+        memories.addAll(memoryList);
 
-    public MemoryAdapter getAdapter() {
-        return adapter;
-    }
-
-    public void updateMemories(ArrayList<Memory> memoriesFromAPI) {
-        memories.addAll(memoriesFromAPI);
-
-        if(adapter != null) {
-            adapter.notifyDataSetChanged();
+        if(adapter == null) {
+            adapter = new MemoryAdapter(memories, getContext());
+            lvMemoryList.setAdapter(adapter);
         }
+
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -119,6 +110,6 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getMemoriesFromAPI();
+        void getUserMemoryList();
     }
 }
