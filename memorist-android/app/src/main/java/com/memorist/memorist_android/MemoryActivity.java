@@ -81,8 +81,8 @@ public class MemoryActivity extends AppCompatActivity
     }
 
     @Override
-    public void getMemoriesFromAPI() {
-        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getMemoryListListener, getMemoryErrorListener);
+    public void getUserMemoryList() {
+        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
     }
 
     @Override
@@ -92,12 +92,12 @@ public class MemoryActivity extends AppCompatActivity
 
     @Override
     public void getMemoriesOfUser() {
-        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getMemoryListListener2, getMemoryErrorListener);
+        // MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getMemoryListListener2, getUserMemoryListErrorListener);
     }
 
     @Override
     public void getMemoriesOfUser2() {
-        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getMemoryListListener3, getMemoryErrorListener);
+        // MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getMemoryListListener3, getUserMemoryListErrorListener);
     }
 
     @Override
@@ -147,8 +147,6 @@ public class MemoryActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
-
-        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
     }
 
     @Override
@@ -304,8 +302,8 @@ public class MemoryActivity extends AppCompatActivity
                         tags[j] = new Tag(idTag, tag, memory);
                     }
 
-                    Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
-                    memoryList.add(mem);
+                    //Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
+                    //memoryList.add(mem);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -374,8 +372,8 @@ public class MemoryActivity extends AppCompatActivity
                         tags[j] = new Tag(idTag, tag, memory);
                     }
 
-                    Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
-                    memoryList.add(mem);
+                    //Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
+                    //memoryList.add(mem);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -444,8 +442,8 @@ public class MemoryActivity extends AppCompatActivity
                         tags[j] = new Tag(idTag, tag, memory);
                     }
 
-                    Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
-                    memoryList.add(mem);
+                    //Memory mem = new Memory(id, owner, posting_time, title, texts, multimedia, tags, numlikes);
+                    //memoryList.add(mem);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -460,10 +458,21 @@ public class MemoryActivity extends AppCompatActivity
         }
     };
 
-    private Response.ErrorListener getMemoryErrorListener = new Response.ErrorListener() {
+    private Response.Listener<ArrayList<Memory>> getUserMemoryListListener = new Response.Listener<ArrayList<Memory>>() {
+        @Override
+        public void onResponse(ArrayList<Memory> response) {
+            FeedMemoryFragment fragment = (FeedMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_FEED_MEMORY_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateMemories(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getUserMemoryListErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
         }
     };
 

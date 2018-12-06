@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
-import com.android.volley.request.JsonArrayRequest;
 import com.android.volley.request.JsonObjectRequest;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
@@ -17,7 +16,6 @@ import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.model.Memory;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -149,41 +147,13 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
-    public static void getMemoryList(final String token, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-        String url = Constants.API_GET_MEMORY;
-
-        JSONArray JRequestArray = new JSONArray();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, JRequestArray, listener, errorListener) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", token);
-
-                return headers;
-            }
-        };
-
-        coreApi.getRequestQueue().getCache().clear();
-        coreApi.addToRequestQueue(request);
-    }
-
-    public static void getMemoryList(String token) {
+    public static void getMemoryList(String token, Response.Listener<ArrayList<Memory>> listListener, Response.ErrorListener errorListener) {
         String url = Constants.API_GET_MEMORY;
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", token);
 
-        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, new Response.Listener<ArrayList<Memory>>() {
-            @Override
-            public void onResponse(ArrayList<Memory> response) {
-                Log.v("cevap: ", response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("error", error.toString());
-            }
-        });
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listListener, errorListener);
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
