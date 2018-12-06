@@ -15,6 +15,7 @@ import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
+import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.model.Memory;
 
@@ -161,19 +162,16 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
-    public static void getProfile(final String token, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-        String url = Constants.API_GET_MEMORY;
+    public static void getProfile(String token, Response.Listener<ApiResultProfile> listener, Response.ErrorListener errorListener) {
+        String url = Constants.API_GET_PROFILE;
 
-        JSONArray JRequestArray = new JSONArray();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, JRequestArray, listener, errorListener) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", token);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
 
-                return headers;
-            }
-        };
+        Map<String, String> params = new HashMap<>();
+
+        GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.GET, url,
+                ApiResultProfile.class, headers, params, listener, errorListener);
 
         coreApi.addToRequestQueue(request);
     }

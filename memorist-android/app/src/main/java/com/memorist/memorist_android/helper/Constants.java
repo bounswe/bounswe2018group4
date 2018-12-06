@@ -13,5 +13,6 @@ public class Constants {
     public static final String API_CREATE_VIDEO = API_BASE_URL + "/post/media/2/";
     public static final String API_CREATE_AUDIO = API_BASE_URL + "/post/media/3/";
     public static final String API_GET_MEMORY = API_BASE_URL + "/post/list/";
+    public static final String API_GET_PROFILE = API_BASE_URL + "/auth/profile/";
 
 }

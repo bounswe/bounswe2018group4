@@ -45,6 +45,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
         @BindView(R.id.btn_feedLike) ImageButton btnLike;
+        @BindView(R.id.tv_likeCount) TextView tvLikeCount;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -134,7 +135,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 @Override
                 public void onClick(View v) {
                     if(memory.getNumlikes() == 0) {
-                        memory.setNumlikes(memory.getNumlikes() + 1);
+                        viewHolder.tvLikeCount.setText("1");
                         viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
                     }
                 }
@@ -149,7 +150,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
             StringBuilder tagBuilder = new StringBuilder();
             for(Tag tag: memory.getTags()) {
-                tagBuilder.append(tag.getTag());
+                tagBuilder.append("#" + tag.getTag());
             }
 
             viewHolder.tvFeedTags.setText(tagBuilder.toString());

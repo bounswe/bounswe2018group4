@@ -8,7 +8,7 @@ public class Memory {
     private int id;
 
     @Expose
-    private int owner;
+    private String owner;
 
     @Expose
     private String posting_time;
@@ -28,7 +28,7 @@ public class Memory {
     @Expose
     private int numlikes;
 
-    public Memory(int id, int owner, String posting_time, String title, String[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
+    public Memory(int id, String owner, String posting_time, String title, String[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
         this.id = id;
         this.owner = owner;
         this.posting_time = posting_time;
@@ -47,11 +47,11 @@ public class Memory {
         this.id = id;
     }
 
-    public int getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public void setOwner(int ownerid) {
+    public void setOwner(String ownerid) {
         this.owner = ownerid;
     }
 
