@@ -147,6 +147,8 @@ public class MemoryActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
     }
 
     @Override
