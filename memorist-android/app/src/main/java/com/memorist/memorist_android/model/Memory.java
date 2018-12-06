@@ -17,7 +17,7 @@ public class Memory {
     private String title;
 
     @Expose
-    private String[] texts;
+    private Text[] texts;
 
     @Expose
     private Multimedia[] multimedia;
@@ -28,7 +28,7 @@ public class Memory {
     @Expose
     private int numlikes;
 
-    public Memory(int id, String owner, String posting_time, String title, String[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
+    public Memory(int id, String owner, String posting_time, String title, Text[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
         this.id = id;
         this.owner = owner;
         this.posting_time = posting_time;
@@ -71,14 +71,6 @@ public class Memory {
         this.title = title;
     }
 
-    public String[] getTexts() {
-        return texts;
-    }
-
-    public void setTexts(String[] texts) {
-        this.texts = texts;
-    }
-
     public Multimedia[] getMultimedia() {
         return multimedia;
     }
@@ -101,5 +93,13 @@ public class Memory {
 
     public void setNumlikes(int numlikes) {
         this.numlikes = numlikes;
+    }
+
+    public Text[] getTexts() {
+        return texts;
+    }
+
+    public void setTexts(Text[] texts) {
+        this.texts = texts;
     }
 }

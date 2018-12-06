@@ -6,10 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
-import com.android.volley.request.JsonArrayRequest;
 import com.android.volley.request.JsonObjectRequest;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
@@ -19,7 +16,6 @@ import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.model.Memory;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +43,7 @@ public class MemoristApi {
         GsonRequest<ApiResultUser> request = new GsonRequest<>(Request.Method.POST, url,
                 ApiResultUser.class, headers, params, listener, errorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -68,6 +65,7 @@ public class MemoristApi {
         GsonRequest<ApiResultUser> request = new GsonRequest<>(Request.Method.POST, url,
                 ApiResultUser.class, headers, params, registerListener, registerErrorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -109,6 +107,7 @@ public class MemoristApi {
             }
         };
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -120,6 +119,7 @@ public class MemoristApi {
         VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
                 ApiResultMediaUpload.class, imageFile, filePath, mediaUploadListener, mediaUploadErrorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -131,6 +131,7 @@ public class MemoristApi {
         VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
                 ApiResultMediaUpload.class, videoFile, filePath, mediaUploadListener, mediaUploadErrorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -142,23 +143,19 @@ public class MemoristApi {
         VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<>(Request.Method.POST, url,
                 ApiResultMediaUpload.class, audioFile, filePath, mediaUploadListener, mediaUploadErrorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
-    public static void getMemoryList(final String token, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    public static void getMemoryList(String token, Response.Listener<ArrayList<Memory>> listListener, Response.ErrorListener errorListener) {
         String url = Constants.API_GET_MEMORY;
 
-        JSONArray JRequestArray = new JSONArray();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, JRequestArray, listener, errorListener) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", token);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
 
-                return headers;
-            }
-        };
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listListener, errorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 
@@ -173,6 +170,7 @@ public class MemoristApi {
         GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.GET, url,
                 ApiResultProfile.class, headers, params, listener, errorListener);
 
+        coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
 }
