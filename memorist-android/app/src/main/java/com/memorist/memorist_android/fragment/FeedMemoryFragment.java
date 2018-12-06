@@ -13,6 +13,7 @@ import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.model.Memory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +58,7 @@ public class FeedMemoryFragment extends Fragment {
         setHasOptionsMenu(true);
 
         memories = new ArrayList<Memory>();
+        mListener.getMemoriesFromAPI();
     }
 
     @Override
@@ -98,6 +100,14 @@ public class FeedMemoryFragment extends Fragment {
         return adapter;
     }
 
+    public void updateMemories(ArrayList<Memory> memoriesFromAPI) {
+        memories.addAll(memoriesFromAPI);
+
+        if(adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -109,5 +119,6 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        void getMemoriesFromAPI();
     }
 }

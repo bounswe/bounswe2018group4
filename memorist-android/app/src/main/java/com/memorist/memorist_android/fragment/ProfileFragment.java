@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.model.Memory;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,9 +28,19 @@ import butterknife.ButterKnife;
  */
 public class ProfileFragment extends Fragment {
 
+    @BindView(R.id.tv_profileNameSurname) TextView tvProfileNameSurname;
+    @BindView(R.id.tv_profileUsername) TextView tvProfileUsername;
+    @BindView(R.id.tv_profileBio) TextView tvProfileEmail;
     @BindView(R.id.lv_profileMemoryList) ListView lvProfileMemoryList;
+    @BindView(R.id.tv_profilePostCount) TextView tvProfilePostCount;
 
     private OnFragmentInteractionListener mListener;
+
+    // The data set for memory objects.
+    private ArrayList<Memory> memories;
+
+    // The adapter to fit the data onto list.
+    private MemoryAdapter adapter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -44,6 +59,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        memories = new ArrayList<Memory>();
+        mListener.getMemoriesOfUser();
     }
 
     @Override
@@ -51,6 +69,11 @@ public class ProfileFragment extends Fragment {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
+
+        mListener.retrieveProfile();
+        adapter = new MemoryAdapter(memories, getContext());
+        lvProfileMemoryList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -72,6 +95,23 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
+    public void updateInfo(String username, String firstname, String lastname, String email) {
+        String finaluser = "@" + username;
+        tvProfileUsername.setText(finaluser);
+        String name = firstname + " " + lastname;
+        tvProfileNameSurname.setText(name);
+        tvProfileEmail.setText(email);
+    }
+
+    public void updateList(ArrayList<Memory> list) {
+        memories.addAll(list);
+
+        if(adapter != null) {
+            adapter.notifyDataSetChanged();
+            tvProfilePostCount.setText("" + list.size());
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -83,5 +123,7 @@ public class ProfileFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        void retrieveProfile();
+        void getMemoriesOfUser();
     }
 }

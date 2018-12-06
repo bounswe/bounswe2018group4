@@ -16,6 +16,7 @@ import android.widget.VideoView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.Tag;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
         @BindView(R.id.btn_feedLike) ImageButton btnLike;
+        @BindView(R.id.tv_likeCount) TextView tvLikeCount;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -106,46 +108,54 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      */
     private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
-            String username = "@" + memory.getMemoryOwner().getUsername();
-            String postedTime = "Posted on " + memory.getPostedTime();
-            String mentionedTime = "Mentions about " + memory.getMentionedTime();
-            String location = "Place is " + memory.getLocation();
-            String story = memory.getMemoryText().get(0);
+            String username = "@" + memory.getOwner();
+            String postedTime = "Posted on " + memory.getPosting_time();
+            String mentionedTime = "Mentions about " + "???";
+            String location = "Place is " + "???";
+
+            StringBuilder story = new StringBuilder();
+            for(String s: memory.getTexts()) {
+                story.append(s);
+            }
+
             String title = memory.getTitle();
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
             viewHolder.tvFeedMentionedTime.setText(mentionedTime);
             viewHolder.tvFeedLocation.setText(location);
-            viewHolder.tvFeedStory.setText(story);
+            viewHolder.tvFeedStory.setText(story.toString());
             viewHolder.tvFeedTitle.setText(title);
 
-            if(memory.isLiked()) {
+            if(memory.getNumlikes() != 0) {
                 viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
             }
 
             viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!memory.isLiked()) {
-                        memory.setLiked(true);
+                    if(memory.getNumlikes() == 0) {
+                        viewHolder.tvLikeCount.setText("1");
                         viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
                     }
                 }
             });
 
+            /*
             ArrayList<Uri> memoryImage = memory.getMemoryImage();
             ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
             ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
             ArrayList<String> memoryTags = memory.getMemoryTags();
+            */
 
-            for(String tag: memoryTags) {
-                String existing = viewHolder.tvFeedTags.getText().toString();
-                tag = " #" + tag;
-
-                viewHolder.tvFeedTags.setText(existing + tag);
+            StringBuilder tagBuilder = new StringBuilder();
+            for(Tag tag: memory.getTags()) {
+                tagBuilder.append("#" + tag.getTag());
             }
 
+            viewHolder.tvFeedTags.setText(tagBuilder.toString());
+
+            /*
             for(Uri selectedImage: memoryImage) {
                 ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
@@ -167,6 +177,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 addVideo.setVideoURI(selectedVideo);
                 layout.addView(addVideo);
             }
+            */
         }
     }
 }

@@ -1,146 +1,105 @@
 package com.memorist.memorist_android.model;
 
-import android.net.Uri;
-
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
 
 public class Memory {
 
-    private long memoryId;
-    private User memoryOwner;
-    private String postedTime;
-    private String mentionedTime;
-    private String location;
+    @Expose
+    private int id;
+
+    @Expose
+    private String owner;
+
+    @Expose
+    private String posting_time;
+
+    @Expose
     private String title;
 
-    private boolean isLiked;
+    @Expose
+    private String[] texts;
 
-    private ArrayList<String> memoryFormat;
-    private ArrayList<String> memoryText;
-    private ArrayList<Uri> memoryImage;
-    private ArrayList<Uri> memoryVideo;
-    private ArrayList<Uri> memoryAudio;
-    private ArrayList<String> memoryTags;
+    @Expose
+    private Multimedia[] multimedia;
 
-    public Memory(long memoryId, User memoryOwner, String postedTime, String mentionedTime, String location, String title,
-                  ArrayList<String> memoryFormat, ArrayList<String> memoryText, ArrayList<Uri> memoryImage,
-                  ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
-        this.memoryId = memoryId;
-        this.memoryOwner = memoryOwner;
-        this.postedTime = postedTime;
-        this.mentionedTime = mentionedTime;
-        this.location = location;
+    @Expose
+    private Tag[] tags;
+
+    @Expose
+    private int numlikes;
+
+    public Memory(int id, String owner, String posting_time, String title, String[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
+        this.id = id;
+        this.owner = owner;
+        this.posting_time = posting_time;
         this.title = title;
-        this.memoryFormat = memoryFormat;
-        this.memoryText = memoryText;
-        this.memoryImage = memoryImage;
-        this.memoryVideo = memoryVideo;
-        this.memoryAudio = memoryAudio;
-        this.memoryTags = memoryTags;
-        this.isLiked = false;
+        this.texts = texts;
+        this.multimedia = multimedia;
+        this.tags = tags;
+        this.numlikes = numlikes;
     }
 
-    public long getMemoryId() {
-        return memoryId;
+    public int getId() {
+        return id;
     }
 
-    public void setLiked(boolean liked) {
-        isLiked = liked;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public boolean isLiked() {
-        return isLiked;
+    public String getOwner() {
+        return owner;
     }
 
-    public String getLocation() {
-        return location;
+    public void setOwner(String ownerid) {
+        this.owner = ownerid;
     }
 
-    public String getMentionedTime() {
-        return mentionedTime;
+    public String getPosting_time() {
+        return posting_time;
     }
 
-    public String getPostedTime() {
-        return postedTime;
-    }
-
-    public User getMemoryOwner() {
-        return memoryOwner;
-    }
-
-    public ArrayList<String> getMemoryFormat() {
-        return memoryFormat;
-    }
-
-    public ArrayList<String> getMemoryText() {
-        return memoryText;
-    }
-
-    public ArrayList<Uri> getMemoryImage() {
-        return memoryImage;
-    }
-
-    public ArrayList<Uri> getMemoryVideo() {
-        return memoryVideo;
-    }
-
-    public ArrayList<Uri> getMemoryAudio() {
-        return memoryAudio;
-    }
-
-    public ArrayList<String> getMemoryTags() {
-        return memoryTags;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setMemoryId(long memoryId) {
-        this.memoryId = memoryId;
-    }
-
-    public void setMemoryOwner(User memoryOwner) {
-        this.memoryOwner = memoryOwner;
-    }
-
-    public void setMentionedTime(String mentionedTime) {
-        this.mentionedTime = mentionedTime;
-    }
-
-    public void setPostedTime(String postedTime) {
-        this.postedTime = postedTime;
-    }
-
-    public void setMemoryFormat(ArrayList<String> memoryFormat) {
-        this.memoryFormat = memoryFormat;
-    }
-
-    public void setMemoryImage(ArrayList<Uri> memoryImage) {
-        this.memoryImage = memoryImage;
-    }
-
-    public void setMemoryText(ArrayList<String> memoryText) {
-        this.memoryText = memoryText;
-    }
-
-    public void setMemoryVideo(ArrayList<Uri> memoryVideo) {
-        this.memoryVideo = memoryVideo;
-    }
-
-    public void setMemoryAudio(ArrayList<Uri> memoryAudio) {
-        this.memoryAudio = memoryAudio;
-    }
-
-    public void setMemoryTags(ArrayList<String> memoryTags) {
-        this.memoryTags = memoryTags;
+    public void setPosting_time(String posting_time) {
+        this.posting_time = posting_time;
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String[] getTexts() {
+        return texts;
+    }
+
+    public void setTexts(String[] texts) {
+        this.texts = texts;
+    }
+
+    public Multimedia[] getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(Multimedia[] multimedia) {
+        this.multimedia = multimedia;
+    }
+
+    public Tag[] getTags() {
+        return tags;
+    }
+
+    public void setTags(Tag[] tags) {
+        this.tags = tags;
+    }
+
+    public int getNumlikes() {
+        return numlikes;
+    }
+
+    public void setNumlikes(int numlikes) {
+        this.numlikes = numlikes;
     }
 }

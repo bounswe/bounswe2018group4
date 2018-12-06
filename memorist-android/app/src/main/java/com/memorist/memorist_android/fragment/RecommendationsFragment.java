@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.model.Memory;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +31,12 @@ public class RecommendationsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    // The data set for memory objects.
+    private ArrayList<Memory> memories;
+
+    // The adapter to fit the data onto list.
+    private MemoryAdapter adapter;
+
     public RecommendationsFragment() {
         // Required empty public constructor
     }
@@ -44,6 +54,9 @@ public class RecommendationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        memories = new ArrayList<Memory>();
+        mListener.getMemoriesOfUser2();
     }
 
     @Override
@@ -51,6 +64,10 @@ public class RecommendationsFragment extends Fragment {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_recommendations, container, false);
         ButterKnife.bind(this, view);
+
+        adapter = new MemoryAdapter(memories, getContext());
+        lvRecommendationsMemoryList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -72,6 +89,14 @@ public class RecommendationsFragment extends Fragment {
         mListener = null;
     }
 
+    public void updateList(ArrayList<Memory> list) {
+        memories.addAll(list);
+
+        if(adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -83,5 +108,6 @@ public class RecommendationsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        void getMemoriesOfUser2();
     }
 }
