@@ -1,7 +1,6 @@
 package com.memorist.memorist_android.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.model.Memory;
@@ -40,13 +37,17 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.iv_feedProfilePicture) ImageView ivFeedProfilePicture;
         @BindView(R.id.tv_feedUsername) TextView tvFeedUsername;
         @BindView(R.id.tv_feedPostedTime) TextView tvFeedPostedTime;
-        @BindView(R.id.tv_feedTags) TextView tvFeedTags;
         @BindView(R.id.tv_feedMentionedTime) TextView tvFeedMentionedTime;
         @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
         @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
         @BindView(R.id.tv_feedStory) TextView tvFeedStory;
+        @BindView(R.id.tv_feedTags) TextView tvFeedTags;
         @BindView(R.id.btn_feedLike) ImageButton btnLike;
         @BindView(R.id.tv_likeCount) TextView tvLikeCount;
+        @BindView(R.id.btn_feedComment) ImageButton btnComment;
+        @BindView(R.id.tv_commentCount) TextView tvCommentCount;
+        @BindView(R.id.btn_feedAnnotate) ImageButton btnAnnotate;
+        @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -72,7 +73,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // The meeting in the placement of the specific row.
+        // The memory in the placement of the specific row.
         final Memory memory = getItem(position);
 
         /*
@@ -113,22 +114,27 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about " + "???";
             String location = "Place is " + "???";
+            String title = memory.getTitle();
 
-            StringBuilder story = new StringBuilder();
-            Text[] texts = memory.getTexts();
-
+            StringBuilder storyBuilder = new StringBuilder();
             for(Text text: memory.getTexts()) {
-                story.append(text.getText());
+                storyBuilder.append(text.getText());
             }
 
-            String title = memory.getTitle();
+            StringBuilder tagBuilder = new StringBuilder();
+            for(Tag tag: memory.getTags()) {
+                tagBuilder.append("#" + tag.getTag());
+            }
+
+
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
             viewHolder.tvFeedMentionedTime.setText(mentionedTime);
             viewHolder.tvFeedLocation.setText(location);
-            viewHolder.tvFeedStory.setText(story.toString());
             viewHolder.tvFeedTitle.setText(title);
+            viewHolder.tvFeedStory.setText(storyBuilder.toString());
+            viewHolder.tvFeedTags.setText(tagBuilder.toString());
 
             if(memory.getNumlikes() != 0) {
                 viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
@@ -140,9 +146,14 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                     if(memory.getNumlikes() == 0) {
                         viewHolder.tvLikeCount.setText("1");
                         viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
+                    } else {
+                        viewHolder.tvLikeCount.setText("0");
+                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.nolike_icon));
                     }
                 }
             });
+
+            // TODO : View image part..
 
             /*
             ArrayList<Uri> memoryImage = memory.getMemoryImage();
@@ -150,13 +161,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
             ArrayList<String> memoryTags = memory.getMemoryTags();
             */
-
-            StringBuilder tagBuilder = new StringBuilder();
-            for(Tag tag: memory.getTags()) {
-                tagBuilder.append("#" + tag.getTag());
-            }
-
-            viewHolder.tvFeedTags.setText(tagBuilder.toString());
 
             /*
             for(Uri selectedImage: memoryImage) {
