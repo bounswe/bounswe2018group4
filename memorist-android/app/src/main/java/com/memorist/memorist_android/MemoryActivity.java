@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,13 +22,9 @@ import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultProfile;
-import com.memorist.memorist_android.model.Media;
 import com.memorist.memorist_android.model.Memory;
-import com.memorist.memorist_android.model.Multimedia;
-import com.memorist.memorist_android.model.Tag;
 import com.memorist.memorist_android.ws.MemoristApi;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -110,10 +105,10 @@ public class MemoryActivity extends AppCompatActivity
         this.memoryTags = memoryTags;
         this.multimediaCounter = 0;
 
-        if(memoryMultimediaID.size() == 0) {
+        if(memoryImage.size() == 0 && memoryVideo.size() == 0 && memoryAudio.size() == 0) {
             try {
-                MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat, memoryText, memoryMultimediaID, memoryTags);
-                tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
+                MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
+                        memoryText, memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -219,8 +214,8 @@ public class MemoryActivity extends AppCompatActivity
 
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
-                    MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat, memoryText, memoryMultimediaID, memoryTags);
-                    tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
+                    MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
+                            memoryText, memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -264,6 +259,24 @@ public class MemoryActivity extends AppCompatActivity
     };
 
     private Response.ErrorListener getUserMemoryListErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<JSONObject> createMemoryListener = new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+            String successMessage = "Your story is now alive.. Hooraaay!";
+            Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
+
+            tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
+        }
+    };
+
+    private Response.ErrorListener createMemoryErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
