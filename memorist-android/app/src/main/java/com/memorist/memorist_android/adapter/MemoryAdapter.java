@@ -17,6 +17,7 @@ import android.widget.VideoView;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Tag;
+import com.memorist.memorist_android.model.Text;
 
 import java.util.ArrayList;
 
@@ -114,8 +115,10 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String location = "Place is " + "???";
 
             StringBuilder story = new StringBuilder();
-            for(String s: memory.getTexts()) {
-                story.append(s);
+            Text[] texts = memory.getTexts();
+
+            for(Text text: memory.getTexts()) {
+                story.append(text.getText());
             }
 
             String title = memory.getTitle();
