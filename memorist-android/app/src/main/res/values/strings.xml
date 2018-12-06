@@ -39,7 +39,7 @@
     <string name="addedMultimedia">Added Multimedia</string>
     <string name="addedImages">Added Photos</string>
     <string name="addedVideos">Added Videos</string>
-    <string name="addedAudios">Added Audios</string>
+    <string name="addedAudios">Added Audio</string>
 
     <string name="btnCreateMemory">Share</string>
     <string name="btnCancelMemory">Cancel</string>
