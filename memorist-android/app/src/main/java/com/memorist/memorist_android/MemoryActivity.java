@@ -91,6 +91,11 @@ public class MemoryActivity extends AppCompatActivity
     }
 
     @Override
+    public void getSearchResults() {
+        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
+    }
+
+    @Override
     public void getUserProfile() {
         MemoristApi.getProfile(SharedPrefHelper.getUserToken(getApplicationContext()), getUserProfileListener, getUserProfileErrorListener);
     }
@@ -242,7 +247,7 @@ public class MemoryActivity extends AppCompatActivity
             } else if(currentTab == 2) {
                 SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
                 if(fragment != null) {
-                    // TODO: Update search memory list.
+                    fragment.updateMemories(response);
                 }
             } else if(currentTab == 4) {
                 RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(TAG_RECOMMENDATIONS_FRAGMENT);

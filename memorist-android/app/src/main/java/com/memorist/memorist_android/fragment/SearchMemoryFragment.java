@@ -2,6 +2,7 @@ package com.memorist.memorist_android.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.model.Memory;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,9 +34,15 @@ import butterknife.OnClick;
 public class SearchMemoryFragment extends Fragment {
 
     @BindView(R.id.et_searchMemory) EditText etSearchMemory;
-    @BindView(R.id.tv_searchIsReady) TextView tvSearchIsReady;
-    @BindView(R.id.lv_searchMemoryList) ListView lv_searchMemory;
     @BindView(R.id.sp_searchSpinner) Spinner spSearchSpinner;
+    @BindView(R.id.tv_searchIsReady) TextView tvSearchIsReady;
+    @BindView(R.id.lv_searchMemoryList) ListView lvSearchMemory;
+
+    // The data set for memory objects.
+    private ArrayList<Memory> memories;
+
+    // The adapter to fit the data onto list.
+    private MemoryAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,17 +63,20 @@ public class SearchMemoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        memories = new ArrayList<>();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_search_memory, container, false);
         ButterKnife.bind(this, view);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.search_list, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spSearchSpinner.setAdapter(adapter);
+        if(getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.search_list, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spSearchSpinner.setAdapter(adapter);
+        }
 
         return view;
     }
@@ -87,23 +101,25 @@ public class SearchMemoryFragment extends Fragment {
     @OnClick(R.id.btn_searchClicked)
     public void searchClicked(View view) {
         if(!etSearchMemory.getText().toString().isEmpty()) {
-            String result = "You searched \"" + etSearchMemory.getText().toString() + "\" with ";
-
-            if(spSearchSpinner.getSelectedItemId() == 0) {
-                result += "Search by keyword.";
-            } else if(spSearchSpinner.getSelectedItemId() == 1) {
-                result += "Search by location.";
-            } else if(spSearchSpinner.getSelectedItemId() == 2){
-                result += "Search by posted time.";
-            } else if(spSearchSpinner.getSelectedItemId() == 3){
-                result += "Search by mentioned time.";
-            } else {
-                result += "Search by tag.";
-            }
-
-            tvSearchIsReady.setText(result);
+            mListener.getSearchResults();
         }
     }
+
+    public void updateMemories(ArrayList<Memory> memoryList) {
+        tvSearchIsReady.setVisibility(View.GONE);
+
+        memories.clear();
+        memories.addAll(memoryList);
+
+        if(adapter == null) {
+            adapter = new MemoryAdapter(memories, getContext());
+            lvSearchMemory.setAdapter(adapter);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -116,5 +132,6 @@ public class SearchMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        void getSearchResults();
     }
 }
