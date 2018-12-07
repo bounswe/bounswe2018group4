@@ -104,9 +104,9 @@ public class MemoryActivity extends AppCompatActivity
         this.memoryFormat = memoryFormat;
         this.memoryText = memoryText;
         this.memoryTags = memoryTags;
-        this.multimediaCounter = 0;
+        this.multimediaCounter = memoryImage.size() + memoryVideo.size() + memoryAudio.size();
 
-        if(memoryImage.size() == 0 && memoryVideo.size() == 0 && memoryAudio.size() == 0) {
+        if(this.multimediaCounter == 0) {
             try {
                 MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
                         memoryText, memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
@@ -211,7 +211,6 @@ public class MemoryActivity extends AppCompatActivity
         @Override
         public void onResponse(ApiResultMediaUpload response) {
             memoryMultimediaID.add(response.getId());
-            multimediaCounter++;
 
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
@@ -227,10 +226,8 @@ public class MemoryActivity extends AppCompatActivity
     private Response.ErrorListener mediaUploadErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-            if(error.networkResponse.statusCode != 400) {
-                String serverIsDown = "We had a short maintenance break, please try again later.";
-                Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
-            }
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
         }
     };
 
