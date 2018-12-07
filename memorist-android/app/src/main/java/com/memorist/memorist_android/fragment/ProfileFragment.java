@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         memories = new ArrayList<Memory>();
-        mListener.getMemoriesOfUser();
+        mListener.getUserMemoryList();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-        mListener.retrieveProfile();
+        mListener.getUserProfile();
         adapter = new MemoryAdapter(memories, getContext());
         lvProfileMemoryList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateInfo(String username, String firstname, String lastname, String email) {
+    public void updateProfileInfo(String username, String firstname, String lastname, String email) {
         String finaluser = "@" + username;
         tvProfileUsername.setText(finaluser);
         String name = firstname + " " + lastname;
@@ -103,13 +103,16 @@ public class ProfileFragment extends Fragment {
         tvProfileEmail.setText(email);
     }
 
-    public void updateList(ArrayList<Memory> list) {
-        memories.addAll(list);
+    public void updateMemories(ArrayList<Memory> memoryList) {
+        memories.clear();
+        memories.addAll(memoryList);
 
-        if(adapter != null) {
-            adapter.notifyDataSetChanged();
-            tvProfilePostCount.setText("" + list.size());
+        if(adapter == null) {
+            adapter = new MemoryAdapter(memories, getContext());
+            lvProfileMemoryList.setAdapter(adapter);
         }
+
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -123,7 +126,7 @@ public class ProfileFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void retrieveProfile();
-        void getMemoriesOfUser();
+        void getUserProfile();
+        void getUserMemoryList();
     }
 }

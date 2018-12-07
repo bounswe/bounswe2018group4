@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class JSONHelper {
 
-    public static JSONArray listToJSONArray(ArrayList<String> list) {
+    public static JSONArray listToJSONArrayForString(ArrayList<String> list) {
         JSONArray arr = new JSONArray();
 
         for(String element : list) {
@@ -16,7 +16,7 @@ public class JSONHelper {
         return arr;
     }
 
-    public static JSONArray listToJSONArray2(ArrayList<Integer> list) {
+    public static JSONArray listToJSONArrayForInteger(ArrayList<Integer> list) {
         JSONArray arr = new JSONArray();
 
         for(int element : list) {

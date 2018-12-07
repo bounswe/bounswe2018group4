@@ -1,12 +1,12 @@
 package com.memorist.memorist_android.ws;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.error.VolleyError;
+import com.android.volley.error.AuthFailureError;
 import com.android.volley.request.JsonObjectRequest;
+
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
@@ -71,35 +71,27 @@ public class MemoristApi {
 
     public static void recoverUser(String userCredentials, Response.Listener<ApiResultNoData> recoveryListener,
                                    Response.ErrorListener errorListener) {
-
         // TODO : Connection to the api will be implemented later on.
 
     }
 
     public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                                    ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags) throws JSONException {
+                                    ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags,
+                                    Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws JSONException {
         String url = Constants.API_CREATE_MEMORY;
+
+
 
         JSONObject JRequestObject = new JSONObject();
         JRequestObject.put("title", memoryTitle);
-        JRequestObject.put("story", JSONHelper.listToJSONArray(memoryText));
-        JRequestObject.put("media", JSONHelper.listToJSONArray2(memoryMultimediaID));
-        JRequestObject.put("format", JSONHelper.listToJSONArray(memoryFormat));
-        JRequestObject.put("tags", JSONHelper.listToJSONArray(memoryTags));
+        JRequestObject.put("story", JSONHelper.listToJSONArrayForString(memoryText));
+        JRequestObject.put("media", JSONHelper.listToJSONArrayForInteger(memoryMultimediaID));
+        JRequestObject.put("format", JSONHelper.listToJSONArrayForString(memoryFormat));
+        JRequestObject.put("tags", JSONHelper.listToJSONArrayForString(memoryTags));
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.v("Response", response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("Erroneous Response", error.toString());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", token);
 

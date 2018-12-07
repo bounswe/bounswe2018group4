@@ -56,7 +56,7 @@ public class RecommendationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         memories = new ArrayList<Memory>();
-        mListener.getMemoriesOfUser2();
+        mListener.getUserMemoryList();
     }
 
     @Override
@@ -89,12 +89,16 @@ public class RecommendationsFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateList(ArrayList<Memory> list) {
-        memories.addAll(list);
+    public void updateMemories(ArrayList<Memory> memoryList) {
+        memories.clear();
+        memories.addAll(memoryList);
 
-        if(adapter != null) {
-            adapter.notifyDataSetChanged();
+        if(adapter == null) {
+            adapter = new MemoryAdapter(memories, getContext());
+            lvRecommendationsMemoryList.setAdapter(adapter);
         }
+
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -108,6 +112,6 @@ public class RecommendationsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getMemoriesOfUser2();
+        void getUserMemoryList();
     }
 }

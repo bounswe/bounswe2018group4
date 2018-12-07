@@ -5,22 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.memorist.memorist_android.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,14 +36,14 @@ import butterknife.OnClick;
 public class CreateMemoryFragment extends Fragment {
 
     @BindView(R.id.et_memoryTitle) EditText etMemoryTitle;
+    @BindView(R.id.et_memoryStory) EditText etMemoryStory;
     @BindView(R.id.et_memoryMentionedTime) EditText etMemoryMentionedTime;
     @BindView(R.id.et_memoryLocation) EditText etMemoryLocation;
-    @BindView(R.id.et_memoryStory) EditText etMemoryStory;
     @BindView(R.id.et_memoryTags) EditText etMemoryTags;
 
     private final int GALLERY_REQUEST = 1;
     private final int VIDEO_REQUEST = 2;
-    private OnFragmentInteractionListener mListener;
+    private final int AUDIO_REQUEST = 3;
 
     private ArrayList<String> memoryFormat;
     private ArrayList<String> memoryText;
@@ -52,6 +51,8 @@ public class CreateMemoryFragment extends Fragment {
     private ArrayList<Uri> memoryVideo;
     private ArrayList<Uri> memoryAudio;
     private ArrayList<String> memoryTags;
+
+    private OnFragmentInteractionListener mListener;
 
     public CreateMemoryFragment() {
         // Required empty public constructor
@@ -70,7 +71,6 @@ public class CreateMemoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
         memoryFormat = new ArrayList<>();
         memoryText = new ArrayList<>();
@@ -81,7 +81,7 @@ public class CreateMemoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_create_memory, container, false);
         ButterKnife.bind(this, view);
@@ -107,11 +107,6 @@ public class CreateMemoryFragment extends Fragment {
         mListener = null;
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-    }
-
     @OnClick(R.id.btn_addImage)
     public void addImageClicked() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -124,6 +119,13 @@ public class CreateMemoryFragment extends Fragment {
         Intent videoPickerIntent = new Intent(Intent.ACTION_PICK);
         videoPickerIntent.setType("video/*");
         startActivityForResult(videoPickerIntent, VIDEO_REQUEST);
+    }
+
+    @OnClick(R.id.btn_addAudio)
+    public void addAudioClicked() {
+        Intent audioPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        audioPickerIntent.setType("audio/*");
+        startActivityForResult(audioPickerIntent, AUDIO_REQUEST);
     }
 
     @Override
@@ -149,7 +151,6 @@ public class CreateMemoryFragment extends Fragment {
             } else if (requestCode == 2) {
                 Uri selectedVideo = data.getData();
                 memoryVideo.add(selectedVideo);
-                Log.v("uri", selectedVideo.toString());
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutVideoContent);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
@@ -162,8 +163,21 @@ public class CreateMemoryFragment extends Fragment {
 
                 MaterialCardView mcAddedVideo = getView().findViewById(R.id.mc_createMemoryVideo);
                 mcAddedVideo.setVisibility(View.VISIBLE);
-            } else {
-                // Nothing for now.
+            } else if (requestCode == 3) {
+                Uri selectedAudio = data.getData();
+                memoryAudio.add(selectedAudio);
+
+                ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutAudioContent);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
+
+                ImageView addAudio = new ImageView(getContext());
+                addAudio.setLayoutParams(params);
+                addAudio.setImageDrawable(getResources().getDrawable(R.drawable.audio_icon));
+                layout.addView(addAudio);
+
+                MaterialCardView mcAddedAudio = getView().findViewById(R.id.mc_createMemoryAudio);
+                mcAddedAudio.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -196,12 +210,7 @@ public class CreateMemoryFragment extends Fragment {
         String tags = etMemoryTags.getText().toString();
 
         memoryText.add(story);
-        String[] tagsArr = tags.split(",");
-
-        for(String tag: tagsArr) {
-            memoryTags.add(tag);
-        }
-
+        memoryTags.addAll(Arrays.asList(tags.split(",")));
         mListener.memoryShared(memoryTitle, mentionedTime, location, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
@@ -216,9 +225,9 @@ public class CreateMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void memoryCanceled();
         void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
                           ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
+        void memoryCanceled();
     }
 }
