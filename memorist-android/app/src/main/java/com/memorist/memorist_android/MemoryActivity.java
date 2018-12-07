@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -133,7 +134,7 @@ public class MemoryActivity extends AppCompatActivity
 
             for(Uri uri: memoryAudio) {
                 String filePath = UriPathHelper.getPathFromURI_Audio(this, uri);
-
+                Log.v("audio", filePath);
                 if(filePath != null) {
                     File audioFile = new File(filePath);
                     MemoristApi.createMemoryAudio(getApplicationContext(), audioFile, filePath, mediaUploadListener, mediaUploadErrorListener);
@@ -226,8 +227,10 @@ public class MemoryActivity extends AppCompatActivity
     private Response.ErrorListener mediaUploadErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-            String serverIsDown = "We had a short maintenance break, please try again later.";
-            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+            if(error.networkResponse.statusCode != 400) {
+                String serverIsDown = "We had a short maintenance break, please try again later.";
+                Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+            }
         }
     };
 
