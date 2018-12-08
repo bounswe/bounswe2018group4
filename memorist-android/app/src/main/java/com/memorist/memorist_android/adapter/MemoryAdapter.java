@@ -123,7 +123,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
             StringBuilder tagBuilder = new StringBuilder();
             for(Tag tag: memory.getTags()) {
-                tagBuilder.append("#" + tag.getTag());
+                tagBuilder.append("#" + tag.getTag() + " ");
             }
 
 
