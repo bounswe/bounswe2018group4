@@ -26,6 +26,7 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'dev.dworks.libs:volleyplus:+'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
