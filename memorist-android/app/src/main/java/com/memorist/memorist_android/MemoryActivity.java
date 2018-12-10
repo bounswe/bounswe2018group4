@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MemoryActivity extends AppCompatActivity
+public class MemoryActivity extends BaseActivity
     implements CreateMemoryFragment.OnFragmentInteractionListener,
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
@@ -105,6 +104,8 @@ public class MemoryActivity extends AppCompatActivity
         this.memoryText = memoryText;
         this.memoryTags = memoryTags;
         this.multimediaCounter = memoryImage.size() + memoryVideo.size() + memoryAudio.size();
+
+        showIndicator();
 
         if(this.multimediaCounter == 0) {
             try {
@@ -212,6 +213,10 @@ public class MemoryActivity extends AppCompatActivity
         public void onResponse(ApiResultMediaUpload response) {
             memoryMultimediaID.add(response.getId());
 
+            float progressAmount = (float)memoryMultimediaID.size() / multimediaCounter * 100f;
+            setIndicatorDetail(memoryMultimediaID.size() + "/" + multimediaCounter + " media uploaded");
+            setProgressDetail((int)progressAmount);
+
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
                     MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
@@ -271,6 +276,11 @@ public class MemoryActivity extends AppCompatActivity
         public void onResponse(JSONObject response) {
             String successMessage = "Your story is now alive.. Hooraaay!";
             Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
+
+            setIndicatorDetail(memoryMultimediaID.size() + "/" + multimediaCounter + " media uploaded");
+            setProgressDetail(100);
+            hideIndicator();
+
 
             tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
         }
