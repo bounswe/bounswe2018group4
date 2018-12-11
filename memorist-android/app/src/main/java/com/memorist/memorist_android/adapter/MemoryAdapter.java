@@ -52,9 +52,13 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_commentCount) TextView tvCommentCount;
         @BindView(R.id.btn_feedAnnotate) ImageButton btnAnnotate;
         @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
+        @BindView(R.id.layoutMultimediaContent) LinearLayout multimediaContent;
+
+        boolean isSet;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
+            isSet = false;
         }
     }
 
@@ -77,9 +81,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // The memory in the placement of the specific row.
-        final Memory memory = getItem(position);
-
         /*
          * ViewHolder is used to avoid instantiating a view for every item in your adapter,
          * when a view scrolls off-screen, it can be reused, or recycled.
@@ -102,7 +103,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         }
 
         // Sets the content of the view.
-        setViewContent(position, convertView, viewHolder, memory);
+        setViewContent(position, convertView, viewHolder);
         return convertView;
     }
 
@@ -110,9 +111,10 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      * Fill view with its content.
      *
      * @param viewHolder, the holder of view which will be displayed.
-     * @param memory: The meeting object which holds the content.
      */
-    private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder, final Memory memory) {
+    private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder) {
+        final Memory memory = dataSet.get(position);
+
         if(memory != null) {
             String username = "@" + memory.getOwner();
             String postedTime = "Posted on " + memory.getPosting_time();
@@ -155,54 +157,53 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 }
             });
 
+            if(!viewHolder.isSet) {
+                Multimedia[] multimedia = memory.getMultimedia();
+                for(Multimedia mm: multimedia) {
+                    String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
+                    int mediaType = mm.getMedia_type();
 
-            Multimedia[] multimedia = memory.getMultimedia();
-            for(Multimedia mm: multimedia) {
-                String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
-                int mediaType = mm.getMedia_type();
+                    if(mediaType == 1) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                        params.setMargins(0, 0, 10, 0);
 
-                if(mediaType == 1) {
-                    ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                    params.setMargins(0, 0, 10, 0);
+                        ImageView addImage = new ImageView(getContext());
+                        addImage.setLayoutParams(params);
+                        viewHolder.multimediaContent.addView(addImage);
 
-                    ImageView addImage = new ImageView(getContext());
-                    addImage.setLayoutParams(params);
-                    layout.addView(addImage);
-
-                    Picasso.get()
-                            .load(mediaURL)
-                            .into(addImage);
+                        Picasso.get().load(mediaURL).into(addImage);
+                    }
                 }
+
+                viewHolder.isSet = true;
             }
+        /*
+        ArrayList<Uri> memoryImage = memory.getMemoryImage();
+        ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
+        ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
 
-            /*
-            ArrayList<Uri> memoryImage = memory.getMemoryImage();
-            ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
-            ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
+        for(Uri selectedImage: memoryImage) {
+            ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+            params.setMargins(0, 0, 10, 0);
 
-            for(Uri selectedImage: memoryImage) {
-                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                params.setMargins(0, 0, 10, 0);
+            ImageView addImage = new ImageView(getContext());
+            addImage.setLayoutParams(params);
+            addImage.setImageURI(selectedImage);
+            layout.addView(addImage);
+        }
 
-                ImageView addImage = new ImageView(getContext());
-                addImage.setLayoutParams(params);
-                addImage.setImageURI(selectedImage);
-                layout.addView(addImage);
-            }
+        for(Uri selectedVideo: memoryVideo) {
+            ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+            params.setMargins(0, 0, 10, 0);
 
-            for(Uri selectedVideo: memoryVideo) {
-                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                params.setMargins(0, 0, 10, 0);
-
-                VideoView addVideo = new VideoView(getContext());
-                addVideo.setLayoutParams(params);
-                addVideo.setVideoURI(selectedVideo);
-                layout.addView(addVideo);
-            }
-            */
+            VideoView addVideo = new VideoView(getContext());
+            addVideo.setLayoutParams(params);
+            addVideo.setVideoURI(selectedVideo);
+            layout.addView(addVideo);
+        }
+        */
         }
     }
 }
