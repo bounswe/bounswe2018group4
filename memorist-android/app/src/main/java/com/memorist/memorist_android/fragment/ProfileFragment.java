@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        memories = new ArrayList<Memory>();
+        memories = new ArrayList<>();
         mListener.getUserMemoryList();
     }
 
@@ -71,9 +71,6 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mListener.getUserProfile();
-        adapter = new MemoryAdapter(memories, getContext());
-        lvProfileMemoryList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         return view;
     }
