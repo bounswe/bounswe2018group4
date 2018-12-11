@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tv_profileUsername) TextView tvProfileUsername;
     @BindView(R.id.tv_profileBio) TextView tvProfileEmail;
     @BindView(R.id.lv_profileMemoryList) ListView lvProfileMemoryList;
-    @BindView(R.id.tv_profilePostCount) TextView tvProfilePostCount;
+    @BindView(R.id.tv_profilePostCounter) TextView tvProfilePostCount;
 
     private OnFragmentInteractionListener mListener;
 
@@ -111,7 +111,7 @@ public class ProfileFragment extends Fragment {
         }
 
         adapter.notifyDataSetChanged();
-        tvProfilePostCount.setText(memoryList.size());
+        tvProfilePostCount.setText(String.valueOf(memoryList.size()));
     }
 
     /**

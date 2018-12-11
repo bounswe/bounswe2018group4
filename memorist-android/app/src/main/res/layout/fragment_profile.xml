@@ -8,7 +8,7 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_md"
         android:layout_marginStart="@dimen/margin_md"
         android:layout_marginEnd="@dimen/margin_md" >
@@ -131,14 +131,13 @@
                             android:background="@null" />
 
                         <TextView
-                            android:id="@+id/tv_profilePostCount"
+                            android:id="@+id/tv_profilePostCounter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_xs"
                             android:layout_gravity="center_vertical"
                             android:textSize="@dimen/textSizeBigMemory"
                             android:textColor="@color/black"
-                            android:text="0"
                             fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
 
                     </LinearLayout>
