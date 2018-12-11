@@ -93,10 +93,11 @@ public class ProfileFragment extends Fragment {
     }
 
     public void updateProfileInfo(String username, String firstname, String lastname, String email) {
-        String finaluser = "@" + username;
-        tvProfileUsername.setText(finaluser);
-        String name = firstname + " " + lastname;
-        tvProfileNameSurname.setText(name);
+        String userName = "@" + username;
+        String fullName = firstname + " " + lastname;
+
+        tvProfileUsername.setText(userName);
+        tvProfileNameSurname.setText(fullName);
         tvProfileEmail.setText(email);
     }
 
@@ -110,6 +111,7 @@ public class ProfileFragment extends Fragment {
         }
 
         adapter.notifyDataSetChanged();
+        tvProfilePostCount.setText(memoryList.size());
     }
 
     /**

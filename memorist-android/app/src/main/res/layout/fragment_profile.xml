@@ -103,7 +103,7 @@
                     android:layout_marginStart="@dimen/margin_md"
                     android:layout_marginEnd="@dimen/margin_md"
                     android:textSize="@dimen/textSizeSmallMemory"
-                    android:text="Birthday on April 27th"
+                    android:text="Birthday on 1997"
                     fontPath="fonts/HelvaticaNeue.ttf" />
 
                 <LinearLayout
