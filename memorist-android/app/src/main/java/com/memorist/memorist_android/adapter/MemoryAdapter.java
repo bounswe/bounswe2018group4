@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.Tag;
 import com.memorist.memorist_android.model.Text;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -123,10 +127,8 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
             StringBuilder tagBuilder = new StringBuilder();
             for(Tag tag: memory.getTags()) {
-                tagBuilder.append("#" + tag.getTag() + " ");
+                tagBuilder.append("#").append(tag.getTag().substring(tag.getTag().lastIndexOf(' ') + 1)).append(" ");
             }
-
-
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
@@ -153,16 +155,32 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 }
             });
 
-            // TODO : View image part..
+
+            Multimedia[] multimedia = memory.getMultimedia();
+            for(Multimedia mm: multimedia) {
+                String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
+                int mediaType = mm.getMedia_type();
+
+                if(mediaType == 1) {
+                    ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
+                    params.setMargins(0, 0, 10, 0);
+
+                    ImageView addImage = new ImageView(getContext());
+                    addImage.setLayoutParams(params);
+                    layout.addView(addImage);
+
+                    Picasso.get()
+                            .load(mediaURL)
+                            .into(addImage);
+                }
+            }
 
             /*
             ArrayList<Uri> memoryImage = memory.getMemoryImage();
             ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
             ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
-            ArrayList<String> memoryTags = memory.getMemoryTags();
-            */
 
-            /*
             for(Uri selectedImage: memoryImage) {
                 ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
