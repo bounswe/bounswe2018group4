@@ -55,6 +55,9 @@ public class FeedMemoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        memories = new ArrayList<>();
+        mListener.getUserMemoryList();
     }
 
     @Override
@@ -62,9 +65,6 @@ public class FeedMemoryFragment extends Fragment {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_feed_memory, container, false);
         ButterKnife.bind(this, view);
-
-        memories = new ArrayList<>();
-        mListener.getUserMemoryList();
 
         return view;
     }
