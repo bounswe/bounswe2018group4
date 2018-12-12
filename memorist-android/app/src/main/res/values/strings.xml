@@ -5,6 +5,17 @@
     <string name="recoverPasswordText">It\'s super easy to reconnect!</string>
     <string name="createMemoryText">Share your memory</string>
 
+    <string name="createCommentText">Share your comment</string>
+    <string name="commentStoryHint">Story</string>
+    <string name="commentTagsHint">Tags</string>
+    <string name="commentMentionedTimeHint">When?</string>
+    <string name="commentLocationHint">Where?</string>
+    <string name="btnCreateComment">Share</string>
+    <string name="postCommentButtonContentDescription">Post</string>
+    <string name="btnCancelComment">Cancel</string>
+    <string name="cancelCommentButtonContentDescription">Cancel</string>
+
+
     <string name="projectLogoContentDescription">Memorist</string>
     <string name="imageButtonContentDescription">Add image</string>
     <string name="videoButtonContentDescription">Add video</string>
