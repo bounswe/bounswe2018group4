@@ -104,7 +104,6 @@ class UserProfileAPIView(RetrieveAPIView):
 
 
 class GetUserProfileAPIView(RetrieveAPIView):
-    permission_classes = IsAuthenticated,
     serializer_class = ls.UserSerializer
 
     def get(self, request, *args, **kwargs):
