@@ -4,7 +4,7 @@ from login.views import *
 urlpatterns = [
     url(r'^login/$', LoginAPIView.as_view()),
     url(r'^register/$', RegisterAPIView.as_view()),
-    url(r'^verify_email/$', VerifyEmail.as_view()),
+    url(r'^verify_email/$', VerifyEmail.as_view(), name="emailverify"),
     url(r'^profile/$', UserProfileAPIView.as_view()),
     url(r'^get_profile/(?P<pk>\d+)/$', GetUserProfileAPIView.as_view()),
     url(r'^profile_update/$', UserProfileUpdateAPIView.as_view()),
