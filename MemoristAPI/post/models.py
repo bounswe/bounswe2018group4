@@ -3,16 +3,16 @@ from login import models as loginmodels
 from location_field.models.plain import PlainLocationField
 
 DECADE = (
-    (1, "10s"),
-    (2, "20s"),
-    (3, "30s"),
-    (4, "40s"),
-    (5, "50s"),
-    (6, "60s"),
-    (7, "70s"),
-    (8, "80s"),
-    (9, "90s"),
-    (0, "00s"),
+    (1, "1910s"),
+    (2, "1920s"),
+    (3, "1930s"),
+    (4, "1940s"),
+    (5, "1950s"),
+    (6, "1960s"),
+    (7, "1970s"),
+    (8, "1980s"),
+    (9, "1990s"),
+    (0, "1900s"),
 )
 MONTH = (
     (1, "Jenuary"),

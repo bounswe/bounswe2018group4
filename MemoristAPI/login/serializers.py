@@ -8,6 +8,8 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
 class UserSerializer(serializers.ModelSerializer):
+    photo = serializers.SerializerMethodField()
+
     class Meta:
         model = RegisteredUser
         fields = [
@@ -18,8 +20,15 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "gender",
             "location",
-            "activeEmail_status"
+            "activeEmail_status",
+            "photo"
         ]
+
+    def get_photo(self, obj):
+        photo = ProfilePhoto.objects.filter(user=obj.id)
+        if photo.exists():
+            return photo.first().image
+        return None
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
