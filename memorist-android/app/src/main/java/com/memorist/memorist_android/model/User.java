@@ -27,19 +27,32 @@ public class User extends RealmObject {
     private String email;
 
     @Expose
+    private String gender;
+
+    @Expose
+    private String location;
+
+    @Expose
+    private String photo;
+
+    @Expose
     private boolean activeEmail_status;
 
     public User() {
         // Requires empty constructor...
     }
 
-    public User(long id, String username, String first_name, String last_name, String email, boolean activeEmail_status) {
+    public User(long id, String username, String first_name, String last_name, String email, boolean activeEmail_status,
+                String gender, String location, String photo) {
         this.id = id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.activeEmail_status = activeEmail_status;
+        this.gender = gender;
+        this.location = location;
+        this.photo = photo;
     }
 
     public long getId() {
@@ -88,5 +101,29 @@ public class User extends RealmObject {
 
     public void setActiveEmail_status(boolean activeEmail_status) {
         this.activeEmail_status = activeEmail_status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
