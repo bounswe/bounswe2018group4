@@ -110,7 +110,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      */
     private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
-            String username = "@" + memory.getOwner();
+            String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about " + "???";
             String location = "Place is " + "???";
@@ -125,8 +125,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             for(Tag tag: memory.getTags()) {
                 tagBuilder.append("#" + tag.getTag());
             }
-
-
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
