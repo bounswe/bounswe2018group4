@@ -68,7 +68,6 @@ class MemorySerializer(serializers.ModelSerializer):
             "liked_users"
         ]
 
-
     def get_posting_time(self, obj):
         return dateFormat_hour(obj.posting_time)
 
@@ -91,6 +90,7 @@ class Memory1Serializer(serializers.ModelSerializer):
     texts = serializers.SerializerMethodField()
     multimedia = serializers.SerializerMethodField()
     posting_time = serializers.SerializerMethodField()
+    numcomments = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Memory
@@ -104,12 +104,16 @@ class Memory1Serializer(serializers.ModelSerializer):
             "tags",
             "numlikes",
             "comments",
+            "numcomments",
             "pointlocations",
             "pathlocations",
             "mentioned_time",
             "mentioned_time_period",
             "liked_users"
         ]
+
+    def get_numcomments(self, obj):
+        return obj.comments.all().count()
 
     def get_owner(self, obj):
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
