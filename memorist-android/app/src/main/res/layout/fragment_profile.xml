@@ -1,234 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_md"
+    android:layout_marginStart="@dimen/margin_md"
+    android:layout_marginEnd="@dimen/margin_md" >
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:id="@+id/mc_profileCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_md"
-        android:layout_marginStart="@dimen/margin_md"
-        android:layout_marginEnd="@dimen/margin_md" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_sm"
+        android:layout_marginBottom="@dimen/margin_sm"
+        android:paddingStart="@dimen/padding_md"
+        android:paddingEnd="@dimen/padding_md"
+        android:paddingBottom="@dimen/padding_md"
+        android:paddingTop="@dimen/padding_md" >
 
-        <android.support.design.card.MaterialCardView
-            style="@style/Widget.MaterialComponents.CardView"
-            android:id="@+id/mc_profileCard"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_sm"
-            android:layout_marginBottom="@dimen/margin_sm"
-            android:paddingStart="@dimen/padding_md"
-            android:paddingEnd="@dimen/padding_md"
-            android:paddingBottom="@dimen/padding_md"
-            android:paddingTop="@dimen/padding_md" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_profileProfilePicture"
+                    android:layout_width="@dimen/heightMemoryOwnerAvatar"
+                    android:layout_height="@dimen/heightMemoryOwnerAvatar"
+                    android:contentDescription="@string/feedProfilePictureContentDescription"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_md"
                     android:layout_marginStart="@dimen/margin_md"
                     android:layout_marginEnd="@dimen/margin_md"
-                    android:orientation="horizontal" >
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical" >
 
-                    <ImageView
-                        android:id="@+id/iv_profileProfilePicture"
-                        android:layout_width="@dimen/heightMemoryOwnerAvatar"
-                        android:layout_height="@dimen/heightMemoryOwnerAvatar"
-                        android:src="@drawable/avatar_icon"
-                        android:contentDescription="@string/feedProfilePictureContentDescription"/>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_profileNameSurname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_md"
-                        android:layout_marginEnd="@dimen/margin_md"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical" >
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/textSizeBigMemory"
+                        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
-                        <TextView
-                            android:id="@+id/tv_profileNameSurname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/textSizeBigMemory"
-                            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
-
-                        <TextView
-                            android:id="@+id/tv_profileUsername"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/textSizeBigMemory"
-                            fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_profileBio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_md"
-                    android:layout_marginStart="@dimen/margin_md"
-                    android:layout_marginEnd="@dimen/margin_md"
-                    android:textSize="@dimen/textSizeSmallMemory"
-                    fontPath="fonts/HelvaticaNeue.ttf" />
-
-                <TextView
-                    android:id="@+id/tv_profileCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_md"
-                    android:layout_marginStart="@dimen/margin_md"
-                    android:layout_marginEnd="@dimen/margin_md"
-                    android:textSize="@dimen/textSizeSmallMemory"
-                    android:text="Lives in Istanbul, Turkey"
-                    fontPath="fonts/HelvaticaNeue.ttf" />
-
-                <TextView
-                    android:id="@+id/tv_profileBirthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_md"
-                    android:layout_marginEnd="@dimen/margin_md"
-                    android:textSize="@dimen/textSizeSmallMemory"
-                    android:text="Birthday on April 27th"
-                    fontPath="fonts/HelvaticaNeue.ttf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_md"
-                    android:layout_marginStart="@dimen/margin_md"
-                    android:layout_marginEnd="@dimen/margin_md"
-                    android:layout_marginBottom="@dimen/margin_md"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_profileUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:id="@+id/iv_profilePostIcon"
-                            android:layout_width="@dimen/heightMemoryButton"
-                            android:layout_height="@dimen/heightMemoryButton"
-                            android:src="@drawable/posts_icon"
-                            android:scaleType="fitCenter"
-                            android:background="@null" />
-
-                        <TextView
-                            android:id="@+id/tv_profilePostCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_xs"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="@dimen/textSizeBigMemory"
-                            android:textColor="@color/black"
-                            android:text="0"
-                            fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <ImageButton
-                            android:id="@+id/btn_profileFollowers"
-                            android:layout_width="@dimen/heightMemoryButton"
-                            android:layout_height="@dimen/heightMemoryButton"
-                            android:src="@drawable/followers_icon"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:contentDescription="@string/btnCommentsContentDescription"/>
-
-                        <TextView
-                            android:id="@+id/btn_profileFollowersCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_xs"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="@dimen/textSizeBigMemory"
-                            android:textColor="@color/black"
-                            android:text="0"
-                            fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal" >
-
-                        <ImageButton
-                            android:id="@+id/btn_profileFollowings"
-                            android:layout_width="@dimen/heightMemoryButton"
-                            android:layout_height="@dimen/heightMemoryButton"
-                            android:src="@drawable/followers_icon"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:contentDescription="@string/btnAnnotationContentDescription" />
-
-                        <TextView
-                            android:id="@+id/tv_profileFollowingsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_xs"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="@dimen/textSizeBigMemory"
-                            android:textColor="@color/black"
-                            android:text="0"
-                            fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                    </LinearLayout>
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/textSizeBigMemory"
+                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </android.support.design.card.MaterialCardView>
+            <TextView
+                android:id="@+id/tv_profileCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:textSize="@dimen/textSizeSmallMemory"
+                android:visibility="gone"
+                fontPath="fonts/HelvaticaNeue.ttf" />
 
-        <TextView
-            android:id="@+id/tv_profileYourPosts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_marginStart="@dimen/margin_md"
-            android:layout_marginEnd="@dimen/margin_md"
-            android:layout_below="@+id/mc_profileCard"
-            android:gravity="center"
-            android:textSize="@dimen/registerWelcomeTextSize"
-            android:text="~ Your Memories ~"
-            fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+            <TextView
+                android:id="@+id/tv_profileGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:textSize="@dimen/textSizeSmallMemory"
+                android:visibility="gone"
+                fontPath="fonts/HelvaticaNeue.ttf" />
 
-        <ListView
-            android:id="@+id/lv_profileMemoryList"
-            android:layout_width="match_parent"
-            android:layout_height="3000dp"
-            android:layout_marginTop="@dimen/margin_md"
-            android:layout_below="@+id/tv_profileYourPosts"
-            android:scrollbars="none"
-            android:divider="@null" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-    </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
 
-</ScrollView>
+                    <ImageView
+                        android:id="@+id/iv_profilePostIcon"
+                        android:layout_width="@dimen/heightMemoryButton"
+                        android:layout_height="@dimen/heightMemoryButton"
+                        android:src="@drawable/posts_icon"
+                        android:scaleType="fitCenter"
+                        android:background="@null"
+                        android:contentDescription="@string/profilePostIconContentDescription"/>
+
+                    <TextView
+                        android:id="@+id/tv_profilePostCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xs"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/textSizeBigMemory"
+                        android:textColor="@color/black"
+                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <ImageButton
+                        android:id="@+id/btn_profileFollowers"
+                        android:layout_width="@dimen/heightMemoryButton"
+                        android:layout_height="@dimen/heightMemoryButton"
+                        android:src="@drawable/followers_icon"
+                        android:scaleType="fitCenter"
+                        android:background="@null"
+                        android:contentDescription="@string/btnCommentsContentDescription"/>
+
+                    <TextView
+                        android:id="@+id/btn_profileFollowersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xs"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/textSizeBigMemory"
+                        android:textColor="@color/black"
+                        android:text="0"
+                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <ImageButton
+                        android:id="@+id/btn_profileFollowings"
+                        android:layout_width="@dimen/heightMemoryButton"
+                        android:layout_height="@dimen/heightMemoryButton"
+                        android:src="@drawable/followers_icon"
+                        android:scaleType="fitCenter"
+                        android:background="@null"
+                        android:contentDescription="@string/btnAnnotationContentDescription" />
+
+                    <TextView
+                        android:id="@+id/tv_profileFollowingsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xs"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/textSizeBigMemory"
+                        android:textColor="@color/black"
+                        android:text="0"
+                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_profileYourPosts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:layout_below="@+id/mc_profileCard"
+        android:gravity="center"
+        android:textSize="@dimen/registerWelcomeTextSize"
+        android:text="@string/profileMemoryList"
+        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+    <ListView
+        android:id="@+id/lv_profileMemoryList"
+        android:layout_width="match_parent"
+        android:layout_height="3000dp"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_below="@+id/tv_profileYourPosts"
+        android:scrollbars="none"
+        android:divider="@null" />
+
+</RelativeLayout>
