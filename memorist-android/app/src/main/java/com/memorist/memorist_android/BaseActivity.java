@@ -10,15 +10,29 @@ abstract class BaseActivity extends AppCompatActivity {
 
     protected void showIndicator() {
         hud = new KProgressHUD(this);
-        hud.setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-            .setLabel("Please wait")
-            .setCancellable(false)
-            .setAnimationSpeed(2)
-            .setDimAmount(0.5f)
-            .show();
+        hud.setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
+                .setLabel("Please Wait")
+                .setCancellable(false)
+                .setMaxProgress(100)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+    }
+
+    protected void setIndicatorDetail(String indicatorDetail) {
+        if(hud != null) {
+            hud.setDetailsLabel(indicatorDetail);
+        }
+    }
+
+    protected void setProgressDetail(int progress) {
+        if(hud != null) {
+            hud.setProgress(progress);
+        }
     }
 
     protected void hideIndicator() {
         hud.dismiss();
+        hud = null;
     }
 }
