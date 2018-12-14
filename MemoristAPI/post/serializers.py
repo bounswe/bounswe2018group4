@@ -43,6 +43,12 @@ class MemoryItemMultimediaSerializer(serializers.ModelSerializer):
         return MemoryMultimediaUploadSerializer(multimedia).data
 
 
+class MemoryCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MemoryComment
+        fields = "__all__"
+
+
 class MemorySerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
     texts = serializers.SerializerMethodField()
@@ -91,6 +97,7 @@ class Memory1Serializer(serializers.ModelSerializer):
     multimedia = serializers.SerializerMethodField()
     posting_time = serializers.SerializerMethodField()
     numcomments = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Memory
@@ -115,6 +122,10 @@ class Memory1Serializer(serializers.ModelSerializer):
     def get_numcomments(self, obj):
         return obj.comments.all().count()
 
+    def get_comments(self, obj):
+        comments = obj.comments.all()
+        return MemoryCommentSerializer(comments, many=True).data
+
     def get_owner(self, obj):
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
         owner = owner.username
@@ -134,12 +145,6 @@ class Memory1Serializer(serializers.ModelSerializer):
     def get_tags(self, obj):
         tags = models.MemoryTag.objects.filter(memory=obj.id)
         return MemoryTagSerializer(tags, many=True).data
-
-
-class MemoryCommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.MemoryComment
-        fields = "__all__"
 
 
 class MemoryMultimediaSerializer(serializers.ModelSerializer):
