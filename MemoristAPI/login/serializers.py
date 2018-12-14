@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_photo(self, obj):
         photo = ProfilePhoto.objects.filter(user=obj.id)
         if photo.exists():
-            return photo.first().image
+            return photo.first().image.__str__()
         return None
 
 
