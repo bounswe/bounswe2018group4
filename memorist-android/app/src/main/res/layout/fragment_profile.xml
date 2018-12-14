@@ -169,7 +169,7 @@
                         android:id="@+id/btn_profileFollowings"
                         android:layout_width="@dimen/heightMemoryButton"
                         android:layout_height="@dimen/heightMemoryButton"
-                        android:src="@drawable/followers_icon"
+                        android:src="@drawable/following_icon"
                         android:scaleType="fitCenter"
                         android:background="@null"
                         android:contentDescription="@string/btnAnnotationContentDescription" />
