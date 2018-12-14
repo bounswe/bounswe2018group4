@@ -73,6 +73,7 @@ class MentionedTimePeriod(models.Model):
 class MemoryComment(models.Model):
     owner = models.ForeignKey(loginmodels.RegisteredUser, on_delete=models.CASCADE)
     comment = models.CharField(max_length=500, null=False, blank=False)
+    comment_time = models.DateTimeField(auto_now_add=True, editable=False)
 
 
 class Memory(models.Model):

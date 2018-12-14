@@ -43,10 +43,43 @@ class MemoryItemMultimediaSerializer(serializers.ModelSerializer):
         return MemoryMultimediaUploadSerializer(multimedia).data
 
 
+class OwnerSerializer(serializers.ModelSerializer):
+    photo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = lm.RegisteredUser
+        fields = [
+            "id",
+            "username",
+            "photo"
+        ]
+
+    def get_photo(self, obj):
+        photo = lm.ProfilePhoto.objects.filter(user=obj.id)
+        if photo.exists():
+            return photo.first().image.__str__()
+        return None
+
+
 class MemoryCommentSerializer(serializers.ModelSerializer):
+    owner = serializers.SerializerMethodField()
+    comment_time = serializers.SerializerMethodField()
+
     class Meta:
         model = models.MemoryComment
-        fields = "__all__"
+        fields = [
+            "id",
+            "comment",
+            "owner",
+            "comment_time"
+        ]
+
+    def get_owner(self, obj):
+        owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
+        return OwnerSerializer(owner).data
+
+    def get_comment_time(self, obj):
+        return dateFormat_hour(obj.comment_time)
 
 
 class MemorySerializer(serializers.ModelSerializer):
@@ -98,6 +131,7 @@ class Memory1Serializer(serializers.ModelSerializer):
     posting_time = serializers.SerializerMethodField()
     numcomments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
+    #liked_users = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Memory
@@ -119,6 +153,10 @@ class Memory1Serializer(serializers.ModelSerializer):
             "liked_users"
         ]
 
+    # def get_liked_users(self, obj):
+    #     users = obj.liked_users.all()
+    #     return OwnerSerializer(users, many=True).data
+
     def get_numcomments(self, obj):
         return obj.comments.all().count()
 
@@ -128,8 +166,7 @@ class Memory1Serializer(serializers.ModelSerializer):
 
     def get_owner(self, obj):
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
-        owner = owner.username
-        return owner
+        return OwnerSerializer(owner).data
 
     def get_posting_time(self, obj):
         return dateFormat_hour(obj.posting_time)
