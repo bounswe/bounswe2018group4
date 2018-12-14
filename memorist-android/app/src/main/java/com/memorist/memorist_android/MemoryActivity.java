@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
+import com.memorist.memorist_android.fragment.EditProfileFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
@@ -40,13 +41,15 @@ public class MemoryActivity extends BaseActivity
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
-        ProfileFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener,
+EditProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
     private final String TAG_SEARCH_MEMORY_FRAGMENT = "fragment_search_memory";
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
+    private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -147,6 +150,22 @@ public class MemoryActivity extends BaseActivity
     @Override
     public void memoryCanceled() {
         onBackPressed();
+    }
+
+    @Override
+    public void proceedProfileEdit() {
+        EditProfileFragment fragment = EditProfileFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                        .enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_EDIT_PROFILE)
+                .addToBackStack(TAG_EDIT_PROFILE)
+                .commit();
+    }
+
+    @Override
+    public void getUserProfileForEdit() {
+        MemoristApi.getProfile(SharedPrefHelper.getUserToken(getApplicationContext()), getUserProfileForEditListener, getUserProfileErrorListener);
     }
 
     @OnClick(R.id.btn_memoristHome)
@@ -300,6 +319,16 @@ public class MemoryActivity extends BaseActivity
             ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
             if(fragment != null) {
                 fragment.updateProfileInfo(response.getUsername(), response.getFirst_name(), response.getLast_name(), response.getEmail());
+            }
+        }
+    };
+
+    private Response.Listener<ApiResultProfile> getUserProfileForEditListener = new Response.Listener<ApiResultProfile>() {
+        @Override
+        public void onResponse(ApiResultProfile response) {
+            EditProfileFragment fragment = (EditProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_EDIT_PROFILE);
+            if(fragment != null) {
+                fragment.updateProfileInfo(response);
             }
         }
     };
