@@ -3,6 +3,7 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.memorist.memorist_android.MemoryActivity;
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Tag;
 import com.memorist.memorist_android.model.Text;
@@ -21,7 +24,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MemoryAdapter extends ArrayAdapter<Memory> {
+public class MemoryAdapter extends ArrayAdapter<Memory>
+implements FeedCommentFragment.OnFragmentInteractionListener {
 
     // The container list of all existing meeting data objects.
     private ArrayList<Memory> dataSet;
@@ -108,7 +112,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      * @param viewHolder, the holder of view which will be displayed.
      * @param memory: The meeting object which holds the content.
      */
-    private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder, final Memory memory) {
+    private void setViewContent(int position, @Nullable final View convertView, final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
             String username = "@" + memory.getOwner();
             String postedTime = "Posted on " + memory.getPosting_time();
@@ -125,8 +129,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             for(Tag tag: memory.getTags()) {
                 tagBuilder.append("#" + tag.getTag());
             }
-
-
 
             viewHolder.tvFeedUsername.setText(username);
             viewHolder.tvFeedPostedTime.setText(postedTime);
@@ -150,6 +152,19 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                         viewHolder.tvLikeCount.setText("0");
                         viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.nolike_icon));
                     }
+                }
+            });
+
+            viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MemoryActivity activity = (MemoryActivity) convertView.getContext();
+                    Fragment fragment = FeedCommentFragment.newInstance();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                            .replace(R.id.memoryFragmentContent, fragment, activity.TAG_FEED_COMMENT_FRAGMENT)
+                            .addToBackStack(activity.TAG_FEED_COMMENT_FRAGMENT)
+                            .commit();
                 }
             });
 
@@ -186,5 +201,10 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             }
             */
         }
+    }
+
+    @Override
+    public void getUserCommentList() {
+
     }
 }

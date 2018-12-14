@@ -20,8 +20,7 @@ import butterknife.ButterKnife;
 
 public class FeedCommentFragment extends Fragment {
 
-    @BindView(R.id.lv_commentList)
-    ListView lvCommentList;
+    @BindView(R.id.lv_commentList) ListView lvCommentList;
 
     private FeedCommentFragment.OnFragmentInteractionListener mListener;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +8,27 @@
     android:layout_marginTop="@dimen/margin_md"
     android:layout_marginStart="@dimen/margin_md"
     android:layout_marginEnd="@dimen/margin_md"
+    android:orientation="vertical"
     tools:context=".fragment.FeedCommentFragment" >
 
     <ListView
         android:id="@+id/lv_commentList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none"
         android:divider="@null">
 
     </ListView>
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/et_commentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_createComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment"/>
+
+</LinearLayout>

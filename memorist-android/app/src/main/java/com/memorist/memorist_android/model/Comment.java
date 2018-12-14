@@ -8,35 +8,24 @@ public class Comment {
     private int id;
 
     @Expose
-    private String owner;
+    private int owner;
 
     @Expose
     private String posting_time;
 
     @Expose
-    private String title;
+    private String owner_name;
 
     @Expose
-    private Text[] texts;
+    private String comment;
 
-    @Expose
-    private Multimedia[] multimedia;
 
-    @Expose
-    private Tag[] tags;
-
-    @Expose
-    private int numlikes;
-
-    public Comment(int id, String owner, String posting_time, String title, Text[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
+    public Comment(int id, int owner, String posting_time, String owner_name, String comment) {
         this.id = id;
         this.owner = owner;
         this.posting_time = posting_time;
-        this.title = title;
-        this.texts = texts;
-        this.multimedia = multimedia;
-        this.tags = tags;
-        this.numlikes = numlikes;
+        this.owner_name = owner_name;
+        this.comment = comment;
     }
 
     public int getId() {
@@ -47,11 +36,11 @@ public class Comment {
         this.id = id;
     }
 
-    public String getOwner() {
+    public int getOwner() {
         return owner;
     }
 
-    public void setOwner(String ownerid) {
+    public void setOwner(int ownerid) {
         this.owner = ownerid;
     }
 
@@ -63,43 +52,19 @@ public class Comment {
         this.posting_time = posting_time;
     }
 
-    public String getTitle() {
-        return title;
+    public String getOwnerName() {
+        return owner_name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setOwnerName(String cOwnerName) {
+        this.owner_name = cOwnerName;
     }
 
-    public Multimedia[] getMultimedia() {
-        return multimedia;
+    public String getComment() {
+        return comment;
     }
 
-    public void setMultimedia(Multimedia[] multimedia) {
-        this.multimedia = multimedia;
-    }
-
-    public Tag[] getTags() {
-        return tags;
-    }
-
-    public void setTags(Tag[] tags) {
-        this.tags = tags;
-    }
-
-    public int getNumlikes() {
-        return numlikes;
-    }
-
-    public void setNumlikes(int numlikes) {
-        this.numlikes = numlikes;
-    }
-
-    public Text[] getTexts() {
-        return texts;
-    }
-
-    public void setTexts(Text[] texts) {
-        this.texts = texts;
+    public void setComment(String commentText) {
+        this.comment = commentText;
     }
 }

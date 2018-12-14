@@ -34,23 +34,17 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
      * All components are constructed.
      */
     static class ViewHolder {
-        @BindView(R.id.iv_feedProfilePicture)
-        ImageView ivFeedProfilePicture;
-        @BindView(R.id.tv_feedUsername)
-        TextView tvFeedUsername;
-        @BindView(R.id.tv_feedPostedTime) TextView tvFeedPostedTime;
-        @BindView(R.id.tv_feedMentionedTime) TextView tvFeedMentionedTime;
-        @BindView(R.id.tv_feedLocation) TextView tvFeedLocation;
-        @BindView(R.id.tv_feedTitle) TextView tvFeedTitle;
-        @BindView(R.id.tv_feedStory) TextView tvFeedStory;
-        @BindView(R.id.tv_feedTags) TextView tvFeedTags;
-        @BindView(R.id.btn_feedLike)
-        ImageButton btnLike;
-        @BindView(R.id.tv_likeCount) TextView tvLikeCount;
-        @BindView(R.id.btn_feedComment) ImageButton btnComment;
-        @BindView(R.id.tv_commentCount) TextView tvCommentCount;
-        @BindView(R.id.btn_feedAnnotate) ImageButton btnAnnotate;
-        @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
+        @BindView(R.id.iv_commentProfilePicture)
+        ImageView ivCommentProfilePicture;
+
+        @BindView(R.id.tv_commentUsername)
+        TextView tvCommentUsername;
+
+        @BindView(R.id.tv_commentPostedTime)
+        TextView tvCommentPostedTime;
+
+        @BindView(R.id.tv_commentText)
+        TextView tvCommentText;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -113,81 +107,14 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
      */
     private void setViewContent(int position, @Nullable View convertView, final CommentAdapter.ViewHolder viewHolder, final Comment comment) {
         if(comment != null) {
-            String username = "@" + comment.getOwner();
+            String username = "@" + comment.getOwnerName();
             String postedTime = "Posted on " + comment.getPosting_time();
-            String mentionedTime = "Mentions about " + "???";
-            String location = "Place is " + "???";
-            String title = comment.getTitle();
+            String text= comment.getComment();
+            int ownerID= comment.getOwner();
 
-            StringBuilder storyBuilder = new StringBuilder();
-            for(Text text: comment.getTexts()) {
-                storyBuilder.append(text.getText());
-            }
-
-            StringBuilder tagBuilder = new StringBuilder();
-            for(Tag tag: comment.getTags()) {
-                tagBuilder.append("#" + tag.getTag());
-            }
-
-
-
-            viewHolder.tvFeedUsername.setText(username);
-            viewHolder.tvFeedPostedTime.setText(postedTime);
-            viewHolder.tvFeedMentionedTime.setText(mentionedTime);
-            viewHolder.tvFeedLocation.setText(location);
-            viewHolder.tvFeedTitle.setText(title);
-            viewHolder.tvFeedStory.setText(storyBuilder.toString());
-            viewHolder.tvFeedTags.setText(tagBuilder.toString());
-
-            if(comment.getNumlikes() != 0) {
-                viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeComment));
-            }
-
-            viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(comment.getNumlikes() == 0) {
-                        viewHolder.tvLikeCount.setText("1");
-                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
-                    } else {
-                        viewHolder.tvLikeCount.setText("0");
-                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.nolike_icon));
-                    }
-                }
-            });
-
-            // TODO : View image part..
-
-            /*
-            ArrayList<Uri> commentImage = comment.getCommentImage();
-            ArrayList<Uri> commentVideo = comment.getCommentVideo();
-            ArrayList<Uri> commentAudio = comment.getCommentAudio();
-            ArrayList<String> commentTags = comment.getCommentTags();
-            */
-
-            /*
-            for(Uri selectedImage: commentImage) {
-                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                params.setMargins(0, 0, 10, 0);
-
-                ImageView addImage = new ImageView(getContext());
-                addImage.setLayoutParams(params);
-                addImage.setImageURI(selectedImage);
-                layout.addView(addImage);
-            }
-
-            for(Uri selectedVideo: commentVideo) {
-                ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                params.setMargins(0, 0, 10, 0);
-
-                VideoView addVideo = new VideoView(getContext());
-                addVideo.setLayoutParams(params);
-                addVideo.setVideoURI(selectedVideo);
-                layout.addView(addVideo);
-            }
-            */
+            viewHolder.tvCommentUsername.setText(username);
+            viewHolder.tvCommentPostedTime.setText(postedTime);
+            viewHolder.tvCommentText.setText(text);
         }
     }
 }

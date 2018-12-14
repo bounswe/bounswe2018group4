@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
+import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
@@ -41,6 +42,7 @@ public class MemoryActivity extends AppCompatActivity
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
+        FeedCommentFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -48,6 +50,7 @@ public class MemoryActivity extends AppCompatActivity
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
+    public final String TAG_FEED_COMMENT_FRAGMENT = "fragment_feed_comment";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -301,4 +304,9 @@ public class MemoryActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
         }
     };
+
+    @Override
+    public void getUserCommentList() {
+
+    }
 }
