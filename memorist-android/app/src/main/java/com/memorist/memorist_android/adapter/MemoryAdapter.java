@@ -116,7 +116,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         final Memory memory = dataSet.get(position);
 
         if(memory != null) {
-            String username = "@" + memory.getOwner();
+            String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about " + "???";
             String location = "Place is " + "???";
