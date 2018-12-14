@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,6 +96,11 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
+    @OnClick(R.id.btn_editProfile)
+    public void editProfileClicked(View view) {
+        mListener.proceedProfileEdit();
+    }
+
     public void updateProfileInfo(String username, String firstname, String lastname, String email) {
         String finaluser = "@" + username;
         tvProfileUsername.setText(finaluser);
@@ -128,5 +134,6 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void getUserProfile();
         void getUserMemoryList();
+        void proceedProfileEdit();
     }
 }
