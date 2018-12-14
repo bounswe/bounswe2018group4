@@ -52,8 +52,6 @@
     <string name="btnRegisterSend">Sign Up</string>
     <string name="btnRecoverPassword">Save Me!</string>
 
-    <string name="profileMemoryList">~ Your Memories ~</string>
-
     <string-array name="search_list">
         <item>Search by keyword</item>
         <item>Search by location</item>

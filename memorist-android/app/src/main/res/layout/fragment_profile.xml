@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/margin_md"
     android:layout_marginStart="@dimen/margin_md"
-    android:layout_marginEnd="@dimen/margin_md" >
+    android:layout_marginEnd="@dimen/margin_md"
+    android:orientation="vertical" >
 
     <android.support.design.card.MaterialCardView
         style="@style/Widget.MaterialComponents.CardView"
@@ -192,26 +193,12 @@
 
     </android.support.design.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/tv_profileYourPosts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_md"
-        android:layout_marginStart="@dimen/margin_md"
-        android:layout_marginEnd="@dimen/margin_md"
-        android:layout_below="@+id/mc_profileCard"
-        android:gravity="center"
-        android:textSize="@dimen/registerWelcomeTextSize"
-        android:text="@string/profileMemoryList"
-        fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
-
     <ListView
         android:id="@+id/lv_profileMemoryList"
         android:layout_width="match_parent"
-        android:layout_height="3000dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_md"
-        android:layout_below="@+id/tv_profileYourPosts"
         android:scrollbars="none"
         android:divider="@null" />
 
-</RelativeLayout>
+</LinearLayout>
