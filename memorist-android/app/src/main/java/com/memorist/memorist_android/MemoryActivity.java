@@ -146,7 +146,7 @@ public class MemoryActivity extends BaseActivity
 
     @Override
     public void memoryCanceled() {
-        onBackPressed();
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
     }
 
     @OnClick(R.id.btn_memoristHome)
