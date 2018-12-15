@@ -108,6 +108,18 @@
                 android:textSize="@dimen/textSizeSmallMemory"
                 fontPath="fonts/HelvaticaNeue.ttf" />
 
+            <TextView
+                android:id="@+id/tv_feedTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:textColor="@color/tagColor"
+                android:textStyle="bold"
+                android:textSize="@dimen/textSizeBigMemory"
+                fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
+
             <HorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,24 +138,84 @@
                         android:id="@+id/layoutMultimediaContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal"
+                        android:showDividers="none" >
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia1"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia2"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia3"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia4"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia5"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia6"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia7"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia8"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia9"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_memoryMultimedia10"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_marginEnd="@dimen/margin_sm"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
                 </android.support.design.card.MaterialCardView>
 
             </HorizontalScrollView>
-
-            <TextView
-                android:id="@+id/tv_feedTags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_md"
-                android:layout_marginEnd="@dimen/margin_md"
-                android:textColor="@color/tagColor"
-                android:textStyle="bold"
-                android:textSize="@dimen/textSizeBigMemory"
-                fontPath="fonts/HelvaticaNeueCondensedBold.ttf"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

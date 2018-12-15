@@ -3,6 +3,7 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +55,19 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
         @BindView(R.id.layoutMultimediaContent) LinearLayout multimediaContent;
 
-        boolean isSet;
+        @BindView(R.id.iv_memoryMultimedia1) ImageView memoryMultimedia1;
+        @BindView(R.id.iv_memoryMultimedia2) ImageView memoryMultimedia2;
+        @BindView(R.id.iv_memoryMultimedia3) ImageView memoryMultimedia3;
+        @BindView(R.id.iv_memoryMultimedia4) ImageView memoryMultimedia4;
+        @BindView(R.id.iv_memoryMultimedia5) ImageView memoryMultimedia5;
+        @BindView(R.id.iv_memoryMultimedia6) ImageView memoryMultimedia6;
+        @BindView(R.id.iv_memoryMultimedia7) ImageView memoryMultimedia7;
+        @BindView(R.id.iv_memoryMultimedia8) ImageView memoryMultimedia8;
+        @BindView(R.id.iv_memoryMultimedia9) ImageView memoryMultimedia9;
+        @BindView(R.id.iv_memoryMultimedia10) ImageView memoryMultimedia10;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
-            isSet = false;
         }
     }
 
@@ -103,7 +112,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         }
 
         // Sets the content of the view.
-        setViewContent(position, convertView, viewHolder);
+        setViewContent(viewHolder, getItem(position));
         return convertView;
     }
 
@@ -112,9 +121,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      *
      * @param viewHolder, the holder of view which will be displayed.
      */
-    private void setViewContent(int position, @Nullable View convertView, final ViewHolder viewHolder) {
-        final Memory memory = dataSet.get(position);
-
+    private void setViewContent(ViewHolder viewHolder, Memory memory) {
         if(memory != null) {
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
@@ -140,70 +147,48 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             viewHolder.tvFeedStory.setText(storyBuilder.toString());
             viewHolder.tvFeedTags.setText(tagBuilder.toString());
 
-            if(memory.getNumlikes() != 0) {
-                viewHolder.btnLike.setBackgroundColor(context.getResources().getColor(R.color.likeMemory));
-            }
+            Multimedia[] multimedia = memory.getMultimedia();
+            int mediaCounter = 1;
 
-            viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(memory.getNumlikes() == 0) {
-                        viewHolder.tvLikeCount.setText("1");
-                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.yeslike_icon));
-                    } else {
-                        viewHolder.tvLikeCount.setText("0");
-                        viewHolder.btnLike.setImageDrawable(context.getResources().getDrawable(R.drawable.nolike_icon));
+            for(Multimedia mm: multimedia) {
+                String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
+                int mediaType = mm.getMedia_type();
+
+                if(mediaType == 1) {
+                    switch (mediaCounter) {
+                        case 1:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia1);
+                            viewHolder.memoryMultimedia1.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia2);
+                            viewHolder.memoryMultimedia2.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia3);
+                            viewHolder.memoryMultimedia3.setVisibility(View.VISIBLE);
+                            break;
+                        case 4:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia4);
+                            viewHolder.memoryMultimedia4.setVisibility(View.VISIBLE);
+                            break;
+                        case 5:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia5);
+                            viewHolder.memoryMultimedia5.setVisibility(View.VISIBLE);
+                            break;
+                        case 6:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia6);
+                            viewHolder.memoryMultimedia6.setVisibility(View.VISIBLE);
+                            break;
+                        case 7:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia7);
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
                     }
+
+                    mediaCounter++;
                 }
-            });
-
-            if(!viewHolder.isSet) {
-                Multimedia[] multimedia = memory.getMultimedia();
-                for(Multimedia mm: multimedia) {
-                    String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
-                    int mediaType = mm.getMedia_type();
-
-                    if(mediaType == 1) {
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-                        params.setMargins(0, 0, 10, 0);
-
-                        ImageView addImage = new ImageView(getContext());
-                        addImage.setLayoutParams(params);
-                        viewHolder.multimediaContent.addView(addImage);
-
-                        Picasso.get().load(mediaURL).into(addImage);
-                    }
-                }
-
-                viewHolder.isSet = true;
             }
-        /*
-        ArrayList<Uri> memoryImage = memory.getMemoryImage();
-        ArrayList<Uri> memoryVideo = memory.getMemoryVideo();
-        ArrayList<Uri> memoryAudio = memory.getMemoryAudio();
-
-        for(Uri selectedImage: memoryImage) {
-            ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-            params.setMargins(0, 0, 10, 0);
-
-            ImageView addImage = new ImageView(getContext());
-            addImage.setLayoutParams(params);
-            addImage.setImageURI(selectedImage);
-            layout.addView(addImage);
-        }
-
-        for(Uri selectedVideo: memoryVideo) {
-            ViewGroup layout = (ViewGroup) convertView.findViewById(R.id.layoutMultimediaContent);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
-            params.setMargins(0, 0, 10, 0);
-
-            VideoView addVideo = new VideoView(getContext());
-            addVideo.setLayoutParams(params);
-            addVideo.setVideoURI(selectedVideo);
-            layout.addView(addVideo);
-        }
-        */
         }
     }
 }
