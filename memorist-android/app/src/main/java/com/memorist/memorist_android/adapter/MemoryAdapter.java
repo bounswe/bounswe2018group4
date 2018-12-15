@@ -3,7 +3,6 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +111,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         }
 
         // Sets the content of the view.
-        setViewContent(viewHolder, getItem(position));
+        setViewContent(viewHolder, dataSet.get(position));
         return convertView;
     }
 
@@ -182,6 +181,63 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                             break;
                         case 7:
                             Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia7);
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
+                        case 8:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia8);
+                            viewHolder.memoryMultimedia8.setVisibility(View.VISIBLE);
+                            break;
+                        case 9:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia9);
+                            viewHolder.memoryMultimedia9.setVisibility(View.VISIBLE);
+                            break;
+                        case 10:
+                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia10);
+                            viewHolder.memoryMultimedia10.setVisibility(View.VISIBLE);
+                            break;
+                    }
+
+                    mediaCounter++;
+                } else if(mediaType == 3) {
+                    switch (mediaCounter) {
+                        case 1:
+                            viewHolder.memoryMultimedia1.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia1.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:
+                            viewHolder.memoryMultimedia2.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia2.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:
+                            viewHolder.memoryMultimedia3.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia3.setVisibility(View.VISIBLE);
+                            break;
+                        case 4:
+                            viewHolder.memoryMultimedia4.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia4.setVisibility(View.VISIBLE);
+                            break;
+                        case 5:
+                            viewHolder.memoryMultimedia5.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia5.setVisibility(View.VISIBLE);
+                            break;
+                        case 6:
+                            viewHolder.memoryMultimedia6.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia6.setVisibility(View.VISIBLE);
+                            break;
+                        case 7:
+                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
+                        case 8:
+                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
+                        case 9:
+                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
+                        case 10:
+                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
                             viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
                             break;
                     }
