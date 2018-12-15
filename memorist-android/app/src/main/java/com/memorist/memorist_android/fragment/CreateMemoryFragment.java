@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.helper.UriPathHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -156,10 +158,15 @@ public class CreateMemoryFragment extends Fragment {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
                 params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
 
-                VideoView addVideo = new VideoView(getContext());
+                ImageView addVideo = new ImageView(getContext());
                 addVideo.setLayoutParams(params);
-                addVideo.setVideoURI(selectedVideo);
                 layout.addView(addVideo);
+
+                Glide
+                        .with(getContext())
+                        .asBitmap()
+                        .load(Uri.fromFile(new File(UriPathHelper.getPathFromURI_Video(getContext(), selectedVideo))))
+                        .into(addVideo);
 
                 MaterialCardView mcAddedVideo = getView().findViewById(R.id.mc_createMemoryVideo);
                 mcAddedVideo.setVisibility(View.VISIBLE);
