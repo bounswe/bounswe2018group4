@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,7 +137,7 @@ public class CreateMemoryFragment extends Fragment {
 
         if(resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                Uri selectedImage = data.getData();
+                final Uri selectedImage = data.getData();
                 memoryImage.add(selectedImage);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutImageContent);
@@ -147,11 +148,17 @@ public class CreateMemoryFragment extends Fragment {
                 addImage.setLayoutParams(params);
                 addImage.setImageURI(selectedImage);
                 layout.addView(addImage);
+                addImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayImageDialog(selectedImage);
+                    }
+                });
 
                 MaterialCardView mcAddedImage = getView().findViewById(R.id.mc_createMemoryImage);
                 mcAddedImage.setVisibility(View.VISIBLE);
             } else if (requestCode == 2) {
-                Uri selectedVideo = data.getData();
+                final Uri selectedVideo = data.getData();
                 memoryVideo.add(selectedVideo);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutVideoContent);
@@ -161,6 +168,12 @@ public class CreateMemoryFragment extends Fragment {
                 ImageView addVideo = new ImageView(getContext());
                 addVideo.setLayoutParams(params);
                 layout.addView(addVideo);
+                addVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayVideoDialog(selectedVideo);
+                    }
+                });
 
                 Glide
                         .with(getContext())
@@ -171,7 +184,7 @@ public class CreateMemoryFragment extends Fragment {
                 MaterialCardView mcAddedVideo = getView().findViewById(R.id.mc_createMemoryVideo);
                 mcAddedVideo.setVisibility(View.VISIBLE);
             } else if (requestCode == 3) {
-                Uri selectedAudio = data.getData();
+                final Uri selectedAudio = data.getData();
                 memoryAudio.add(selectedAudio);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutAudioContent);
@@ -182,6 +195,12 @@ public class CreateMemoryFragment extends Fragment {
                 addAudio.setLayoutParams(params);
                 addAudio.setImageDrawable(getResources().getDrawable(R.drawable.audio_icon));
                 layout.addView(addAudio);
+                addAudio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayAudioDialog(selectedAudio);
+                    }
+                });
 
                 MaterialCardView mcAddedAudio = getView().findViewById(R.id.mc_createMemoryAudio);
                 mcAddedAudio.setVisibility(View.VISIBLE);
@@ -236,5 +255,8 @@ public class CreateMemoryFragment extends Fragment {
                           ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
         void memoryCanceled();
+        void displayImageDialog(Uri selectedImage);
+        void displayVideoDialog(Uri selectedVideo);
+        void displayAudioDialog(Uri selectedAudio);
     }
 }
