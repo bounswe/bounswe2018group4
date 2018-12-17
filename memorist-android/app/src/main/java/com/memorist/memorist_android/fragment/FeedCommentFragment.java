@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.CommentAdapter;
-import com.memorist.memorist_android.model.Comment;
+import com.memorist.memorist_android.model.Comments;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class FeedCommentFragment extends Fragment {
     private FeedCommentFragment.OnFragmentInteractionListener mListener;
 
     // The data set for memory objects.
-    private ArrayList<Comment> comments;
+    private ArrayList<Comments> comments;
 
     // The adapter to fit the data onto list.
     private CommentAdapter adapter;
@@ -79,7 +79,7 @@ public class FeedCommentFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateMemories(ArrayList<Comment> commentList) {
+    public void updateMemories(ArrayList<Comments> commentList) {
         comments.clear();
         comments.addAll(commentList);
 
