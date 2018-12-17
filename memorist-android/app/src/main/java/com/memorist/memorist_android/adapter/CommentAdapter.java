@@ -7,24 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
-import com.memorist.memorist_android.model.Comment;
-import com.memorist.memorist_android.model.Tag;
-import com.memorist.memorist_android.model.Text;
+import com.memorist.memorist_android.model.Comments;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommentAdapter extends ArrayAdapter<Comment> {
+public class CommentAdapter extends ArrayAdapter<Comments> {
 
     // The container list of all existing meeting data objects.
-    private ArrayList<Comment> dataSet;
+    private ArrayList<Comments> dataSet;
 
     // The context that the adapter will work on.
     private Context context;
@@ -51,7 +48,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         }
     }
 
-    public CommentAdapter(ArrayList<Comment> dataSet, Context context) {
+    public CommentAdapter(ArrayList<Comments> dataSet, Context context) {
         super(context, R.layout.adapter_comment_row, dataSet);
 
         this.dataSet = dataSet;
@@ -71,7 +68,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // The commment in the placement of the specific row.
-        final Comment comment = getItem(position);
+        final Comments comment = getItem(position);
 
         /*
          * ViewHolder is used to avoid instantiating a view for every item in your adapter,
@@ -105,12 +102,11 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
      * @param viewHolder, the holder of view which will be displayed.
      * @param comment: The meeting object which holds the content.
      */
-    private void setViewContent(int position, @Nullable View convertView, final CommentAdapter.ViewHolder viewHolder, final Comment comment) {
+    private void setViewContent(int position, @Nullable View convertView, final CommentAdapter.ViewHolder viewHolder, final Comments comment) {
         if(comment != null) {
-            String username = "@" + comment.getOwnerName();
-            String postedTime = "Posted on " + comment.getPosting_time();
+            String username = "@" + comment.getOwner().getUsername();
+            String postedTime = "Posted on " + comment.getCommentTime();
             String text= comment.getComment();
-            int ownerID= comment.getOwner();
 
             viewHolder.tvCommentUsername.setText(username);
             viewHolder.tvCommentPostedTime.setText(postedTime);
