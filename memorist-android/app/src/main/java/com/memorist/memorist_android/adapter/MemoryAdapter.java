@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.memorist.memorist_android.MemoryActivity;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Tag;
 import com.memorist.memorist_android.model.Text;
@@ -33,6 +34,7 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
     // The context that the adapter will work on.
     private Context context;
 
+    private Comments[] commentsList;
     /**
      * ViewHolder class is the part where a row view's components are initialized.
      * All components are constructed.
@@ -158,6 +160,8 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
             viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    setComments(memory.getComments());
+
                     MemoryActivity activity = (MemoryActivity) convertView.getContext();
                     Fragment fragment = FeedCommentFragment.newInstance();
                     activity.getSupportFragmentManager().beginTransaction()
@@ -203,8 +207,13 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
         }
     }
 
-    @Override
-    public void getUserCommentList() {
 
+    public  void setComments(Comments[] cmnt){
+        commentsList=cmnt;
+    }
+
+    @Override
+    public Comments[] getUserCommentList() {
+        return commentsList;
     }
 }
