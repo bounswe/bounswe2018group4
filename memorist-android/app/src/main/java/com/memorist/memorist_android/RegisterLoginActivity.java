@@ -103,15 +103,22 @@ public class RegisterLoginActivity extends BaseActivity
     private Response.Listener<ApiResultUser> loginListener = new Response.Listener<ApiResultUser>() {
         @Override
         public void onResponse(ApiResultUser response) {
-            String userWelcome = "Welcome, " + response.getUser().getFirst_name() + " " + response.getUser().getLast_name();
-            String userToken = "JWT " + response.getToken();
+            boolean isEmailVerified = response.getUser().getActiveEmail_status();
 
-            SharedPrefHelper.setUserToken(getApplicationContext(), userToken);
-            Toast.makeText(getApplicationContext(), userWelcome, Toast.LENGTH_LONG).show();
+            if(isEmailVerified) {
+                String userWelcome = "Welcome, " + response.getUser().getFirst_name() + " " + response.getUser().getLast_name();
+                String userToken = "JWT " + response.getToken();
 
-            startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
-            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
-            finish();
+                SharedPrefHelper.setUserToken(getApplicationContext(), userToken);
+                Toast.makeText(getApplicationContext(), userWelcome, Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
+                overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
+                finish();
+            } else {
+                String noActivation = "Please activate your account!";
+                Toast.makeText(getApplicationContext(), noActivation, Toast.LENGTH_LONG).show();
+            }
         }
     };
 

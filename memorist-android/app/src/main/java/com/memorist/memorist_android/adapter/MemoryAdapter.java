@@ -114,7 +114,7 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
      */
     private void setViewContent(int position, @Nullable final View convertView, final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
-            String username = "@" + memory.getOwner();
+            String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about " + "???";
             String location = "Place is " + "???";
