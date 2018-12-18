@@ -8,16 +8,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.helper.UriPathHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -134,7 +137,7 @@ public class CreateMemoryFragment extends Fragment {
 
         if(resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                Uri selectedImage = data.getData();
+                final Uri selectedImage = data.getData();
                 memoryImage.add(selectedImage);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutImageContent);
@@ -145,26 +148,43 @@ public class CreateMemoryFragment extends Fragment {
                 addImage.setLayoutParams(params);
                 addImage.setImageURI(selectedImage);
                 layout.addView(addImage);
+                addImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayImageDialog(selectedImage);
+                    }
+                });
 
                 MaterialCardView mcAddedImage = getView().findViewById(R.id.mc_createMemoryImage);
                 mcAddedImage.setVisibility(View.VISIBLE);
             } else if (requestCode == 2) {
-                Uri selectedVideo = data.getData();
+                final Uri selectedVideo = data.getData();
                 memoryVideo.add(selectedVideo);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutVideoContent);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(256, 256);
                 params.setMargins(0, 0, (int)getResources().getDimension(R.dimen.margin_sm), 0);
 
-                VideoView addVideo = new VideoView(getContext());
+                ImageView addVideo = new ImageView(getContext());
                 addVideo.setLayoutParams(params);
-                addVideo.setVideoURI(selectedVideo);
                 layout.addView(addVideo);
+                addVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayVideoDialog(selectedVideo);
+                    }
+                });
+
+                Glide
+                        .with(getContext())
+                        .asBitmap()
+                        .load(Uri.fromFile(new File(UriPathHelper.getPathFromURI_Video(getContext(), selectedVideo))))
+                        .into(addVideo);
 
                 MaterialCardView mcAddedVideo = getView().findViewById(R.id.mc_createMemoryVideo);
                 mcAddedVideo.setVisibility(View.VISIBLE);
             } else if (requestCode == 3) {
-                Uri selectedAudio = data.getData();
+                final Uri selectedAudio = data.getData();
                 memoryAudio.add(selectedAudio);
 
                 ViewGroup layout = (ViewGroup) getView().findViewById(R.id.layoutAudioContent);
@@ -175,6 +195,12 @@ public class CreateMemoryFragment extends Fragment {
                 addAudio.setLayoutParams(params);
                 addAudio.setImageDrawable(getResources().getDrawable(R.drawable.audio_icon));
                 layout.addView(addAudio);
+                addAudio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.displayAudioDialog(selectedAudio);
+                    }
+                });
 
                 MaterialCardView mcAddedAudio = getView().findViewById(R.id.mc_createMemoryAudio);
                 mcAddedAudio.setVisibility(View.VISIBLE);
@@ -229,5 +255,8 @@ public class CreateMemoryFragment extends Fragment {
                           ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
         void memoryCanceled();
+        void displayImageDialog(Uri selectedImage);
+        void displayVideoDialog(Uri selectedVideo);
+        void displayAudioDialog(Uri selectedAudio);
     }
 }

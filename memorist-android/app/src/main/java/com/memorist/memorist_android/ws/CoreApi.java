@@ -77,7 +77,7 @@ public class CoreApi {
     public <T> void addToRequestQueue(Request<T> req) {
         // Set the default tag if tag is empty
         req.setTag(TAG);
-        req.setRetryPolicy(new DefaultRetryPolicy(10 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        req.setRetryPolicy(new DefaultRetryPolicy(120 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         getRequestQueue().add(req);
     }

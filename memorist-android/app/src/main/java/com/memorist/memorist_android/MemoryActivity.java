@@ -1,14 +1,20 @@
 package com.memorist.memorist_android;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
@@ -29,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -147,7 +154,80 @@ public class MemoryActivity extends BaseActivity
 
     @Override
     public void memoryCanceled() {
-        onBackPressed();
+        tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
+    }
+
+    @Override
+    public void displayImageDialog(Uri selectedImage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Image");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        ImageView imageContent = v.findViewById(R.id.dialog_imageContent);
+        imageContent.setImageURI(selectedImage);
+        imageContent.setVisibility(View.VISIBLE);
+
+        builder.show();
+    }
+
+    @Override
+    public void displayVideoDialog(Uri selectedVideo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Video");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        VideoView videoContent = v.findViewById(R.id.dialog_videoContent);
+        videoContent.setVideoURI(selectedVideo);
+        videoContent.setVisibility(View.VISIBLE);
+
+        builder.show();
+        videoContent.start();
+    }
+
+    @Override
+    public void displayAudioDialog(Uri selectedAudio) {
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(this, selectedAudio);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Audio");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mediaPlayer.stop();
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        ImageView audioContent = v.findViewById(R.id.dialog_imageContent);
+        audioContent.setImageDrawable(getResources().getDrawable(R.drawable.audio_icon));
+        audioContent.setVisibility(View.VISIBLE);
+
+        builder.show();
+        mediaPlayer.start();
     }
 
     @OnClick(R.id.btn_memoristHome)

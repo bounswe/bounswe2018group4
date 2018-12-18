@@ -2,6 +2,7 @@ package com.memorist.memorist_android.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,19 +56,15 @@ public class RecommendationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        memories = new ArrayList<Memory>();
+        memories = new ArrayList<>();
         mListener.getUserMemoryList();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_recommendations, container, false);
         ButterKnife.bind(this, view);
-
-        adapter = new MemoryAdapter(memories, getContext());
-        lvRecommendationsMemoryList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -75,6 +72,7 @@ public class RecommendationsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

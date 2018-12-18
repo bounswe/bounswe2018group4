@@ -28,7 +28,11 @@ public class Memory {
     @Expose
     private int numlikes;
 
-    public Memory(int id, Owner owner, String posting_time, String title, Text[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes) {
+    @Expose
+    private int[] liked_users;
+
+    public Memory(int id, Owner owner, String posting_time, String title, Text[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes,
+                  int[] liked_users) {
         this.id = id;
         this.owner = owner;
         this.posting_time = posting_time;
@@ -37,6 +41,7 @@ public class Memory {
         this.multimedia = multimedia;
         this.tags = tags;
         this.numlikes = numlikes;
+        this.liked_users = liked_users;
     }
 
     public int getId() {
@@ -101,5 +106,13 @@ public class Memory {
 
     public void setTexts(Text[] texts) {
         this.texts = texts;
+    }
+
+    public int[] getLiked_users() {
+        return liked_users;
+    }
+
+    public void setLiked_users(int[] liked_users) {
+        this.liked_users = liked_users;
     }
 }
