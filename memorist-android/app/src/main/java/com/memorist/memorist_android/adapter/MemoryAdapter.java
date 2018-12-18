@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.helper.Constants;
+import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.Tag;
 import com.memorist.memorist_android.model.Text;
+import com.memorist.memorist_android.ws.MemoristApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -120,7 +122,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      *
      * @param viewHolder, the holder of view which will be displayed.
      */
-    private void setViewContent(ViewHolder viewHolder, Memory memory) {
+    private void setViewContent(final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
@@ -145,6 +147,34 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             viewHolder.tvFeedTitle.setText(title);
             viewHolder.tvFeedStory.setText(storyBuilder.toString());
             viewHolder.tvFeedTags.setText(tagBuilder.toString());
+
+            boolean isLiked = false;
+            int myUserID = SharedPrefHelper.getUserId(getContext());
+            for(int userID : memory.getLiked_users()) {
+                if(myUserID == userID) {
+                    isLiked = true;
+                    break;
+                }
+            }
+
+            if(isLiked) {
+                viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.yeslike_icon));
+            }
+
+            final boolean myLike = isLiked;
+
+            viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!myLike) {
+                        viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.yeslike_icon));
+                        viewHolder.tvLikeCount.setText(String.valueOf(memory.getNumlikes() + 1));
+                        MemoristApi.postLike(SharedPrefHelper.getUserToken(getContext()), memory.getId());
+                    }
+                }
+            });
+
+            viewHolder.tvLikeCount.setText(String.valueOf(memory.getNumlikes()));
 
             Multimedia[] multimedia = memory.getMultimedia();
             int mediaCounter = 1;
