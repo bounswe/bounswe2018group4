@@ -20,7 +20,7 @@
     <string name="btnMemoristAddContentDescription">Add Memory</string>
     <string name="btnMemoristRecommendationContentDescription">Recommendation</string>
     <string name="btnMemoristProfileContentDescription">Profile</string>
-
+    <string name="profilePostIconContentDescription">Posts</string>
 
     <string name="usernameInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
@@ -51,8 +51,6 @@
     <string name="btnForgetPassword">Password ?</string>
     <string name="btnRegisterSend">Sign Up</string>
     <string name="btnRecoverPassword">Save Me!</string>
-
-    <string name="menu_newMemory">Add Memory</string>
 
     <string-array name="search_list">
         <item>Search by keyword</item>

@@ -21,8 +21,8 @@ import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
-import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.User;
 import com.memorist.memorist_android.ws.MemoristApi;
 
 import org.json.JSONException;
@@ -92,7 +92,8 @@ public class MemoryActivity extends BaseActivity
 
     @Override
     public void getUserProfile() {
-        MemoristApi.getProfile(SharedPrefHelper.getUserToken(getApplicationContext()), getUserProfileListener, getUserProfileErrorListener);
+        MemoristApi.getProfile(SharedPrefHelper.getUserToken(getApplicationContext()), SharedPrefHelper.getUserId(getApplicationContext()),
+                getUserProfileListener, getUserProfileErrorListener);
     }
 
     @Override
@@ -281,7 +282,6 @@ public class MemoryActivity extends BaseActivity
             setProgressDetail(100);
             hideIndicator();
 
-
             tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
         }
     };
@@ -294,12 +294,12 @@ public class MemoryActivity extends BaseActivity
         }
     };
 
-    private Response.Listener<ApiResultProfile> getUserProfileListener = new Response.Listener<ApiResultProfile>() {
+    private Response.Listener<User> getUserProfileListener = new Response.Listener<User>() {
         @Override
-        public void onResponse(ApiResultProfile response) {
+        public void onResponse(User response) {
             ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
             if(fragment != null) {
-                fragment.updateProfileInfo(response.getUsername(), response.getFirst_name(), response.getLast_name(), response.getEmail());
+                fragment.updateProfileInfo(response);
             }
         }
     };

@@ -15,6 +15,7 @@ import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,16 +152,16 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
-    public static void getProfile(String token, Response.Listener<ApiResultProfile> listener, Response.ErrorListener errorListener) {
-        String url = Constants.API_GET_PROFILE;
+    public static void getProfile(String token, int userID, Response.Listener<User> listener, Response.ErrorListener errorListener) {
+        String url = Constants.API_GET_PROFILE + userID + "/";
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", token);
 
         Map<String, String> params = new HashMap<>();
 
-        GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.GET, url,
-                ApiResultProfile.class, headers, params, listener, errorListener);
+        GsonRequest<User> request = new GsonRequest<>(Request.Method.GET, url,
+                User.class, headers, params, listener, errorListener);
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);

@@ -2,16 +2,21 @@ package com.memorist.memorist_android.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,11 +33,13 @@ import butterknife.ButterKnife;
  */
 public class ProfileFragment extends Fragment {
 
-    @BindView(R.id.tv_profileNameSurname) TextView tvProfileNameSurname;
     @BindView(R.id.tv_profileUsername) TextView tvProfileUsername;
-    @BindView(R.id.tv_profileBio) TextView tvProfileEmail;
-    @BindView(R.id.lv_profileMemoryList) ListView lvProfileMemoryList;
+    @BindView(R.id.tv_profileNameSurname) TextView tvProfileNameSurname;
+    @BindView(R.id.tv_profileCity) TextView tvProfileLocation;
+    @BindView(R.id.tv_profileGender) TextView tvProfileGender;
     @BindView(R.id.tv_profilePostCount) TextView tvProfilePostCount;
+    @BindView(R.id.iv_profileProfilePicture) ImageView ivProfilePicture;
+    @BindView(R.id.lv_profileMemoryList) ListView lvProfileMemoryList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,21 +66,17 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        memories = new ArrayList<Memory>();
-        mListener.getUserMemoryList();
+        memories = new ArrayList<>();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+        mListener.getUserMemoryList();
         mListener.getUserProfile();
-        adapter = new MemoryAdapter(memories, getContext());
-        lvProfileMemoryList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -95,12 +98,37 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateProfileInfo(String username, String firstname, String lastname, String email) {
-        String finaluser = "@" + username;
-        tvProfileUsername.setText(finaluser);
-        String name = firstname + " " + lastname;
-        tvProfileNameSurname.setText(name);
-        tvProfileEmail.setText(email);
+    public void updateProfileInfo(User user) {
+        String userName = "@" + user.getUsername();
+        String nameSurname = user.getFirst_name() + " " + user.getLast_name();
+        String userGender = user.getGender();
+        String userLocation = user.getLocation();
+        String userAvatar = user.getPhoto();
+
+        tvProfileUsername.setText(userName);
+        tvProfileNameSurname.setText(nameSurname);
+
+        if(userGender != null) {
+            tvProfileGender.setVisibility(View.VISIBLE);
+
+            if(userGender.equals("1")) {
+                tvProfileGender.setText("Male");
+            } else {
+                tvProfileGender.setText("Female");
+            }
+        }
+
+        if(userLocation != null) {
+            tvProfileLocation.setVisibility(View.VISIBLE);
+            tvProfileLocation.setText(userLocation);
+        }
+
+        if(userAvatar != null) {
+            String avatarURL = Constants.API_BASE_URL + "/multimedia/" + userAvatar;
+            Picasso.get().load(avatarURL).into(ivProfilePicture);
+        } else {
+            ivProfilePicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_icon));
+        }
     }
 
     public void updateMemories(ArrayList<Memory> memoryList) {
@@ -113,6 +141,7 @@ public class ProfileFragment extends Fragment {
         }
 
         adapter.notifyDataSetChanged();
+        tvProfilePostCount.setText(String.valueOf(memoryList.size()));
     }
 
     /**
