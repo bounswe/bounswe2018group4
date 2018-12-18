@@ -10,6 +10,7 @@ import com.android.volley.request.JsonObjectRequest;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
+import com.memorist.memorist_android.model.ApiResultLike;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
@@ -161,6 +162,21 @@ public class MemoristApi {
 
         GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.GET, url,
                 ApiResultProfile.class, headers, params, listener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void postLike(String token, int memoryID) {
+        String url = Constants.API_POST_LIKE + memoryID;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        Map<String, String> params = new HashMap<>();
+
+        GsonRequest<ApiResultLike> request = new GsonRequest<>(Request.Method.GET, url,
+                ApiResultLike.class, headers, params, null, null);
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
