@@ -108,8 +108,10 @@ public class RegisterLoginActivity extends BaseActivity
             if(isEmailVerified) {
                 String userWelcome = "Welcome, " + response.getUser().getFirst_name() + " " + response.getUser().getLast_name();
                 String userToken = "JWT " + response.getToken();
+                long userID = response.getUser().getId();
 
                 SharedPrefHelper.setUserToken(getApplicationContext(), userToken);
+                SharedPrefHelper.setUserId(getApplicationContext(), (int)userID);
                 Toast.makeText(getApplicationContext(), userWelcome, Toast.LENGTH_LONG).show();
 
                 startActivity(new Intent(RegisterLoginActivity.this, MemoryActivity.class));
