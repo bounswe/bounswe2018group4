@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
+import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
@@ -23,6 +24,7 @@ import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultProfile;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.ws.MemoristApi;
 
@@ -41,7 +43,6 @@ public class MemoryActivity extends BaseActivity
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
-        FeedCommentFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -315,8 +316,4 @@ public class MemoryActivity extends BaseActivity
         }
     };
 
-    @Override
-    public void getUserCommentList() {
-
-    }
 }
