@@ -300,6 +300,7 @@ class CreateMemoryPage extends React.Component {
         .submitPostCredential(ids, story, format, title, tags)
         .then(res => {
           console.log(res);
+          window.location.replace("/homepage");
         })
         .catch(res => {
         });

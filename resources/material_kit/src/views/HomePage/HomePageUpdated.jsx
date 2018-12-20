@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import SectionHomeTabs from "../Components/Sections/SectionHomeTabs.jsx";
+import SectionHomeTabsNew from "../Components/Sections/SectionHomeTabsNew.jsx";
 
 // @material-ui/icons
 
@@ -25,7 +25,7 @@ import WorkSection from "./Sections/WorkSection.jsx";
 
 const dashboardRoutes = [];
 
-class HomePage extends React.Component {
+class HomePageUpdated extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -64,7 +64,7 @@ class HomePage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <SectionHomeTabs />
+            <SectionHomeTabsNew />
           </div>
         </div>
         <Footer />
@@ -73,4 +73,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default withStyles(landingPageStyle)(HomePage);
+export default withStyles(landingPageStyle)(HomePageUpdated);

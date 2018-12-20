@@ -36,6 +36,9 @@ import work3 from "assets/img/examples/cynthia-del-rio.jpg";
 import work4 from "assets/img/examples/mariya-georgieva.jpg";
 import work5 from "assets/img/examples/clem-onojegaw.jpg";
 import PropTypes from 'prop-types';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
@@ -68,6 +71,9 @@ class ProfilePage extends React.Component {
     
   }
 
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   render() {
     console.log(this.props.profileInfo);
@@ -93,7 +99,7 @@ class ProfilePage extends React.Component {
           }}
           {...rest}
         />
-        <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
+        <Parallax small filter image={require("assets/img/bg7.jpg")} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
             <div className={classes.container}>
@@ -201,26 +207,23 @@ class ProfilePage extends React.Component {
                         }}
                       />
                       <label htmlFor="gender">Gender</label>
-                      <CustomDropdown
-                        buttonText="Gender"
-                        dropdownList={[
-                          "Woman",
-                          "Man",
-                          "Other/Don't wanna say",
-                        ]}
-                        id="gender"
-                        onChange={this.handleChange}
-                        
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          onChange: this.handleChange,
-                          type: "text",
-                          
-                        }}
-                      />
                       
+                      <p/>
+                      <Select
+                        value={this.state.gender}
+                        onChange={this.handleChange}
+                        inputProps={{
+                          name: 'gender',
+                          id: 'gender',
+                        }}
+                      >
+
+                        
+                        <MenuItem value={"Man"}>Man</MenuItem>
+                        <MenuItem value={"Woman"}>Woman</MenuItem>
+                        <MenuItem value={"OtherDon't wanna say"}>OtherDon't wanna say</MenuItem>
+                      </Select>
+                      <p/>
                   
 
                 <Button simple color="primary" size="lg" onClick={this.handleRegister}>
