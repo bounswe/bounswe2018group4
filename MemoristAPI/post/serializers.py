@@ -14,7 +14,7 @@ class MemoryTagSerializer(serializers.ModelSerializer):
 class MemoryItemTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MemoryItemText
-        fields = "__all__"
+        fields = ["id"]
 
 
 class MemoryMultimediaUploadSerializer(serializers.ModelSerializer):

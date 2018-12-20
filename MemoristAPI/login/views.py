@@ -14,6 +14,7 @@ from random import randint
 from django.utils.crypto import get_random_string
 from .index import send_aws_email, render, send_aws_sms
 from jinja2 import Environment
+from django.db.models import Q
 
 
 def sendVerifyEmail(dt, request):
@@ -252,3 +253,10 @@ class DeleteProfilePhotoAPIView(APIView):
                 return Response({"Status": "Profile Photo does not exist."}, status=st.HTTP_200_OK)
         else:
             return Response({"Status": "User does not exist."}, status=st.HTTP_400_BAD_REQUEST)
+
+
+class SearchUserAPIView(ListAPIView):
+    serializer_class = ls.UserSearchSerializer
+
+    def get_queryset(self):
+        return lm.RegisteredUser.objects.filter(Q(username__icontains=self.kwargs['pk']) | Q(first_name__icontains=self.kwargs['pk']) | Q(last_name__icontains=self.kwargs['pk']))

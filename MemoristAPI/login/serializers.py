@@ -7,6 +7,14 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
+class UserSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegisteredUser
+        fields = [
+            "id"
+        ]
+
+
 class UserSerializer(serializers.ModelSerializer):
     photo = serializers.SerializerMethodField()
 
