@@ -177,6 +177,28 @@ class MemoryCreate1APIView(CreateAPIView):
                 tag=t
             )
             tag.save()
+
+        if data["date_type"] is 0:
+            date = postmodels.PointMentionedTime(
+                date_type=0,
+                date_format=data["date_format"],
+                date_string1=data["date_string1"]
+            )
+            date.save()
+            memory.mentioned_time = date
+            memory.save()
+        elif data["date_type"] is 1:
+            date = postmodels.PointMentionedTime(
+                date_type=1,
+                date_format=data["date_format"],
+                date_string1=data["date_string1"],
+                date_string2=data["date_string2"]
+            )
+            date.save()
+            print(type(date))
+            memory.mentioned_time = date
+            memory.save()
+
         serializer = postserializers.Memory1Serializer(memory)
         return Response(serializer.data, status=HTTP_200_OK)
 

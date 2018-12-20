@@ -28,19 +28,15 @@ MONTH = (
     (11, "December"),
     (12, "November"),
 )
-DAYS = (
-    (1, "Monday"),
-    (2, "Tuesday"),
-    (3, "Wednesday"),
-    (4, "Thursday"),
-    (5, "Friday"),
-    (6, "Saturday"),
-    (7, "Sunday"),
-)
+
 MEDIA_TYPES = (
     (1, "image"),
     (2, "video"),
     (3, "audio")
+)
+DATE_TYPES = (
+    (0, "single"),
+    (1, "period"),
 )
 
 
@@ -55,19 +51,10 @@ class PathLocation(models.Model):
 
 
 class PointMentionedTime(models.Model):
-    century = models.IntegerField(null=True, blank=True)
-    decade = models.IntegerField(choices=DECADE, null=True, blank=True)
-    year = models.IntegerField(null=True, blank=True)
-    month = models.IntegerField(choices=MONTH, null=True, blank=True)
-    day = models.IntegerField(null=True, blank=True)
-    hour = models.IntegerField(null=True, blank=True)
-    minute = models.IntegerField(null=True, blank=True)
-    day_name = models.IntegerField(choices=DAYS, null=True, blank=True)
-
-
-class MentionedTimePeriod(models.Model):
-    time_begin = models.ForeignKey(PointMentionedTime, related_name="begin", on_delete=models.CASCADE)
-    time_end = models.ForeignKey(PointMentionedTime, related_name="end", on_delete=models.CASCADE)
+    date_type = models.IntegerField(choices=DATE_TYPES)
+    date_format = models.CharField(max_length=10)
+    date_string1 = models.CharField(max_length=50)
+    date_string2 = models.CharField(max_length=50, null=True, blank=True)
 
 
 class MemoryComment(models.Model):
@@ -84,8 +71,7 @@ class Memory(models.Model):
     numlikes = models.IntegerField(default=0, null=True, blank=True)
     pointlocations = models.ManyToManyField(PointLocation, blank=True)
     pathlocations = models.ManyToManyField(PathLocation, blank=True)
-    mentioned_time = models.ManyToManyField(PointMentionedTime, blank=True)
-    mentioned_time_period = models.ManyToManyField(MentionedTimePeriod, blank=True)
+    mentioned_time = models.ForeignKey(PointMentionedTime, blank=True, on_delete=models.CASCADE)
     liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user", blank=True)
 
 

@@ -43,6 +43,12 @@ class MemoryItemMultimediaSerializer(serializers.ModelSerializer):
         return MemoryMultimediaUploadSerializer(multimedia).data
 
 
+class MentionedTimeSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PointMentionedTime
+        fields = "__all__"
+
+
 class OwnerSerializer(serializers.ModelSerializer):
     photo = serializers.SerializerMethodField()
 
@@ -103,7 +109,6 @@ class MemorySerializer(serializers.ModelSerializer):
             "pointlocations",
             "pathlocations",
             "mentioned_time",
-            "mentioned_time_period",
             "liked_users"
         ]
 
@@ -131,7 +136,9 @@ class Memory1Serializer(serializers.ModelSerializer):
     posting_time = serializers.SerializerMethodField()
     numcomments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-    #liked_users = serializers.SerializerMethodField()
+    mentioned_time = serializers.SerializerMethodField()
+
+    # liked_users = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Memory
@@ -149,13 +156,16 @@ class Memory1Serializer(serializers.ModelSerializer):
             "pointlocations",
             "pathlocations",
             "mentioned_time",
-            "mentioned_time_period",
             "liked_users"
         ]
 
     # def get_liked_users(self, obj):
     #     users = obj.liked_users.all()
     #     return OwnerSerializer(users, many=True).data
+
+    def get_mentioned_time(self, obj):
+        mentioned_time = models.PointMentionedTime.objects.filter(id=obj.mentioned_time_id)
+        return MentionedTimeSerialzer(mentioned_time, many=True).data
 
     def get_numcomments(self, obj):
         return obj.comments.all().count()
