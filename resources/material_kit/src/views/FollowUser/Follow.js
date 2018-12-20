@@ -39,7 +39,7 @@ class Follow extends React.Component {
         })
 
     .catch(function(error) {
-        console.log('There has been a problem with your fetch operation: ' + error.message);
+        console.log('There has been a problem with your fetching operation: ' + error.message);
     });
 
     
