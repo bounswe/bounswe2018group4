@@ -11,7 +11,8 @@ class UserSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegisteredUser
         fields = [
-            "id"
+            "id",
+            "username"
         ]
 
 
