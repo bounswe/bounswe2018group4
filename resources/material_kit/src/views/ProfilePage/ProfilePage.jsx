@@ -99,7 +99,7 @@ class ProfilePage extends React.Component {
           }}
           {...rest}
         />
-        <Parallax small filter image={require("assets/img/bg7.jpg")} />
+        <Parallax small filter image={require("assets/img/bg2.jpg")} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
             <div className={classes.container}>
@@ -124,8 +124,7 @@ class ProfilePage extends React.Component {
                         labelText={this.props.profileInfo.username}
                         id="username"
                         onChange={this.handleChange}
-                        
-                        formControlProps={{
+                formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{

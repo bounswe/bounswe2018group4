@@ -21,10 +21,11 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Typography from '@material-ui/core/Typography';
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg2.jpg";
 
 
 class SignUpPage extends React.Component {
@@ -85,7 +86,7 @@ class SignUpPage extends React.Component {
         var token = res.token;
         console.log("SUCCESS! Token: " + token);
         setCookie("token", token);
-        window.location.replace("/profile-page");
+        window.location.replace("/home-page");
       },
       error: (res, err) => {
         console.log(body);
@@ -127,6 +128,12 @@ class SignUpPage extends React.Component {
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={4}>
+                <Typography variant="h2" gutterBottom>
+                  Share your memory!
+                </Typography>
+                <br />
+                <br />
+                <br />
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form} onSubmit={this.handleRegister}>
                     <CardHeader color="primary" className={classes.cardHeader}>

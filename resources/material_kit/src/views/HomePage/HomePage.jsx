@@ -13,8 +13,18 @@ import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 import HeaderLinks from "components/Header/StaticHeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
+import PropTypes from 'prop-types';
+import Divider from '@material-ui/core/Divider';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import Paper from '@material-ui/core/Paper';
+import CallMade from "@material-ui/icons/CallMade";
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
@@ -22,10 +32,61 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 import ProductSection from "./Sections/ProductSection.jsx";
 import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
 
 const dashboardRoutes = [];
 
+const styles = {
+
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none"
+  }
+};
+
 class HomePage extends React.Component {
+  static propTypes = {
+    memories: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      memories: []
+    };
+  }
+  componentDidMount() {
+    var userToken = localStorage.getItem('token');
+    var _this = this;
+    console.log(userToken);
+    fetch('http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/list/',
+      {
+        mode: 'cors',
+        headers: {
+          'Content-Type' : 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Authorization' : 'JWT ' + userToken,
+        },
+        method: 'GET',
+      })
+      .then(response => response.json())
+      .then(function(data){
+        console.log(data);
+        _this.setState({memories: data});
+      })
+
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+      });
+  }
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -42,7 +103,7 @@ class HomePage extends React.Component {
           }}
           {...rest}
         />
-        <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+        <Parallax filter image={require("assets/img/bg2.jpg")}>
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
@@ -64,7 +125,7 @@ class HomePage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <SectionHomeTabs />
+            <SectionHomeTabs memories={this.state.memories} />
           </div>
         </div>
         <Footer />
