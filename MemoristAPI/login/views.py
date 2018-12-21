@@ -124,10 +124,14 @@ class UserProfileUpdateAPIView(APIView):
         user = self.request.user
 
         updated_user = lm.RegisteredUser.objects.get(id=user.id)
-        updated_user.first_name = data["first_name"]
-        updated_user.last_name = data["last_name"]
-        updated_user.location = data["location"]
-        updated_user.gender = data["gender"]
+        if "first_name" in data:
+            updated_user.first_name = data["first_name"]
+        if "last_name" in data:
+            updated_user.last_name = data["last_name"]
+        if "location" in data:
+            updated_user.location = data["location"]
+        if "gender" in data:
+            updated_user.gender = data["gender"]
         updated_user.save()
 
         serializer = ls.UserSerializer(updated_user)
