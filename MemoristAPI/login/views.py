@@ -119,14 +119,19 @@ class GetUserProfileAPIView(RetrieveAPIView):
 class UserProfileUpdateAPIView(APIView):
     permission_classes = IsAuthenticated,
 
-    def patch(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         data = self.request.data
         user = self.request.user
-        serializer = ls.UserUpdateSerializer(user, data=data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=st.HTTP_200_OK)
-        return Response(serializer.errors, status=st.HTTP_400_BAD_REQUEST)
+
+        updated_user = lm.RegisteredUser.objects.get(id=user.id)
+        updated_user.first_name = data["first_name"]
+        updated_user.last_name = data["last_name"]
+        updated_user.location = data["location"]
+        updated_user.gender = data["gender"]
+        updated_user.save()
+
+        serializer = ls.UserSerializer(updated_user)
+        return Response(serializer.data, status=st.HTTP_200_OK)
 
 
 class UploadProfilePhotoAPIView(CreateAPIView):
