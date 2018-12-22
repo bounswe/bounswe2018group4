@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -132,11 +131,14 @@ public class MemoryActivity extends BaseActivity
         }
 
         FolloweringsFragment fragment = FolloweringsFragment.newInstance(listFollower, null);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
                 .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
                 .commit();
+
+        currentTab = 6;
     }
 
     @Override
@@ -148,11 +150,14 @@ public class MemoryActivity extends BaseActivity
         }
 
         FolloweringsFragment fragment = FolloweringsFragment.newInstance(null, listFollowing);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
                 .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
                 .commit();
+
+        currentTab = 6;
     }
 
     @Override
