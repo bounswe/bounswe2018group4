@@ -26,6 +26,8 @@ import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
+import com.memorist.memorist_android.model.ApiResultFollower;
+import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.User;
@@ -101,6 +103,16 @@ public class MemoryActivity extends BaseActivity
     public void getUserProfile() {
         MemoristApi.getProfile(SharedPrefHelper.getUserToken(getApplicationContext()), SharedPrefHelper.getUserId(getApplicationContext()),
                 getUserProfileListener, getUserProfileErrorListener);
+    }
+
+    @Override
+    public void getFollowers() {
+        MemoristApi.getFollowers(SharedPrefHelper.getUserToken(getApplicationContext()), getFollowersListener, getFollowersFollowingsErrorListener);
+    }
+
+    @Override
+    public void getFollowings() {
+        MemoristApi.getFollowings(SharedPrefHelper.getUserToken(getApplicationContext()), getFollowingsListener, getFollowersFollowingsErrorListener);
     }
 
     @Override
@@ -389,6 +401,33 @@ public class MemoryActivity extends BaseActivity
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
             Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<ArrayList<ApiResultFollower>> getFollowersListener = new Response.Listener<ArrayList<ApiResultFollower>>() {
+        @Override
+        public void onResponse(ArrayList<ApiResultFollower> response) {
+            ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateFollowers(response);
+            }
+        }
+    };
+
+    private Response.Listener<ArrayList<ApiResultFollowing>> getFollowingsListener = new Response.Listener<ArrayList<ApiResultFollowing>>() {
+        @Override
+        public void onResponse(ArrayList<ApiResultFollowing> response) {
+            ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateFollowings(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getFollowersFollowingsErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
         }
     };
 }

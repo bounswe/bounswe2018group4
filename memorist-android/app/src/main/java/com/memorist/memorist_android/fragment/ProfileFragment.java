@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.helper.Constants;
+import com.memorist.memorist_android.model.ApiResultFollower;
+import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.User;
 import com.squareup.picasso.Picasso;
@@ -40,6 +42,8 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tv_profilePostCount) TextView tvProfilePostCount;
     @BindView(R.id.iv_profileProfilePicture) ImageView ivProfilePicture;
     @BindView(R.id.lv_profileMemoryList) ListView lvProfileMemoryList;
+    @BindView(R.id.tv_profileFollowersCount) TextView tvProfileFollowerCount;
+    @BindView(R.id.tv_profileFollowingsCount) TextView tvProfileFollowingsCount;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,6 +81,8 @@ public class ProfileFragment extends Fragment {
 
         mListener.getUserMemoryList();
         mListener.getUserProfile();
+        mListener.getFollowers();
+        mListener.getFollowings();
 
         return view;
     }
@@ -112,9 +118,11 @@ public class ProfileFragment extends Fragment {
             tvProfileGender.setVisibility(View.VISIBLE);
 
             if(userGender.equals("1")) {
-                tvProfileGender.setText("Male");
+                tvProfileGender.setText(String.valueOf("Male"));
+            } else if(userGender.equals("2")) {
+                tvProfileGender.setText(String.valueOf("Female"));
             } else {
-                tvProfileGender.setText("Female");
+                tvProfileGender.setText(String.valueOf("Other"));
             }
         }
 
@@ -144,6 +152,14 @@ public class ProfileFragment extends Fragment {
         tvProfilePostCount.setText(String.valueOf(memoryList.size()));
     }
 
+    public void updateFollowers(ArrayList<ApiResultFollower> listFollowers) {
+        tvProfileFollowerCount.setText(String.valueOf(listFollowers.size()));
+    }
+
+    public void updateFollowings(ArrayList<ApiResultFollowing> listFollowings) {
+        tvProfileFollowingsCount.setText(String.valueOf(listFollowings.size()));
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -157,5 +173,7 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void getUserProfile();
         void getUserMemoryList();
+        void getFollowers();
+        void getFollowings();
     }
 }
