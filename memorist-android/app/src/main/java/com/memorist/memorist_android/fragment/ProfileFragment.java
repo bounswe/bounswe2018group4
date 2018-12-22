@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +53,10 @@ public class ProfileFragment extends Fragment {
 
     // The adapter to fit the data onto list.
     private MemoryAdapter adapter;
+
+    // Followerings data
+    private ArrayList<ApiResultFollower> followerList;
+    private ArrayList<ApiResultFollowing> followingList;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -154,10 +159,22 @@ public class ProfileFragment extends Fragment {
 
     public void updateFollowers(ArrayList<ApiResultFollower> listFollowers) {
         tvProfileFollowerCount.setText(String.valueOf(listFollowers.size()));
+        followerList = listFollowers;
     }
 
     public void updateFollowings(ArrayList<ApiResultFollowing> listFollowings) {
         tvProfileFollowingsCount.setText(String.valueOf(listFollowings.size()));
+        followingList = listFollowings;
+    }
+
+    @OnClick(R.id.btn_profileFollowers)
+    public void profileFollowersClicked() {
+        mListener.getFollowerList(followerList);
+    }
+
+    @OnClick(R.id.btn_profileFollowings)
+    public void profileFollowingsClicked() {
+        mListener.getFollowingList(followingList);
     }
 
     /**
@@ -175,5 +192,7 @@ public class ProfileFragment extends Fragment {
         void getUserMemoryList();
         void getFollowers();
         void getFollowings();
+        void getFollowerList(ArrayList<ApiResultFollower> list);
+        void getFollowingList(ArrayList<ApiResultFollowing> list);
     }
 }
