@@ -155,6 +155,18 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
+    public static void getUserMemoryList(String token, Response.Listener<ArrayList<Memory>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_PROFILE_MEMORY_LIST;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listListener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
     public static void getProfile(String token, int userID, Response.Listener<User> listener, Response.ErrorListener errorListener) {
         String url = Constants.API_GET_PROFILE + userID + "/";
 

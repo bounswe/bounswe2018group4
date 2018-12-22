@@ -57,7 +57,7 @@ public class FeedMemoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         memories = new ArrayList<>();
-        mListener.getUserMemoryList();
+        mListener.getMemoryList();
     }
 
     @Override
@@ -110,6 +110,6 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getUserMemoryList();
+        void getMemoryList();
     }
 }

@@ -21,6 +21,7 @@ import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
+import com.memorist.memorist_android.fragment.FolloweringsFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
@@ -49,6 +50,7 @@ public class MemoryActivity extends BaseActivity
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
+    FolloweringsFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -56,6 +58,7 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_CREATE_MEMORY_FRAGMENT = "fragment_create_memory";
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
+    private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -91,6 +94,11 @@ public class MemoryActivity extends BaseActivity
 
     @Override
     public void getUserMemoryList() {
+        MemoristApi.getUserMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
+    }
+
+    @Override
+    public void getMemoryList() {
         MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
     }
 
@@ -113,6 +121,38 @@ public class MemoryActivity extends BaseActivity
     @Override
     public void getFollowings() {
         MemoristApi.getFollowings(SharedPrefHelper.getUserToken(getApplicationContext()), getFollowingsListener, getFollowersFollowingsErrorListener);
+    }
+
+    @Override
+    public void getFollowerList(ArrayList<ApiResultFollower> list) {
+        ArrayList<Integer> listFollower = new ArrayList<>();
+
+        for(ApiResultFollower follower: list) {
+            listFollower.add(follower.getFollower());
+        }
+
+        FolloweringsFragment fragment = FolloweringsFragment.newInstance(listFollower, null);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
+                .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
+                .commit();
+    }
+
+    @Override
+    public void getFollowingList(ArrayList<ApiResultFollowing> list) {
+        ArrayList<Integer> listFollowing = new ArrayList<>();
+
+        for(ApiResultFollowing following: list) {
+            listFollowing.add(following.getFollowed());
+        }
+
+        FolloweringsFragment fragment = FolloweringsFragment.newInstance(null, listFollowing);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
+                .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
+                .commit();
     }
 
     @Override
