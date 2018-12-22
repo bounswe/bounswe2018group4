@@ -183,7 +183,7 @@ public class MemoristApi {
     }
 
     public static void postLike(String token, int memoryID) {
-        String url = Constants.API_POST_LIKE + memoryID;
+        String url = Constants.API_POST_LIKE + memoryID + "/";
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", token);
