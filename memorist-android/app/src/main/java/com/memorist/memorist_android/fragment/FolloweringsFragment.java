@@ -7,38 +7,43 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
-import com.memorist.memorist_android.adapter.MemoryAdapter;
-import com.memorist.memorist_android.model.Memory;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FeedMemoryFragment.OnFragmentInteractionListener} interface
+ * {@link FolloweringsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FeedMemoryFragment#newInstance} factory method to
+ * Use the {@link FolloweringsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FeedMemoryFragment extends Fragment {
+public class FolloweringsFragment extends Fragment {
 
-    @BindView(R.id.lv_memoryList) ListView lvMemoryList;
+    @BindView(R.id.tv_followering_follow) TextView tvFollowing;
+    @BindView(R.id.tv_followering_followed) TextView tvFollower;
+    @BindView(R.id.lv_followerings) ListView lvFollowerings;
+
+    private static final String FOLLOWER = "follower";
+    private static final String FOLLOWING = "following";
+
+    private ArrayList<Integer> followers;
+    private ArrayList<Integer> followings;
+
+    private ArrayAdapter<Integer> adapter;
 
     private OnFragmentInteractionListener mListener;
 
-    // The data set for memory objects.
-    private ArrayList<Memory> memories;
-
-    // The adapter to fit the data onto list.
-    private MemoryAdapter adapter;
-
-    public FeedMemoryFragment() {
+    public FolloweringsFragment() {
         // Required empty public constructor
     }
 
@@ -46,33 +51,42 @@ public class FeedMemoryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment FeedMemoryFragment.
+     * @return A new instance of fragment Followerings.
      */
-    public static FeedMemoryFragment newInstance() {
-        return new FeedMemoryFragment();
+    public static FolloweringsFragment newInstance(ArrayList<Integer> listFollower, ArrayList<Integer> listFollowing) {
+        FolloweringsFragment fragment = new FolloweringsFragment();
+
+        Bundle args = new Bundle();
+        args.putIntegerArrayList(FOLLOWER, listFollower);
+        args.putIntegerArrayList(FOLLOWING, listFollowing);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        memories = new ArrayList<>();
-        mListener.getMemoryList();
+        if (getArguments() != null) {
+            followers = getArguments().getIntegerArrayList(FOLLOWER);
+            followings = getArguments().getIntegerArrayList(FOLLOWING);
+        }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the fragment layout and bind view components.
-        View view = inflater.inflate(R.layout.fragment_feed_memory, container, false);
+        /// Inflate the fragment layout and bind view components.
+        View view = inflater.inflate(R.layout.fragment_followerings, container, false);
         ButterKnife.bind(this, view);
 
+        setContent();
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -87,15 +101,18 @@ public class FeedMemoryFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateMemories(ArrayList<Memory> memoryList) {
-        memories.clear();
-        memories.addAll(memoryList);
-
-        if(adapter == null) {
-            adapter = new MemoryAdapter(memories, getContext());
-            lvMemoryList.setAdapter(adapter);
+    public void setContent() {
+        if(followers != null) {
+            adapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_list_item_1, followers);
+            tvFollower.setVisibility(View.VISIBLE);
+            tvFollowing.setVisibility(View.GONE);
+        } else {
+            adapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_list_item_1, followings);
+            tvFollower.setVisibility(View.GONE);
+            tvFollowing.setVisibility(View.VISIBLE);
         }
 
+        lvFollowerings.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
@@ -110,6 +127,5 @@ public class FeedMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getMemoryList();
     }
 }

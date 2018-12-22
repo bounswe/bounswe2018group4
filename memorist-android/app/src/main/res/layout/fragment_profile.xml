@@ -146,14 +146,13 @@
                         android:contentDescription="@string/btnCommentsContentDescription"/>
 
                     <TextView
-                        android:id="@+id/btn_profileFollowersCount"
+                        android:id="@+id/tv_profileFollowersCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_xs"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/textSizeBigMemory"
                         android:textColor="@color/black"
-                        android:text="0"
                         fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
 
                 </LinearLayout>
@@ -182,7 +181,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/textSizeBigMemory"
                         android:textColor="@color/black"
-                        android:text="0"
                         fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
 
                 </LinearLayout>

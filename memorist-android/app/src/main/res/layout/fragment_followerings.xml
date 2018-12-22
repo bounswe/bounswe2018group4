@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.FolloweringsFragment">
+
+    <TextView
+        android:id="@+id/tv_followering_followed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:textSize="@dimen/textSizeAddedMultimedia"
+        android:textStyle="bold"
+        android:text="You are followed by "
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_followering_follow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:textSize="@dimen/textSizeAddedMultimedia"
+        android:textStyle="bold"
+        android:text="You follow "
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/lv_followerings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginStart="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
+        android:background="@color/white"
+        android:divider="@color/black"
+        android:scrollbars="none" />
+
+</LinearLayout>

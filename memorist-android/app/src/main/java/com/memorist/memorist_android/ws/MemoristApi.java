@@ -10,6 +10,8 @@ import com.android.volley.request.JsonObjectRequest;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
+import com.memorist.memorist_android.model.ApiResultFollower;
+import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultLike;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
@@ -153,6 +155,18 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
+    public static void getUserMemoryList(String token, Response.Listener<ArrayList<Memory>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_PROFILE_MEMORY_LIST;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listListener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
     public static void getProfile(String token, int userID, Response.Listener<User> listener, Response.ErrorListener errorListener) {
         String url = Constants.API_GET_PROFILE + userID + "/";
 
@@ -178,6 +192,30 @@ public class MemoristApi {
 
         GsonRequest<ApiResultLike> request = new GsonRequest<>(Request.Method.GET, url,
                 ApiResultLike.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void getFollowers(String token, Response.Listener<ArrayList<ApiResultFollower>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_GET_FOLLEWERS;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<ApiResultFollower> request = new GsonArrayRequest<>(url, ApiResultFollower.class, headers, listListener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void getFollowings(String token, Response.Listener<ArrayList<ApiResultFollowing>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_GET_FOLLOWINGS;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<ApiResultFollowing> request = new GsonArrayRequest<>(url, ApiResultFollowing.class, headers, listListener, errorListener);
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
