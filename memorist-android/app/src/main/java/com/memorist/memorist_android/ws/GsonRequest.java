@@ -1,5 +1,7 @@
 package com.memorist.memorist_android.ws;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -81,6 +83,8 @@ public class GsonRequest<T> extends Request<T> {
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             T data = null;
+
+            Log.d("ResponseGSON: ", json);
 
             if(clazz != null) {
                 data = gson.fromJson(json, clazz);

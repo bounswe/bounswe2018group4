@@ -1,5 +1,7 @@
 package com.memorist.memorist_android.ws;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -45,6 +47,8 @@ public class GsonArrayRequest<T> extends Request<ArrayList<T>> {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
+
+            Log.d("ResponseGSONArray: ", json);
 
             Type listType = com.google.gson.internal.$Gson$Types.newParameterizedTypeWithOwner(null, ArrayList.class, clazz);
             ArrayList<T> tList = gson.fromJson(json, listType);
