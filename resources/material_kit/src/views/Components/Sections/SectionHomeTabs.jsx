@@ -66,36 +66,6 @@ class SectionTabs extends React.Component {
       });
   }
 
-  handleDislike(id) {
-    var userToken = localStorage.getItem("token");
-    var _this = this;
-    console.log(userToken);
-    fetch(
-      "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/dislike/".concat(
-        id
-      ).concat(
-        "/"
-      ),
-      {
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Authorization": "JWT " + userToken
-        },
-        method: "GET"
-      })
-      .then(response => response.json())
-      .then(function(data) {
-        console.log(data);
-      })
-      .catch(function(error) {
-        console.log("There has been a problem with your fetch operation: " + error.message);
-      });
-  }
-
   componentDidMount() {
     var userToken = localStorage.getItem("token");
     var _this = this;
@@ -183,15 +153,6 @@ class SectionTabs extends React.Component {
                                   }
                                 >
                                   Like
-                                </Button>
-                                <br />
-                                <Button
-                                  onClick={() =>
-                                    this.handleDislike(prop.id)
-                                  }
-                                  color= "danger"
-                                >
-                                  Dislike
                                 </Button>
                               </div>
                             )
