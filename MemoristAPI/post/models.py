@@ -71,7 +71,7 @@ class Memory(models.Model):
     numlikes = models.IntegerField(default=0, null=True, blank=True)
     pointlocations = models.ManyToManyField(PointLocation, blank=True)
     pathlocations = models.ManyToManyField(PathLocation, blank=True)
-    mentioned_time = models.ForeignKey(PointMentionedTime, blank=True, on_delete=models.CASCADE)
+    mentioned_time = models.ForeignKey(PointMentionedTime, null=True, blank=True, on_delete=models.CASCADE)
     liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user", blank=True)
 
 
