@@ -80,11 +80,10 @@ public class MemoristApi {
     }
 
     public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2,
                                     ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags,
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws JSONException {
         String url = Constants.API_CREATE_MEMORY;
-
-
 
         JSONObject JRequestObject = new JSONObject();
         JRequestObject.put("title", memoryTitle);
@@ -92,6 +91,10 @@ public class MemoristApi {
         JRequestObject.put("media", JSONHelper.listToJSONArrayForInteger(memoryMultimediaID));
         JRequestObject.put("format", JSONHelper.listToJSONArrayForString(memoryFormat));
         JRequestObject.put("tags", JSONHelper.listToJSONArrayForString(memoryTags));
+        JRequestObject.put("date_type", String.valueOf(selectedDateType));
+        JRequestObject.put("date_format", selectedDateFormat);
+        JRequestObject.put("date_string1", mentionedTime);
+        JRequestObject.put("date_string2", mentionedTime2);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
