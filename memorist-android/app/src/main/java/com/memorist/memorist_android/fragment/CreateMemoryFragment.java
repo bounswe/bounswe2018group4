@@ -8,13 +8,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.memorist.memorist_android.R;
@@ -41,8 +47,11 @@ public class CreateMemoryFragment extends Fragment {
     @BindView(R.id.et_memoryTitle) EditText etMemoryTitle;
     @BindView(R.id.et_memoryStory) EditText etMemoryStory;
     @BindView(R.id.et_memoryMentionedTime) EditText etMemoryMentionedTime;
+    @BindView(R.id.et_memoryMentionedTime2) EditText etMemoryMentionedTime2;
     @BindView(R.id.et_memoryLocation) EditText etMemoryLocation;
     @BindView(R.id.et_memoryTags) EditText etMemoryTags;
+    @BindView(R.id.sp_timeSpinner) Spinner spTimeSpinner;
+    @BindView(R.id.rg_timeFormat) RadioGroup rgTimeFormat;
 
     private final int GALLERY_REQUEST = 1;
     private final int VIDEO_REQUEST = 2;
@@ -54,6 +63,9 @@ public class CreateMemoryFragment extends Fragment {
     private ArrayList<Uri> memoryVideo;
     private ArrayList<Uri> memoryAudio;
     private ArrayList<String> memoryTags;
+
+    private int selectedDateType = 0;
+    private String selectedDateFormat = "d";
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,8 +98,63 @@ public class CreateMemoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the fragment layout and bind view components.
-        View view = inflater.inflate(R.layout.fragment_create_memory, container, false);
+        final View view = inflater.inflate(R.layout.fragment_create_memory, container, false);
         ButterKnife.bind(this, view);
+
+        if(getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.time_list, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spTimeSpinner.setAdapter(adapter);
+        }
+
+        rgTimeFormat.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedButton = (RadioButton) view.findViewById(checkedId);
+                etMemoryMentionedTime2.setText("");
+
+                if(String.valueOf(selectedButton.getText()).equals("Time Interval")) {
+                    selectedDateType = 1;
+
+                    etMemoryMentionedTime.setVisibility(View.VISIBLE);
+                    etMemoryMentionedTime2.setVisibility(View.VISIBLE);
+
+                    etMemoryMentionedTime.setHint("From date");
+                    etMemoryMentionedTime2.setHint("To date");
+                } else {
+                    selectedDateType = 0;
+
+                    etMemoryMentionedTime.setVisibility(View.VISIBLE);
+                    etMemoryMentionedTime2.setVisibility(View.GONE);
+
+                    etMemoryMentionedTime.setHint("Type the date");
+                }
+
+                spTimeSpinner.setVisibility(View.VISIBLE);
+            }
+        });
+
+        spTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0) {
+                    selectedDateFormat = "d";
+                } else if(position == 1) {
+                    selectedDateFormat = "y";
+                } else if(position == 2) {
+                    selectedDateFormat = "ym";
+                } else if(position == 3) {
+                    selectedDateFormat = "ymd";
+                } else {
+                    selectedDateFormat = "full";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }
@@ -231,13 +298,14 @@ public class CreateMemoryFragment extends Fragment {
 
         String memoryTitle = etMemoryTitle.getText().toString();
         String mentionedTime = etMemoryMentionedTime.getText().toString();
+        String mentionedTime2 = etMemoryMentionedTime2.getText().toString();
         String location = etMemoryLocation.getText().toString();
         String story = etMemoryStory.getText().toString();
         String tags = etMemoryTags.getText().toString();
 
         memoryText.add(story);
         memoryTags.addAll(Arrays.asList(tags.split(",")));
-        mListener.memoryShared(memoryTitle, mentionedTime, location, memoryFormat, memoryText, memoryImage, memoryVideo, memoryAudio, memoryTags);
+        mListener.memoryShared(memoryTitle, mentionedTime, mentionedTime2, location, memoryFormat, memoryText, selectedDateType, selectedDateFormat, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
     /**
@@ -251,8 +319,8 @@ public class CreateMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                          ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+        void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                         int selectedDateType, String selectedDateFormat, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
         void memoryCanceled();
         void displayImageDialog(Uri selectedImage);
