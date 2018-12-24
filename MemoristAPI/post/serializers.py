@@ -3,7 +3,7 @@ from rest_framework import serializers
 from utils import *
 from datetime import *
 from login import models as lm
-
+import pprint
 
 class MemoryTagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,6 +68,29 @@ class OwnerSerializer(serializers.ModelSerializer):
 
 
 class MemoryCommentSerializer(serializers.ModelSerializer):
+    # owner = serializers.SerializerMethodField()
+    comment_time = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.MemoryComment
+        fields = [
+            "id",
+            "comment",
+            "owner",
+            "comment_time"
+        ]
+
+    # def get_owner(self, obj):
+    #     owner = lm.RegisteredUser.objects.get(id=obj.owner)
+    #     return OwnerSerializer(owner).data
+
+    def get_comment_time(self, obj):
+        print(obj.comment_time)
+        print(obj.owner_id)
+        return dateFormat_hour(obj.comment_time)
+
+
+class MemoryCommentListSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     comment_time = serializers.SerializerMethodField()
 
@@ -81,6 +104,7 @@ class MemoryCommentSerializer(serializers.ModelSerializer):
         ]
 
     def get_owner(self, obj):
+        pprint.pprint(obj)
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
         return OwnerSerializer(owner).data
 
@@ -172,7 +196,7 @@ class Memory1Serializer(serializers.ModelSerializer):
 
     def get_comments(self, obj):
         comments = obj.comments.all()
-        return MemoryCommentSerializer(comments, many=True).data
+        return MemoryCommentListSerializer(comments, many=True).data
 
     def get_owner(self, obj):
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)

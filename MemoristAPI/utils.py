@@ -1,4 +1,3 @@
-
 def dateFormat_hour(date):
     # d = datetime.datetime.strptime(date, '%Y-%m-%d')
     if date:

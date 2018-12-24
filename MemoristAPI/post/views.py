@@ -102,6 +102,7 @@ class MemoryCommentCreateAPIView(CreateAPIView):
         data = self.request.data
         dt = dict()
         dt["owner"] = user.id
+        print(dt["owner"])
         dt["comment"] = data["comment"]
         serializer = postserializers.MemoryCommentSerializer(data=dt)
         serializer.is_valid(raise_exception=True)
@@ -114,7 +115,9 @@ class MemoryCommentCreateAPIView(CreateAPIView):
         comment = postmodels.MemoryComment.objects.get(id=serializer.data["id"])
         memory.comments.add(comment)
         memory.save()
-        return Response(memory.comments.all().values(), status=HTTP_200_OK)
+        commentserializer = postserializers.MemoryCommentListSerializer(memory.comments.all(), many=True)
+        return Response(commentserializer.data, status=HTTP_200_OK)
+        # return Response(memory.comments.all().values(), status=HTTP_200_OK)
 
 
 class UploadMemoryMultimediaAPIView(CreateAPIView):
