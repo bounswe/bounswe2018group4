@@ -102,7 +102,6 @@ class MemoryCommentCreateAPIView(CreateAPIView):
         data = self.request.data
         dt = dict()
         dt["owner"] = user.id
-        print(dt["owner"])
         dt["comment"] = data["comment"]
         serializer = postserializers.MemoryCommentSerializer(data=dt)
         serializer.is_valid(raise_exception=True)

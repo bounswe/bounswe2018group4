@@ -85,8 +85,6 @@ class MemoryCommentSerializer(serializers.ModelSerializer):
     #     return OwnerSerializer(owner).data
 
     def get_comment_time(self, obj):
-        print(obj.comment_time)
-        print(obj.owner_id)
         return dateFormat_hour(obj.comment_time)
 
 
@@ -104,7 +102,6 @@ class MemoryCommentListSerializer(serializers.ModelSerializer):
         ]
 
     def get_owner(self, obj):
-        pprint.pprint(obj)
         owner = lm.RegisteredUser.objects.get(id=obj.owner_id)
         return OwnerSerializer(owner).data
 
