@@ -36,10 +36,10 @@ public class FolloweringsFragment extends Fragment {
     private static final String FOLLOWER = "follower";
     private static final String FOLLOWING = "following";
 
-    private ArrayList<Integer> followers;
-    private ArrayList<Integer> followings;
+    private ArrayList<String> followers;
+    private ArrayList<String> followings;
 
-    private ArrayAdapter<Integer> adapter;
+    private ArrayAdapter<String> adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,12 +53,12 @@ public class FolloweringsFragment extends Fragment {
      *
      * @return A new instance of fragment Followerings.
      */
-    public static FolloweringsFragment newInstance(ArrayList<Integer> listFollower, ArrayList<Integer> listFollowing) {
+    public static FolloweringsFragment newInstance(ArrayList<String> listFollower, ArrayList<String> listFollowing) {
         FolloweringsFragment fragment = new FolloweringsFragment();
 
         Bundle args = new Bundle();
-        args.putIntegerArrayList(FOLLOWER, listFollower);
-        args.putIntegerArrayList(FOLLOWING, listFollowing);
+        args.putStringArrayList(FOLLOWER, listFollower);
+        args.putStringArrayList(FOLLOWING, listFollowing);
         fragment.setArguments(args);
 
         return fragment;
@@ -69,8 +69,8 @@ public class FolloweringsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            followers = getArguments().getIntegerArrayList(FOLLOWER);
-            followings = getArguments().getIntegerArrayList(FOLLOWING);
+            followers = getArguments().getStringArrayList(FOLLOWER);
+            followings = getArguments().getStringArrayList(FOLLOWING);
         }
     }
 
@@ -103,11 +103,11 @@ public class FolloweringsFragment extends Fragment {
 
     public void setContent() {
         if(followers != null) {
-            adapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_list_item_1, followers);
+            adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, followers);
             tvFollower.setVisibility(View.VISIBLE);
             tvFollowing.setVisibility(View.GONE);
         } else {
-            adapter = new ArrayAdapter<Integer>(getContext(), android.R.layout.simple_list_item_1, followings);
+            adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, followings);
             tvFollower.setVisibility(View.GONE);
             tvFollowing.setVisibility(View.VISIBLE);
         }
