@@ -1,6 +1,7 @@
 package com.memorist.memorist_android.ws;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -91,10 +92,12 @@ public class MemoristApi {
         JRequestObject.put("media", JSONHelper.listToJSONArrayForInteger(memoryMultimediaID));
         JRequestObject.put("format", JSONHelper.listToJSONArrayForString(memoryFormat));
         JRequestObject.put("tags", JSONHelper.listToJSONArrayForString(memoryTags));
-        JRequestObject.put("date_type", String.valueOf(selectedDateType));
+        JRequestObject.put("date_type", selectedDateType);
         JRequestObject.put("date_format", selectedDateFormat);
         JRequestObject.put("date_string1", mentionedTime);
         JRequestObject.put("date_string2", mentionedTime2);
+
+        Log.d("Sent json: ", JRequestObject.toString());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
