@@ -203,6 +203,21 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
+    public static void postDislike(String token, int memoryID) {
+        String url = Constants.API_POST_DISLIKE + memoryID + "/";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        Map<String, String> params = new HashMap<>();
+
+        GsonRequest<ApiResultLike> request = new GsonRequest<>(Request.Method.GET, url,
+                ApiResultLike.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
     public static void getFollowers(String token, Response.Listener<ArrayList<ApiResultFollower>> listListener, Response.ErrorListener errorListener) {
         String url = Constants.API_GET_FOLLEWERS;
 
