@@ -37,8 +37,6 @@ class SectionTabs extends React.Component {
     super(props);
     this.state = {
       memories: [],
-      comment: "",
-      id: "88"
     };
 
     this.handleCommentChange = this.handleCommentChange.bind(this);
