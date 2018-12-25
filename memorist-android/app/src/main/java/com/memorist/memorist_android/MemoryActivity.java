@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -499,6 +500,10 @@ public class MemoryActivity extends BaseActivity
 
         if(multimedia.getMedia_type() == 1) {
             playImage(mediaURL);
+        } else if(multimedia.getMedia_type() == 2) {
+            playVideo(mediaURL);
+        } else {
+            playAudio(mediaURL);
         }
     }
 
@@ -522,7 +527,7 @@ public class MemoryActivity extends BaseActivity
         builder.show();
     }
 
-    public void playVideo(Uri selectedVideo) {
+    public void playVideo(String mediaURL) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Video");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -536,17 +541,17 @@ public class MemoryActivity extends BaseActivity
         builder.setView(v);
 
         VideoView videoContent = v.findViewById(R.id.dialog_videoContent);
-        videoContent.setVideoURI(selectedVideo);
+        videoContent.setVideoURI(Uri.parse(mediaURL));
         videoContent.setVisibility(View.VISIBLE);
 
         builder.show();
         videoContent.start();
     }
 
-    public void playAudio(Uri selectedAudio) {
+    public void playAudio(String mediaURL) {
         final MediaPlayer mediaPlayer = new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(this, selectedAudio);
+            mediaPlayer.setDataSource(this, Uri.parse(mediaURL));
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
