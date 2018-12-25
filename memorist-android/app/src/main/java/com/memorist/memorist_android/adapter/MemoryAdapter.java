@@ -213,7 +213,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                     } else {
                         viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nolike_icon));
                         viewHolder.tvLikeCount.setText(String.valueOf(memory.getNumlikes() - 1));
-                        MemoristApi.postLike(SharedPrefHelper.getUserToken(getContext()), memory.getId());
+                        MemoristApi.postDislike(SharedPrefHelper.getUserToken(getContext()), memory.getId());
                     }
                 }
             });
