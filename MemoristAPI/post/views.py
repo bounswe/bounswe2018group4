@@ -114,7 +114,7 @@ class MemoryCommentCreateAPIView(CreateAPIView):
         comment = postmodels.MemoryComment.objects.get(id=serializer.data["id"])
         memory.comments.add(comment)
         memory.save()
-        commentserializer = postserializers.MemoryCommentListSerializer(memory.comments.all(), many=True)
+        commentserializer = postserializers.MemoryCommentListSerializer(memory.comments.all().order_by('-comment_time'), many=True)
         return Response(commentserializer.data, status=HTTP_200_OK)
         # return Response(memory.comments.all().values(), status=HTTP_200_OK)
 
