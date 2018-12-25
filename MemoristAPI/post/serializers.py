@@ -192,7 +192,7 @@ class Memory1Serializer(serializers.ModelSerializer):
         return obj.comments.all().count()
 
     def get_comments(self, obj):
-        comments = obj.comments.all()
+        comments = obj.comments.all().order_by('-comment_time')
         return MemoryCommentListSerializer(comments, many=True).data
 
     def get_owner(self, obj):
