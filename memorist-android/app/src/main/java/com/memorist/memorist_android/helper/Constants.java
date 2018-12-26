@@ -5,7 +5,7 @@ package com.memorist.memorist_android.helper;
  */
 public class Constants {
 
-    private static final String API_BASE_URL = "http://18.234.162.48:8000";
+    public static final String API_BASE_URL = "http://18.234.162.48:8000";
     public static final String API_LOGIN = API_BASE_URL + "/auth/login/";
     public static final String API_REGISTER = API_BASE_URL + "/auth/register/";
     public static final String API_CREATE_MEMORY = API_BASE_URL + "/post/create1/";
@@ -14,5 +14,6 @@ public class Constants {
     public static final String API_CREATE_AUDIO = API_BASE_URL + "/post/media/3/";
     public static final String API_GET_MEMORY = API_BASE_URL + "/post/list/";
     public static final String API_GET_PROFILE = API_BASE_URL + "/auth/profile/";
+    public static final String API_CREATE_COMMENT = API_BASE_URL + "/post/create_comment/";
 
 }
