@@ -11,6 +11,40 @@
     android:orientation="vertical"
     tools:context=".fragment.FeedCommentFragment" >
 
+        <android.support.design.card.MaterialCardView
+            style="@style/Widget.MaterialComponents.CardView"
+            android:id="@+id/mc_commentEditTextCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:paddingBottom="@dimen/padding_md"
+            android:paddingTop="@dimen/padding_md" >
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_commentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_sm"
+                android:layout_marginBottom="@dimen/margin_sm"
+                android:layout_marginEnd="@dimen/margin_sm"
+                android:layout_marginStart="@dimen/margin_sm"
+                android:inputType="textMultiLine"
+                android:background="@null"
+                android:hint="Type your comment..."
+                fontPath="fonts/HelvaticaNeue.ttf" />
+
+        </android.support.design.card.MaterialCardView>
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/btn_createComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Comment" />
+    
     <ListView
         android:id="@+id/lv_commentList"
         android:layout_width="match_parent"
@@ -19,16 +53,5 @@
         android:divider="@null">
 
     </ListView>
-
-    <EditText
-        android:id="@+id/et_commentText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btn_createComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comment"/>
 
 </LinearLayout>

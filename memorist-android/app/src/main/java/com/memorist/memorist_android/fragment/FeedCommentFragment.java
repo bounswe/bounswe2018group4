@@ -7,28 +7,34 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.CommentAdapter;
+import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.model.Comments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class FeedCommentFragment extends Fragment {
 
     @BindView(R.id.lv_commentList) ListView lvCommentList;
+    @BindView(R.id.et_commentText) EditText etComment;
 
-    private FeedCommentFragment.OnFragmentInteractionListener mListener;
+    private static final String COMMENTS = "comments";
+    private static final String ID = "id";
 
-    // The data set for memory objects.
+    private OnFragmentInteractionListener mListener;
     private ArrayList<Comments> comments;
-
-    // The adapter to fit the data onto list.
     private CommentAdapter adapter;
+    private int memoryID;
 
     public FeedCommentFragment() {
         // Required empty public constructor
@@ -40,13 +46,27 @@ public class FeedCommentFragment extends Fragment {
      *
      * @return A new instance of fragment FeedMemoryFragment.
      */
-    public static FeedCommentFragment newInstance() {
-        return new FeedCommentFragment();
+    public static FeedCommentFragment newInstance(Comments[] comments, int memoryID) {
+        FeedCommentFragment fragment = new FeedCommentFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable(COMMENTS, comments);
+        args.putInt(ID, memoryID);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        comments = new ArrayList<>();
+
+        if (getArguments() != null) {
+            Comments[] commentsArr = (Comments[]) getArguments().getSerializable(COMMENTS);
+            memoryID = getArguments().getInt(ID);
+            comments.addAll(Arrays.asList(commentsArr));
+        }
     }
 
     @Override
@@ -55,8 +75,9 @@ public class FeedCommentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed_comment, container, false);
         ButterKnife.bind(this, view);
 
-        comments = new ArrayList<>();
-        mListener.getUserCommentList();
+        adapter = new CommentAdapter(comments, getContext());
+        lvCommentList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
@@ -79,9 +100,16 @@ public class FeedCommentFragment extends Fragment {
         mListener = null;
     }
 
-    public void updateMemories(ArrayList<Comments> commentList) {
+    @OnClick(R.id.btn_createComment)
+    public void addComment(View v) {
+        if(!etComment.getText().toString().equals("")) {
+            mListener.addComment(etComment.getText().toString(), memoryID);
+        }
+    }
+
+    public void updateComments(ArrayList<Comments> commentsArrayList) {
         comments.clear();
-        comments.addAll(commentList);
+        comments.addAll(commentsArrayList);
 
         if(adapter == null) {
             adapter = new CommentAdapter(comments, getContext());
@@ -102,7 +130,7 @@ public class FeedCommentFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        Comments[] getUserCommentList();
+        void addComment(String comment, int memoryID);
     }
 }
 
