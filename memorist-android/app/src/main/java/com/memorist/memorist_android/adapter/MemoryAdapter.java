@@ -3,7 +3,6 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.memorist.memorist_android.MemoryActivity;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.model.Comments;
@@ -25,8 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MemoryAdapter extends ArrayAdapter<Memory>
-implements FeedCommentFragment.OnFragmentInteractionListener {
+public class MemoryAdapter extends ArrayAdapter<Memory> {
 
     // The container list of all existing meeting data objects.
     private ArrayList<Memory> dataSet;
@@ -34,7 +31,9 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
     // The context that the adapter will work on.
     private Context context;
 
-    private Comments[] commentsList;
+    // Listener to inform memory activity.
+    private MemoryOnClickListener mListener;
+
     /**
      * ViewHolder class is the part where a row view's components are initialized.
      * All components are constructed.
@@ -65,6 +64,7 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
 
         this.dataSet = dataSet;
         this.context = context;
+        this.mListener = (MemoryOnClickListener) getContext();
     }
 
     /**
@@ -160,17 +160,11 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
             viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setComments(memory.getComments());
-
-                    MemoryActivity activity = (MemoryActivity) convertView.getContext();
-                    Fragment fragment = FeedCommentFragment.newInstance();
-                    activity.getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                            .replace(R.id.memoryFragmentContent, fragment, activity.TAG_FEED_COMMENT_FRAGMENT)
-                            .addToBackStack(activity.TAG_FEED_COMMENT_FRAGMENT)
-                            .commit();
+                    mListener.memoryCommentsClicked(memory);
                 }
             });
+
+            viewHolder.tvCommentCount.setText(String.valueOf(memory.getNumcomments()));
 
             // TODO : View image part..
 
@@ -207,13 +201,7 @@ implements FeedCommentFragment.OnFragmentInteractionListener {
         }
     }
 
-
-    public  void setComments(Comments[] cmnt){
-        commentsList=cmnt;
-    }
-
-    @Override
-    public Comments[] getUserCommentList() {
-        return commentsList;
+    public interface MemoryOnClickListener {
+        void memoryCommentsClicked(Memory memory);
     }
 }
