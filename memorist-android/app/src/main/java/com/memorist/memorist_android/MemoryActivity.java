@@ -43,6 +43,8 @@ public class MemoryActivity extends BaseActivity
     FeedMemoryFragment.OnFragmentInteractionListener,
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
+    MemoryAdapter.MemoryOnClickListener,
+    FeedCommentFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -151,6 +153,24 @@ public class MemoryActivity extends BaseActivity
     @Override
     public void memoryCanceled() {
         onBackPressed();
+    }
+
+    @Override
+    public void memoryCommentsClicked(Memory memory) {
+        FeedCommentFragment fragment = FeedCommentFragment.newInstance(memory.getComments(), memory.getId());
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_FEED_COMMENT_FRAGMENT)
+                .addToBackStack(TAG_FEED_COMMENT_FRAGMENT)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void addComment(String comment, int memoryID) {
+        MemoristApi.sendComment(SharedPrefHelper.getUserToken(getApplicationContext()), comment, memoryID, sendCommentListener, sendCommentErrorListener);
     }
 
     @OnClick(R.id.btn_memoristHome)
@@ -316,4 +336,20 @@ public class MemoryActivity extends BaseActivity
         }
     };
 
+    private Response.Listener<ArrayList<Comments>> sendCommentListener = new Response.Listener<ArrayList<Comments>>() {
+        @Override
+        public void onResponse(ArrayList<Comments> response) {
+            FeedCommentFragment fragment = (FeedCommentFragment) getSupportFragmentManager().findFragmentByTag(TAG_FEED_COMMENT_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateComments(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener sendCommentErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
 }
