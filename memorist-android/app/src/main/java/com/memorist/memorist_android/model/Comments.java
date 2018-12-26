@@ -2,7 +2,9 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-public class Comments {
+import java.io.Serializable;
+
+public class Comments implements Serializable {
 
     @Expose
     private int id;
@@ -14,13 +16,13 @@ public class Comments {
     private Owner owner;
 
     @Expose
-    private String commentTime;
+    private String comment_time;
 
-    public Comments(int id, String comment, Owner owner, String comment_Time) {
+    public Comments(int id, String comment, Owner owner, String comment_time) {
         this.id = id;
         this.comment=comment;
         this.owner = owner;
-        this.commentTime=comment_Time;
+        this.comment_time=comment_time;
     }
 
     public int getId() {
@@ -48,11 +50,11 @@ public class Comments {
     }
 
     public String getCommentTime() {
-        return commentTime;
+        return comment_time;
     }
 
-    public void setCommentTime(String comment_Time) {
-        this.commentTime = comment_Time;
+    public void setCommentTime(String comment_time) {
+        this.comment_time = comment_time;
     }
 
 }
