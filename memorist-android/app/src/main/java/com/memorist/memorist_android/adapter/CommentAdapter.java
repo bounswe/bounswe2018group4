@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
+import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.model.Comments;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -31,17 +33,10 @@ public class CommentAdapter extends ArrayAdapter<Comments> {
      * All components are constructed.
      */
     static class ViewHolder {
-        @BindView(R.id.iv_commentProfilePicture)
-        ImageView ivCommentProfilePicture;
-
-        @BindView(R.id.tv_commentUsername)
-        TextView tvCommentUsername;
-
-        @BindView(R.id.tv_commentPostedTime)
-        TextView tvCommentPostedTime;
-
-        @BindView(R.id.tv_commentText)
-        TextView tvCommentText;
+        @BindView(R.id.iv_commentProfilePicture) ImageView ivCommentProfilePicture;
+        @BindView(R.id.tv_commentUsername) TextView tvCommentUsername;
+        @BindView(R.id.tv_commentPostedTime) TextView tvCommentPostedTime;
+        @BindView(R.id.tv_commentText) TextView tvCommentText;
 
         private ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -67,14 +62,14 @@ public class CommentAdapter extends ArrayAdapter<Comments> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // The commment in the placement of the specific row.
+        // The comment in the placement of the specific row.
         final Comments comment = getItem(position);
 
         /*
          * ViewHolder is used to avoid instantiating a view for every item in your adapter,
          * when a view scrolls off-screen, it can be reused, or recycled.
          */
-        CommentAdapter.ViewHolder viewHolder;
+        ViewHolder viewHolder;
 
         /*
          * If convertView view object has never been constructed, then inflate the layout,
@@ -84,15 +79,15 @@ public class CommentAdapter extends ArrayAdapter<Comments> {
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.adapter_comment_row, parent, false);
-            viewHolder = new CommentAdapter.ViewHolder(convertView);
+            viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (CommentAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         // Sets the content of the view.
-        setViewContent(position, convertView, viewHolder, comment);
+        setViewContent(viewHolder, comment);
         return convertView;
     }
 
@@ -102,15 +97,17 @@ public class CommentAdapter extends ArrayAdapter<Comments> {
      * @param viewHolder, the holder of view which will be displayed.
      * @param comment: The meeting object which holds the content.
      */
-    private void setViewContent(int position, @Nullable View convertView, final CommentAdapter.ViewHolder viewHolder, final Comments comment) {
+    private void setViewContent(ViewHolder viewHolder, final Comments comment) {
         if(comment != null) {
             String username = "@" + comment.getOwner().getUsername();
             String postedTime = "Posted on " + comment.getCommentTime();
-            String text= comment.getComment();
+            String text = comment.getComment();
+            String avatarURL = Constants.API_BASE_URL + "/multimedia/" + comment.getOwner().getPhoto();
 
             viewHolder.tvCommentUsername.setText(username);
             viewHolder.tvCommentPostedTime.setText(postedTime);
             viewHolder.tvCommentText.setText(text);
+            Picasso.get().load(avatarURL).into(viewHolder.ivCommentProfilePicture);
         }
     }
 }
