@@ -14,6 +14,7 @@ import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 
 import org.json.JSONException;
@@ -161,6 +162,32 @@ public class MemoristApi {
 
         GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.GET, url,
                 ApiResultProfile.class, headers, params, listener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void sendComment(String token, final String comment, int memoryID,
+                                   Response.Listener<ArrayList<Comments>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_CREATE_COMMENT + memoryID + "/";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<Comments> request = new GsonArrayRequest<Comments>(url, Comments.class, headers, listListener, errorListener) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("comment", comment);
+
+                return params;
+            }
+
+            @Override
+            public int getMethod() {
+                return Method.POST;
+            }
+        };
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
