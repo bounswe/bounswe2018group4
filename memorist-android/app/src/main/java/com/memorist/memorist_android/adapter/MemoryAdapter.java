@@ -3,6 +3,7 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,9 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
     // The context that the adapter will work on.
     private Context context;
+
+    // Listener to inform memory activity.
+    private MemoryOnClickListener mListener;
 
     /**
      * ViewHolder class is the part where a row view's components are initialized.
@@ -77,6 +81,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
         this.dataSet = dataSet;
         this.context = context;
+        this.mListener = (MemoryOnClickListener) getContext();
     }
 
     /**
@@ -110,6 +115,28 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder.memoryMultimedia1.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia1.setImageBitmap(null);
+            viewHolder.memoryMultimedia2.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia2.setImageBitmap(null);
+            viewHolder.memoryMultimedia3.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia3.setImageBitmap(null);
+            viewHolder.memoryMultimedia4.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia4.setImageBitmap(null);
+            viewHolder.memoryMultimedia5.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia5.setImageBitmap(null);
+            viewHolder.memoryMultimedia6.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia6.setImageBitmap(null);
+            viewHolder.memoryMultimedia7.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia7.setImageBitmap(null);
+            viewHolder.memoryMultimedia8.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia8.setImageBitmap(null);
+            viewHolder.memoryMultimedia9.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia9.setImageBitmap(null);
+            viewHolder.memoryMultimedia10.setVisibility(View.GONE);
+            viewHolder.memoryMultimedia10.setImageBitmap(null);
+            viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nolike_icon));
+            viewHolder.ivFeedProfilePicture.setImageBitmap(null);
         }
 
         // Sets the content of the view.
@@ -124,11 +151,19 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
      */
     private void setViewContent(final ViewHolder viewHolder, final Memory memory) {
         if(memory != null) {
+            String avatarURL = Constants.API_BASE_URL + "/multimedia/" + memory.getOwner().getPhoto();
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
-            String mentionedTime = "Mentions about " + "???";
+            String mentionedTime = "Mentions about ";
             String location = "Place is " + "???";
             String title = memory.getTitle();
+
+            if(memory.getMentioned_time().length != 0) {
+                mentionedTime += memory.getMentioned_time()[0].getDate_string1();
+                if(memory.getMentioned_time()[0].getDate_string2() != null) {
+                    mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
+                }
+            }
 
             StringBuilder storyBuilder = new StringBuilder();
             for(Text text: memory.getTexts()) {
@@ -147,6 +182,11 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             viewHolder.tvFeedTitle.setText(title);
             viewHolder.tvFeedStory.setText(storyBuilder.toString());
             viewHolder.tvFeedTags.setText(tagBuilder.toString());
+            Picasso
+                    .get()
+                    .load(avatarURL)
+                    .fit()
+                    .into(viewHolder.ivFeedProfilePicture);
 
             boolean isLiked = false;
             int myUserID = SharedPrefHelper.getUserId(getContext());
@@ -170,6 +210,10 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                         viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.yeslike_icon));
                         viewHolder.tvLikeCount.setText(String.valueOf(memory.getNumlikes() + 1));
                         MemoristApi.postLike(SharedPrefHelper.getUserToken(getContext()), memory.getId());
+                    } else {
+                        viewHolder.btnLike.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nolike_icon));
+                        viewHolder.tvLikeCount.setText(String.valueOf(memory.getNumlikes() - 1));
+                        MemoristApi.postDislike(SharedPrefHelper.getUserToken(getContext()), memory.getId());
                     }
                 }
             });
@@ -183,51 +227,94 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
                 int mediaType = mm.getMedia_type();
 
+                Log.v("counter", mediaCounter + " for " + memory.getTitle());
+
                 if(mediaType == 1) {
                     switch (mediaCounter) {
                         case 1:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia1);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia1);
                             viewHolder.memoryMultimedia1.setVisibility(View.VISIBLE);
                             break;
                         case 2:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia2);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia2);
                             viewHolder.memoryMultimedia2.setVisibility(View.VISIBLE);
                             break;
                         case 3:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia3);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia3);
                             viewHolder.memoryMultimedia3.setVisibility(View.VISIBLE);
                             break;
                         case 4:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia4);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia4);
                             viewHolder.memoryMultimedia4.setVisibility(View.VISIBLE);
                             break;
                         case 5:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia5);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia5);
                             viewHolder.memoryMultimedia5.setVisibility(View.VISIBLE);
                             break;
                         case 6:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia6);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia6);
                             viewHolder.memoryMultimedia6.setVisibility(View.VISIBLE);
                             break;
                         case 7:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia7);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia7);
                             viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
                             break;
                         case 8:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia8);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia8);
                             viewHolder.memoryMultimedia8.setVisibility(View.VISIBLE);
                             break;
                         case 9:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia9);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia9);
                             viewHolder.memoryMultimedia9.setVisibility(View.VISIBLE);
                             break;
                         case 10:
-                            Picasso.get().load(mediaURL).into(viewHolder.memoryMultimedia10);
+                            Picasso.get().load(mediaURL).fit().into(viewHolder.memoryMultimedia10);
                             viewHolder.memoryMultimedia10.setVisibility(View.VISIBLE);
                             break;
                     }
-
-                    mediaCounter++;
+                } else if (mediaType == 2) {
+                    switch (mediaCounter) {
+                        case 1:
+                            viewHolder.memoryMultimedia1.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia1.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:
+                            viewHolder.memoryMultimedia2.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia2.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:
+                            viewHolder.memoryMultimedia3.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia3.setVisibility(View.VISIBLE);
+                            break;
+                        case 4:
+                            viewHolder.memoryMultimedia4.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia4.setVisibility(View.VISIBLE);
+                            break;
+                        case 5:
+                            viewHolder.memoryMultimedia5.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia5.setVisibility(View.VISIBLE);
+                            break;
+                        case 6:
+                            viewHolder.memoryMultimedia6.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia6.setVisibility(View.VISIBLE);
+                            break;
+                        case 7:
+                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            break;
+                        case 8:
+                            viewHolder.memoryMultimedia8.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia8.setVisibility(View.VISIBLE);
+                            break;
+                        case 9:
+                            viewHolder.memoryMultimedia9.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia9.setVisibility(View.VISIBLE);
+                            break;
+                        case 10:
+                            viewHolder.memoryMultimedia10.setImageDrawable(context.getResources().getDrawable(R.drawable.video_play_icon));
+                            viewHolder.memoryMultimedia10.setVisibility(View.VISIBLE);
+                            break;
+                    }
                 } else if(mediaType == 3) {
                     switch (mediaCounter) {
                         case 1:
@@ -271,10 +358,84 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                             viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
                             break;
                     }
-
-                    mediaCounter++;
                 }
+
+                mediaCounter++;
             }
+
+            viewHolder.memoryMultimedia1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 1);
+                }
+            });
+
+            viewHolder.memoryMultimedia2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 2);
+                }
+            });
+
+            viewHolder.memoryMultimedia3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 3);
+                }
+            });
+
+            viewHolder.memoryMultimedia4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 4);
+                }
+            });
+
+            viewHolder.memoryMultimedia5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 5);
+                }
+            });
+
+            viewHolder.memoryMultimedia6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 6);
+                }
+            });
+
+            viewHolder.memoryMultimedia7.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 7);
+                }
+            });
+
+            viewHolder.memoryMultimedia8.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 8);
+                }
+            });
+
+            viewHolder.memoryMultimedia9.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 9);
+                }
+            });
+
+            viewHolder.memoryMultimedia10.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryMultimediaClick(memory, 10);
+                }
+            });
         }
+    }
+
+    public interface MemoryOnClickListener {
+        void memoryMultimediaClick(Memory memory, int position);
     }
 }

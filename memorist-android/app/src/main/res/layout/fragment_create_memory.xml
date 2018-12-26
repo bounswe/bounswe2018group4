@@ -113,17 +113,83 @@
             android:paddingStart="@dimen/padding_md"
             android:paddingEnd="@dimen/padding_md" >
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_memoryMentionedTime"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginBottom="@dimen/margin_md"
-                android:layout_marginEnd="@dimen/margin_md"
-                android:layout_marginStart="@dimen/margin_md"
-                android:background="@null"
-                android:inputType="text"
-                android:hint="@string/memoryMentionedTimeHint" />
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:textSize="@dimen/textSizeCreateMemory"
+                    android:text="When?"
+                    android:gravity="center"
+                    fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+                <RadioGroup
+                    android:id="@+id/rg_timeFormat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md" >
+
+                    <RadioButton
+                        android:id="@+id/rb_singleTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Single Time"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:id="@+id/rb_multipleTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time Interval"
+                        android:checked="false" />
+
+                </RadioGroup>
+
+                <Spinner
+                    android:id="@+id/sp_timeSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:spinnerMode="dropdown"
+                    android:visibility="gone"
+                    android:entries="@array/time_list" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_memoryMentionedTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_memoryMentionedTime2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+            </LinearLayout>
 
         </android.support.design.card.MaterialCardView>
 

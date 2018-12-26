@@ -10,29 +10,33 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
+import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.FolloweringsFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
 import com.memorist.memorist_android.fragment.RecommendationsFragment;
 import com.memorist.memorist_android.fragment.SearchMemoryFragment;
+import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.Memory;
+import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.User;
 import com.memorist.memorist_android.ws.MemoristApi;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +55,7 @@ public class MemoryActivity extends BaseActivity
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
     FolloweringsFragment.OnFragmentInteractionListener,
+        MemoryAdapter.MemoryOnClickListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -65,6 +70,10 @@ public class MemoryActivity extends BaseActivity
     private ArrayList<String> memoryText;
     private ArrayList<String> memoryTags;
     private String memoryTitle;
+    private String mentionedTime;
+    private String mentionedTime2;
+    private String selectedDateFormat;
+    private int selectedDateType;
     private int multimediaCounter;
 
     private int currentTab = 0;
@@ -125,42 +134,53 @@ public class MemoryActivity extends BaseActivity
 
     @Override
     public void getFollowerList(ArrayList<ApiResultFollower> list) {
-        ArrayList<Integer> listFollower = new ArrayList<>();
+        ArrayList<String> listFollower = new ArrayList<>();
 
         for(ApiResultFollower follower: list) {
-            listFollower.add(follower.getFollower());
+            listFollower.add("@" + follower.getUsername());
         }
 
         FolloweringsFragment fragment = FolloweringsFragment.newInstance(listFollower, null);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
                 .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
                 .commit();
+
+        currentTab = 6;
     }
 
     @Override
     public void getFollowingList(ArrayList<ApiResultFollowing> list) {
-        ArrayList<Integer> listFollowing = new ArrayList<>();
+        ArrayList<String> listFollowing = new ArrayList<>();
 
         for(ApiResultFollowing following: list) {
-            listFollowing.add(following.getFollowed());
+            listFollowing.add("@" + following.getUsername());
         }
 
         FolloweringsFragment fragment = FolloweringsFragment.newInstance(null, listFollowing);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.memoryFragmentContent, fragment, TAG_FOLLOWERINGS_FRAGMENT)
                 .addToBackStack(TAG_FOLLOWERINGS_FRAGMENT)
                 .commit();
+
+        currentTab = 6;
     }
 
     @Override
-    public void memoryShared(String memoryTitle, String mentionedTime, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                             ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
+    public void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location, ArrayList<String> memoryFormat,
+                             ArrayList<String> memoryText, int selectedDateType, String selectedDateFormat, ArrayList<Uri> memoryImage,
+                             ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
         this.memoryMultimediaID = new ArrayList<>();
         this.memoryTitle = memoryTitle;
         this.memoryFormat = memoryFormat;
+        this.selectedDateType = selectedDateType;
+        this.selectedDateFormat = selectedDateFormat;
+        this.mentionedTime = mentionedTime;
+        this.mentionedTime2 = mentionedTime2;
         this.memoryText = memoryText;
         this.memoryTags = memoryTags;
         this.multimediaCounter = memoryImage.size() + memoryVideo.size() + memoryAudio.size();
@@ -170,7 +190,8 @@ public class MemoryActivity extends BaseActivity
         if(this.multimediaCounter == 0) {
             try {
                 MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                        memoryText, memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
+                        memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                        memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -353,7 +374,8 @@ public class MemoryActivity extends BaseActivity
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
                     MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                            memoryText, memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
+                            memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                            memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -470,4 +492,88 @@ public class MemoryActivity extends BaseActivity
 
         }
     };
+
+    @Override
+    public void memoryMultimediaClick(Memory memory, int position) {
+        Multimedia multimedia = memory.getMultimedia()[position - 1];
+        String mediaURL = Constants.API_BASE_URL + multimedia.getMultimedia().getMedia();
+
+        if(multimedia.getMedia_type() == 1) {
+            playImage(mediaURL);
+        } else if(multimedia.getMedia_type() == 2) {
+            playVideo(mediaURL);
+        } else {
+            playAudio(mediaURL);
+        }
+    }
+
+    public void playImage(String mediaURL) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Image");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        ImageView imageContent = v.findViewById(R.id.dialog_imageContent);
+        imageContent.setVisibility(View.VISIBLE);
+        Picasso.get().load(mediaURL).into(imageContent);
+
+        builder.show();
+    }
+
+    public void playVideo(String mediaURL) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Video");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        VideoView videoContent = v.findViewById(R.id.dialog_videoContent);
+        videoContent.setVideoURI(Uri.parse(mediaURL));
+        videoContent.setVisibility(View.VISIBLE);
+
+        builder.show();
+        videoContent.start();
+    }
+
+    public void playAudio(String mediaURL) {
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(this, Uri.parse(mediaURL));
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Audio");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mediaPlayer.stop();
+            }
+        });
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_media, null);
+        builder.setView(v);
+
+        ImageView audioContent = v.findViewById(R.id.dialog_imageContent);
+        audioContent.setImageDrawable(getResources().getDrawable(R.drawable.audio_icon));
+        audioContent.setVisibility(View.VISIBLE);
+
+        builder.show();
+        mediaPlayer.start();
+    }
 }

@@ -1,6 +1,7 @@
 package com.memorist.memorist_android.ws;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -80,11 +81,10 @@ public class MemoristApi {
     }
 
     public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2,
                                     ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags,
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws JSONException {
         String url = Constants.API_CREATE_MEMORY;
-
-
 
         JSONObject JRequestObject = new JSONObject();
         JRequestObject.put("title", memoryTitle);
@@ -92,6 +92,12 @@ public class MemoristApi {
         JRequestObject.put("media", JSONHelper.listToJSONArrayForInteger(memoryMultimediaID));
         JRequestObject.put("format", JSONHelper.listToJSONArrayForString(memoryFormat));
         JRequestObject.put("tags", JSONHelper.listToJSONArrayForString(memoryTags));
+        JRequestObject.put("date_type", selectedDateType);
+        JRequestObject.put("date_format", selectedDateFormat);
+        JRequestObject.put("date_string1", mentionedTime);
+        JRequestObject.put("date_string2", mentionedTime2);
+
+        Log.d("Sent json: ", JRequestObject.toString());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
@@ -183,7 +189,22 @@ public class MemoristApi {
     }
 
     public static void postLike(String token, int memoryID) {
-        String url = Constants.API_POST_LIKE + memoryID;
+        String url = Constants.API_POST_LIKE + memoryID + "/";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        Map<String, String> params = new HashMap<>();
+
+        GsonRequest<ApiResultLike> request = new GsonRequest<>(Request.Method.GET, url,
+                ApiResultLike.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void postDislike(String token, int memoryID) {
+        String url = Constants.API_POST_DISLIKE + memoryID + "/";
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", token);

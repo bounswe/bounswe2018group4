@@ -59,4 +59,12 @@
         <item>Search by mentioned time</item>
         <item>Search by tag</item>
     </string-array>
+
+    <string-array name="time_list">
+        <item>Decade only</item>
+        <item>Year only</item>
+        <item>Year and month</item>
+        <item>Year, month and day</item>
+        <item>Full date</item>
+    </string-array>
 </resources>
