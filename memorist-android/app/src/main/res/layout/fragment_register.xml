@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_md"
+    android:layout_marginBottom="@dimen/margin_md"
+    android:layout_marginStart="@dimen/margin_md"
+    android:layout_marginEnd="@dimen/margin_md"
+    tools:context=".fragment.RegisterFragment">
+
+    <android.support.design.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:id="@+id/mc_registerCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_md"
+        android:paddingEnd="@dimen/padding_md"
+        android:paddingBottom="@dimen/padding_md"
+        android:paddingTop="@dimen/padding_md"
+        android:layout_centerInParent="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_welcomeToRegisterPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:gravity="center"
+                android:textSize="@dimen/registerWelcomeTextSize"
+                android:text="@string/registerWelcomeText"
+                fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_registerUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:inputType="text"
+                android:hint="@string/registerUsernameHint"/>
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_registerPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:inputType="textPassword"
+                android:hint="@string/registerPasswordHint"/>
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_registerEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:inputType="textEmailAddress"
+                android:hint="@string/registerEmailHint"/>
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_registerFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:inputType="text"
+                android:hint="@string/registerFirstNameHint"/>
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_registerLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginStart="@dimen/margin_md"
+                android:inputType="text"
+                android:imeOptions="actionSend"
+                android:hint="@string/registerLastNameHint"/>
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_md"
+                android:layout_marginTop="@dimen/margin_md"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginBottom="@dimen/margin_md"
+                android:background="@color/btnLoginColor"
+                android:text="@string/btnRegisterSend" />
+
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+</RelativeLayout>
