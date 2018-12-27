@@ -23,6 +23,10 @@ import Divider from "@material-ui/core/Divider";
 import Button from "components/CustomButtons/Button.jsx";
 import PropTypes from "prop-types";
 import $ from "jquery";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
+import Typography from '@material-ui/core/Typography';
 
 class SectionTabs extends React.Component {
   static propTypes = {
@@ -32,8 +36,16 @@ class SectionTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      memories: []
+      memories: [],
     };
+
+    this.handleCommentChange = this.handleCommentChange.bind(this);
+    this.handleComment = this.handleComment.bind(this);
+  }
+
+  handleCommentChange(event) {
+    this.state.comment = event.target.value;
+    console.log(this.comment);
   }
 
   handleLike(id) {
@@ -64,6 +76,70 @@ class SectionTabs extends React.Component {
       .catch(function(error) {
         console.log("There has been a problem with your fetch operation: " + error.message);
       });
+  }
+
+  handleDislike(id) {
+    var userToken = localStorage.getItem("token");
+    var _this = this;
+    console.log(userToken);
+    fetch(
+      "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/dislike/".concat(
+        id
+      ).concat(
+        "/"
+      ),
+      {
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Authorization": "JWT " + userToken
+        },
+        method: "GET"
+      })
+      .then(response => response.json())
+      .then(function(data) {
+        console.log(data);
+      })
+      .catch(function(error) {
+        console.log("There has been a problem with your fetch operation: " + error.message);
+      });
+  }
+
+  handleComment(e) {
+    var userToken = localStorage.getItem("token");
+    var body = {
+      comment: this.comment
+    }
+
+    $.ajax({
+      url: "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/create_comment/".concat(
+        this.state.id
+      ).concat(
+        "/"
+      ),
+      data: JSON.stringify(body),
+      type: "POST",
+      crossDomain : true,
+      headers: {
+        "Content-Type" : "application/json",
+        "Accept" : "application/json",
+        "Authorization": "JWT " + userToken
+      },
+      beforeSend: () => {
+        console.log();
+      },
+      success: (res) => {
+        var token = res.token;
+        window.location.replace("/home-page");
+      },
+      error: (res, err) => {
+        console.log(body);
+        console.log("ERR " + res);
+      }
+    });
   }
 
   componentDidMount() {
@@ -154,6 +230,32 @@ class SectionTabs extends React.Component {
                                 >
                                   Like
                                 </Button>
+                                <br />
+                                <Button
+                                  onClick={() =>
+                                    this.handleDislike(prop.id)
+                                  }
+                                  color= "danger"
+                                >
+                                  Dislike
+                                </Button>
+                              </div>
+                            )
+                          },
+                          {
+                            tabName: "Comment",
+                            tabContent: (
+                              <div>
+                                <Typography variant="display1" gutterBottom>
+                                  Comments
+                                </Typography>
+                                {prop.comments.map((value, key) => {
+                                  return (
+                                    <div>
+                                      <b>{value.owner.username}:</b> {value.comment}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             )
                           }
