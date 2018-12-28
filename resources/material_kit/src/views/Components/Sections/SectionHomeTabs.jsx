@@ -37,15 +37,18 @@ class SectionTabs extends React.Component {
     super(props);
     this.state = {
       memories: [],
+      comment: ""
     };
 
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleComment = this.handleComment.bind(this);
   }
 
-  handleCommentChange(event) {
-    this.state.comment = event.target.value;
-    console.log(this.comment);
+  handleCommentChange(e) {
+    this.setState({
+      comment: e.target.value
+    });
+    console.log(this.state.comment);
   }
 
   handleLike(id) {
@@ -108,15 +111,15 @@ class SectionTabs extends React.Component {
       });
   }
 
-  handleComment(e) {
+  handleComment(id) {
     var userToken = localStorage.getItem("token");
     var body = {
-      comment: this.comment
-    }
+      comment: this.state.comment
+    };
 
     $.ajax({
       url: "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/create_comment/".concat(
-        this.state.id
+        id
       ).concat(
         "/"
       ),
@@ -246,6 +249,21 @@ class SectionTabs extends React.Component {
                             tabName: "Comment",
                             tabContent: (
                               <div>
+                                <CustomInput
+                                  id="comment"
+                                  onChange={this.handleCommentChange}
+                                  formControlProps={{
+                                    fullWidth: true
+                                  }}
+                                  inputProps={{
+                                    onChange: this.handleCommentChange,
+                                    type: "text"
+
+                                  }}
+                                />
+                                <Button simple color="primary" size="lg" onClick={() => this.handleComment(prop.id)}>
+                                  Comment
+                                </Button>
                                 <Typography variant="display1" gutterBottom>
                                   Comments
                                 </Typography>
