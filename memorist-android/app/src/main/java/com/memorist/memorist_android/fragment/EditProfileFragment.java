@@ -1,6 +1,9 @@
 package com.memorist.memorist_android.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.helper.Constants;
 import com.squareup.picasso.Picasso;
@@ -40,12 +42,15 @@ public class EditProfileFragment extends Fragment {
     private static final String LOCATION = "location";
     private static final String PHOTO = "photo";
 
+    private int GALLERY_REQUEST = 1;
+
     private String mUsername;
     private String mFirstName;
     private String mLastName;
     private String mGender;
     private String mLocation;
     private String mPhoto;
+    private Uri imageChange;
 
     private OnFragmentInteractionListener mListener;
 
@@ -111,7 +116,28 @@ public class EditProfileFragment extends Fragment {
             etEditProfileGender.setText("Other");
         }
 
+        ivProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                imageChange = data.getData();
+                ivProfilePicture.setImageURI(imageChange);
+            }
+        }
     }
 
     @Override
@@ -148,6 +174,9 @@ public class EditProfileFragment extends Fragment {
         }
 
         mListener.updateProfileInformation(newFirst, newLast, genderType, newLocation);
+        if(imageChange != null) {
+            mListener.profilePhotoUpdate(imageChange);
+        }
     }
 
     /**
@@ -162,5 +191,6 @@ public class EditProfileFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void updateProfileInformation(String first, String last, int gender, String location);
+        void profilePhotoUpdate(Uri photo);
     }
 }

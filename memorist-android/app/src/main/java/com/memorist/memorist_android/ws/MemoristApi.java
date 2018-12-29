@@ -259,4 +259,26 @@ public class MemoristApi {
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
+
+    public static void photoUpdate(Context context, final String token, File imageFile, String filePath,
+                                   Response.Listener<ApiResultMediaUpload> mediaUploadListener,
+                                   Response.ErrorListener mediaUploadErrorListener) {
+        String url = Constants.API_PHOTO_UPDATE;
+
+        VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<ApiResultMediaUpload>(Request.Method.POST, url,
+                ApiResultMediaUpload.class, imageFile, filePath, mediaUploadListener, mediaUploadErrorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token);
+
+                return headers;
+            }
+        };
+
+        request.setMediaUploadType(1);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
 }

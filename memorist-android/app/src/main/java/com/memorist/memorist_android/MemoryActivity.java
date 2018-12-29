@@ -44,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -404,6 +405,15 @@ public class MemoryActivity extends BaseActivity
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
             Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+
+            String body = "as";
+            try {
+                body = new String(error.networkResponse.data,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            Log.v("lof", body);
         }
     };
 
@@ -604,4 +614,14 @@ public class MemoryActivity extends BaseActivity
             tabSwitcher(TAG_USER_PROFILE_FRAGMENT, 5);
         }
     };
+
+    @Override
+    public void profilePhotoUpdate(Uri photo) {
+        String filePath = UriPathHelper.getPathFromURI_Image(this, photo);
+
+        if(filePath != null) {
+            File imageFile = new File(filePath);
+            MemoristApi.photoUpdate(getApplicationContext(), SharedPrefHelper.getUserToken(getApplicationContext()), imageFile, filePath, null, mediaUploadErrorListener);
+        }
+    }
 }
