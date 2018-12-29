@@ -48,8 +48,6 @@ public class GsonArrayRequest<T> extends Request<ArrayList<T>> {
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
 
-            Log.d("ResponseGSONArray: ", json);
-
             Type listType = com.google.gson.internal.$Gson$Types.newParameterizedTypeWithOwner(null, ArrayList.class, clazz);
             ArrayList<T> tList = gson.fromJson(json, listType);
             return Response.success(

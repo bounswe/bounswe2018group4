@@ -21,6 +21,7 @@ import com.android.volley.error.VolleyError;
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.EditProfileFragment;
+import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.FolloweringsFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
@@ -33,6 +34,7 @@ import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultProfile;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.User;
@@ -59,6 +61,7 @@ public class MemoryActivity extends BaseActivity
     FolloweringsFragment.OnFragmentInteractionListener,
         EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
+        FeedCommentFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -68,6 +71,7 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
     private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
     private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
+    private final String TAG_FEED_COMMENT_FRAGMENT = "fragment_feed_comment";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -320,6 +324,24 @@ public class MemoryActivity extends BaseActivity
         currentTab = 6;
     }
 
+    @Override
+    public void memoryCommentsClicked(Memory memory) {
+        FeedCommentFragment fragment = FeedCommentFragment.newInstance(memory.getComments(), memory.getId());
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_FEED_COMMENT_FRAGMENT)
+                .addToBackStack(TAG_FEED_COMMENT_FRAGMENT)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void addComment(String comment, int memoryID) {
+        MemoristApi.sendComment(SharedPrefHelper.getUserToken(getApplicationContext()), comment, memoryID, sendCommentListener, sendCommentErrorListener);
+    }
+
     @OnClick(R.id.btn_memoristHome)
     public void tabHomeClicked(View view) {
         tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
@@ -496,8 +518,18 @@ public class MemoryActivity extends BaseActivity
         @Override
         public void onResponse(ArrayList<ApiResultFollower> response) {
             ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
-            if(fragment != null) {
+            if (fragment != null) {
                 fragment.updateFollowers(response);
+            }
+        }
+    };
+
+    private Response.Listener<ArrayList<Comments>> sendCommentListener = new Response.Listener<ArrayList<Comments>>() {
+        @Override
+        public void onResponse(ArrayList<Comments> response) {
+            FeedCommentFragment fragment = (FeedCommentFragment) getSupportFragmentManager().findFragmentByTag(TAG_FEED_COMMENT_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateComments(response);
             }
         }
     };
@@ -513,6 +545,13 @@ public class MemoryActivity extends BaseActivity
     };
 
     private Response.ErrorListener getFollowersFollowingsErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
+    private Response.ErrorListener sendCommentErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
 

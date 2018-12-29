@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
+import com.memorist.memorist_android.fragment.FeedCommentFragment;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.Tag;
@@ -223,11 +225,18 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             Multimedia[] multimedia = memory.getMultimedia();
             int mediaCounter = 1;
 
+            viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryCommentsClicked(memory);
+                }
+            });
+
+            viewHolder.tvCommentCount.setText(String.valueOf(memory.getNumcomments()));
+
             for(Multimedia mm: multimedia) {
                 String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
                 int mediaType = mm.getMedia_type();
-
-                Log.v("counter", mediaCounter + " for " + memory.getTitle());
 
                 if(mediaType == 1) {
                     switch (mediaCounter) {
@@ -437,5 +446,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
     public interface MemoryOnClickListener {
         void memoryMultimediaClick(Memory memory, int position);
+        void memoryCommentsClicked(Memory memory);
     }
 }
