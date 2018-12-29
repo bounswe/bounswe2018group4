@@ -241,4 +241,22 @@ public class MemoristApi {
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
+
+    public static void updateProfileInfo(String token, String first, String last, int gender, String location, Response.Listener<ApiResultProfile> listener, Response.ErrorListener errorListener) {
+        String url = Constants.API_EDIT_PROFILE;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("first_name", first);
+        params.put("last_name", last);
+        params.put("location", location);
+        params.put("gender", String.valueOf(gender));
+
+        GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.POST, url, ApiResultProfile.class, headers, params, listener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
 }

@@ -19,5 +19,6 @@ public class Constants {
     public static final String API_PROFILE_MEMORY_LIST = API_BASE_URL + "/post/list/";
     public static final String API_GET_FOLLEWERS = API_BASE_URL + "/auth/get_followers/";
     public static final String API_GET_FOLLOWINGS = API_BASE_URL + "/auth/get_followings/";
+    public static final String API_EDIT_PROFILE = API_BASE_URL + "/auth/profile_update/";
 
 }

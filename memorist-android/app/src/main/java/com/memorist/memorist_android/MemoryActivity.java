@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -21,6 +20,7 @@ import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
+import com.memorist.memorist_android.fragment.EditProfileFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.FolloweringsFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
@@ -32,6 +32,7 @@ import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
+import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.User;
@@ -55,6 +56,7 @@ public class MemoryActivity extends BaseActivity
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
     FolloweringsFragment.OnFragmentInteractionListener,
+        EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
         ProfileFragment.OnFragmentInteractionListener {
 
@@ -64,6 +66,7 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
     private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
+    private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -301,6 +304,19 @@ public class MemoryActivity extends BaseActivity
 
         builder.show();
         mediaPlayer.start();
+    }
+
+    @Override
+    public void proceedProfileEdit(String username, String first_name, String last_name, String gender, String location, String photo) {
+        EditProfileFragment fragment = EditProfileFragment.newInstance(username, first_name, last_name, gender, location, photo);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                        .enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_EDIT_PROFILE)
+                .addToBackStack(TAG_EDIT_PROFILE)
+                .commit();
+
+        currentTab = 6;
     }
 
     @OnClick(R.id.btn_memoristHome)
@@ -576,4 +592,16 @@ public class MemoryActivity extends BaseActivity
         builder.show();
         mediaPlayer.start();
     }
+
+    @Override
+    public void updateProfileInformation(String first, String last, int gender, String location) {
+        MemoristApi.updateProfileInfo(SharedPrefHelper.getUserToken(getApplicationContext()), first, last, gender, location, updateSuccessListener, getUserProfileErrorListener);
+    }
+
+    private Response.Listener<ApiResultProfile> updateSuccessListener = new Response.Listener<ApiResultProfile>() {
+        @Override
+        public void onResponse(ApiResultProfile response) {
+            tabSwitcher(TAG_USER_PROFILE_FRAGMENT, 5);
+        }
+    };
 }
