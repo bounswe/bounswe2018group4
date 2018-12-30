@@ -292,7 +292,7 @@ class HomepageAPIView(ListAPIView):
 
 
 class SearchMemoryAPIView(ListAPIView):
-    permission_classes = IsAuthenticated,
+
     serializer_class = postserializers.Memory1Serializer
 
     def get_queryset(self):
