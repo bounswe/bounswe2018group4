@@ -290,6 +290,7 @@ class HomepageAPIView(ListAPIView):
 
         return memories
 
+
 class SearchMemoryAPIView(ListAPIView):
     permission_classes = IsAuthenticated,
     serializer_class = postserializers.Memory1Serializer
@@ -298,13 +299,40 @@ class SearchMemoryAPIView(ListAPIView):
         text = self.kwargs['pk']
         memories = postmodels.Memory.objects.none()
         tags = postmodels.MemoryTag.objects.filter(Q(tag__icontains=text))
-
         if not tags.exists():
             return None
 
         for tag in tags:
             memoryId = tag.memory.id
             memories |= postmodels.Memory.objects.filter(id=memoryId)
+
+        memories = set(memories)
+
+        return memories
+
+
+class MemoryRecommendationsAPIView(ListAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        userId = self.request.user.id
+        memories = postmodels.Memory.objects.none()
+        otherTags = postmodels.MemoryTag.objects.none()
+        tags = postmodels.MemoryTag.objects.filter(memory__owner_id=userId)
+
+        tags = set(tags)
+
+        print(tags)
+
+        for tag in tags:
+            otherTags |= postmodels.MemoryTag.objects.filter(tag=tag.tag).exclude(memory__owner_id=userId)
+
+        otherTags = set(otherTags)
+
+        for otherTag in otherTags:
+            memoryId = otherTag.memory.id
+            memories |= postmodels.Memory.objects.filter(id=memoryId).exclude(owner=userId)
 
         memories = set(memories)
 

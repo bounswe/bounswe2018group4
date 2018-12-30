@@ -79,6 +79,9 @@ class MemoryTag(models.Model):
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
     tag = models.CharField(max_length=50, null=False, blank=False)
 
+    def __str__(self):
+        return self.memory.id.__str__() + " " + self.tag.__str__()
+
 
 class MemoryMultimediaUpload(models.Model):
     media = models.FileField(upload_to='memory_image')
