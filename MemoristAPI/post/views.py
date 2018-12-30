@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from post import serializers as postserializers
 from post import models as postmodels
 from login.models import *
+from django.db.models import Q
 
 
 class MemoryCreateAPIView(CreateAPIView):
@@ -286,5 +287,25 @@ class HomepageAPIView(ListAPIView):
             memories |= postmodels.Memory.objects.filter(owner=followedUser)
 
         memories = memories.order_by('-posting_time')
+
+        return memories
+
+class SearchMemoryAPIView(ListAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        text = self.kwargs['pk']
+        memories = postmodels.Memory.objects.none()
+        tags = postmodels.MemoryTag.objects.filter(Q(tag__icontains=text))
+
+        if not tags.exists():
+            return None
+
+        for tag in tags:
+            memoryId = tag.memory.id
+            memories |= postmodels.Memory.objects.filter(id=memoryId)
+
+        memories = set(memories)
 
         return memories

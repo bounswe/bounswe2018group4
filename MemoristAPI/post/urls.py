@@ -11,5 +11,6 @@ urlpatterns = [
     url('^media/(?P<pk>\d+)/$', UploadMemoryMultimediaAPIView.as_view()),
     url('^delete_comment/$', CommentDeleteAPIView.as_view()),
     url('^dislike/(?P<pk>\d+)/$', MemoryDislikeAPIView.as_view()),
-    url('^homepage/$', HomepageAPIView.as_view())
+    url('^homepage/$', HomepageAPIView.as_view()),
+    url('^memory_search/(?P<pk>[a-zA-Z0-9_]+)/$', SearchMemoryAPIView.as_view())
 ]
