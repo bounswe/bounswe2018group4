@@ -13,5 +13,6 @@ urlpatterns = [
     url('^dislike/(?P<pk>\d+)/$', MemoryDislikeAPIView.as_view()),
     url('^homepage/$', HomepageAPIView.as_view()),
     url('^memory_search/(?P<pk>[a-zA-Z0-9_]+)/$', SearchMemoryAPIView.as_view()),
-    url('^memory_recommendations/$', MemoryRecommendationsAPIView.as_view())
+    url('^memory_recommendations/$', MemoryRecommendationsAPIView.as_view()),
+    url('^top_memories/$', TopMemoriesAPIView.as_view())
 ]

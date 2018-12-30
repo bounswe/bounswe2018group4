@@ -337,3 +337,14 @@ class MemoryRecommendationsAPIView(ListAPIView):
         memories = set(memories)
 
         return memories
+
+
+class TopMemoriesAPIView(ListAPIView):
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        memories = postmodels.Memory.objects.order_by("-numlikes")
+
+        if len(memories) > 20:
+            memories = memories[0:20]
+        return memories
