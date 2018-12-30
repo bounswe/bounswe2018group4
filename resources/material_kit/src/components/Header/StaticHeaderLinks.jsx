@@ -26,10 +26,6 @@ function StaticHeaderLinks({ ...props }) {
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <Typography variant="h2" gutterBottom>
-      </Typography>
-      </ListItem>
-      <ListItem className={classes.listItem}>
       <Link to={"/profile-page"} className={classes.link}>
         <Button
           color="transparent"
