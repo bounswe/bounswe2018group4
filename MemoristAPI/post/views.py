@@ -74,7 +74,7 @@ class MemoryListAPIView(ListAPIView):
 
 
 class MemoryLikeAPIView(APIView):
-    permission_classes = IsAuthenticated,
+    permission_classes = IsAuthenticated
 
     def get(self, *args, **kwargs):
         m_id = self.kwargs["pk"]

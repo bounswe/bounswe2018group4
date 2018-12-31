@@ -158,6 +158,7 @@ class Memory1Serializer(serializers.ModelSerializer):
     numcomments = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     mentioned_time = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
 
     # liked_users = serializers.SerializerMethodField()
 
@@ -174,8 +175,7 @@ class Memory1Serializer(serializers.ModelSerializer):
             "numlikes",
             "comments",
             "numcomments",
-            "pointlocations",
-            "pathlocations",
+            "location",
             "mentioned_time",
             "liked_users"
         ]
@@ -213,6 +213,10 @@ class Memory1Serializer(serializers.ModelSerializer):
     def get_tags(self, obj):
         tags = models.MemoryTag.objects.filter(memory=obj.id)
         return MemoryTagSerializer(tags, many=True).data
+    
+    def get_location(self,obj):
+        location = models.Location.objects.filter(id=obj.location.id)
+        return LocationSerializer(location, many=True).data
 
 
 class MemoryMultimediaSerializer(serializers.ModelSerializer):
@@ -225,3 +229,20 @@ class MemoryCreate1Serializer(serializers.ModelSerializer):
     class Meta:
         model = models.Memory
         fields = "__all__"
+
+class PointLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PointLocation
+        fields = "__all__"
+
+class LocationSerializer(serializers.ModelSerializer):
+    location_list = serializers.SerializerMethodField()
+    class Meta:
+        model = models.Location
+        fields = [
+            "location_type",
+            "location_list"
+        ]
+    def get_location(self, obj):
+        location = obj.location_list.all()
+        return LocationSerializer(location, many=True).data
