@@ -127,8 +127,7 @@ class MemorySerializer(serializers.ModelSerializer):
             "tags",
             "numlikes",
             "comments",
-            "pointlocations",
-            "pathlocations",
+            "location",
             "mentioned_time",
             "liked_users"
         ]
