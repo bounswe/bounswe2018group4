@@ -214,7 +214,7 @@ class Memory1Serializer(serializers.ModelSerializer):
         return MemoryTagSerializer(tags, many=True).data
     
     def get_location(self,obj):
-        location = models.Location.objects.filter(id=obj.location.id)
+        location = models.Location.objects.filter(id=obj.location_id)
         return LocationSerializer(location, many=True).data
 
 
@@ -243,7 +243,7 @@ class LocationSerializer(serializers.ModelSerializer):
             "location_type",
             "location_list"
         ]
-    def get_location(self, obj):
+    def get_location_list(self, obj):
         location = obj.location_list.all()
-        return LocationSerializer(location, many=True).data
+        return PointLocationSerializer(location, many=True).data
 
