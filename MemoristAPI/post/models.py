@@ -39,7 +39,7 @@ DATE_TYPES = (
     (1, "period"),
 )
 LOCATION_TYPES = (
-    (0, "seperate"),
+    (0, "separate"),
     (1, "path")
 )
 

@@ -202,6 +202,25 @@ class MemoryCreate1APIView(CreateAPIView):
             memory.mentioned_time = date
             memory.save()
 
+        location = postmodels.Location(
+            location_type=data["location_type"]
+        )
+        location.save()
+
+        for pointLocation in data["location_list"]:
+            savedLocation = postmodels.PointLocation(
+                location_name=pointLocation.location_name,
+                location_coordinate_latitude=pointLocation.location_coordinate_latitude,
+                location_coordinate_longitude=pointLocation.location_coordinate_longitude
+            )
+            savedLocation.save()
+            location.location_list.add(savedLocation)
+
+
+        memory.location = location
+        memory.save()
+
+
         serializer = postserializers.Memory1Serializer(memory)
         return Response(serializer.data, status=HTTP_200_OK)
 
