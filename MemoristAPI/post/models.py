@@ -38,6 +38,10 @@ DATE_TYPES = (
     (0, "single"),
     (1, "period"),
 )
+LOCATION_TYPES = (
+    (0, "seperate"),
+    (1, "path")
+)
 
 
 class PointLocation(models.Model):
@@ -48,9 +52,9 @@ class PointLocation(models.Model):
 
 
 
-class PathLocation(models.Model):
-    location_from = models.ForeignKey(PointLocation, related_name="location_from", on_delete=models.CASCADE)
-    location_to = models.ForeignKey(PointLocation, related_name="location_to", on_delete=models.CASCADE)
+class Location(models.Model):
+    location_type = models.IntegerField(choices=LOCATION_TYPES)
+    location_list = models.ManyToManyField(PointLocation, blank=True)
 
 
 class PointMentionedTime(models.Model):
