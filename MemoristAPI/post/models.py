@@ -41,8 +41,11 @@ DATE_TYPES = (
 
 
 class PointLocation(models.Model):
-    location = models.CharField(max_length=30, null=False, blank=False)
-    location_coordinates = PlainLocationField(based_fields=['city'], null=True, blank=True)
+    location_name = models.CharField(max_length=30, null=False, blank=False)
+    location_coordinate_latitude =models.CharField(max_length=30, null=False, blank=False)
+    location_coordinate_longitude =models.CharField(max_length=30, null=False, blank=False)
+
+
 
 
 class PathLocation(models.Model):
