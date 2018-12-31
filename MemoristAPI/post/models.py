@@ -76,8 +76,7 @@ class Memory(models.Model):
     title = models.CharField(max_length=50, null=True, blank=True)
     comments = models.ManyToManyField(MemoryComment, blank=True)
     numlikes = models.IntegerField(default=0, null=True, blank=True)
-    pointlocations = models.ManyToManyField(PointLocation, blank=True)
-    pathlocations = models.ManyToManyField(PathLocation, blank=True)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name="location", null=True, blank=True)
     mentioned_time = models.ForeignKey(PointMentionedTime, null=True, blank=True, on_delete=models.CASCADE)
     liked_users = models.ManyToManyField(loginmodels.RegisteredUser, related_name="liked_user", blank=True)
 
