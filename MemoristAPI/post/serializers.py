@@ -230,6 +230,7 @@ class MemoryCreate1Serializer(serializers.ModelSerializer):
         model = models.Memory
         fields = "__all__"
 
+
 class PointLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PointLocation
@@ -246,3 +247,4 @@ class LocationSerializer(serializers.ModelSerializer):
     def get_location(self, obj):
         location = obj.location_list.all()
         return LocationSerializer(location, many=True).data
+
