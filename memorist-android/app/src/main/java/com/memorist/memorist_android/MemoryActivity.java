@@ -20,6 +20,7 @@ import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.adapter.UserAdapter;
+import com.memorist.memorist_android.fragment.AnnotationFragment;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.EditProfileFragment;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
@@ -31,6 +32,7 @@ import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
+import com.memorist.memorist_android.model.Annotation;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
@@ -65,6 +67,7 @@ public class MemoryActivity extends BaseActivity
         EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
         FeedCommentFragment.OnFragmentInteractionListener,
+        AnnotationFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -75,6 +78,7 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
     private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
     private final String TAG_FEED_COMMENT_FRAGMENT = "fragment_feed_comment";
+    private final String TAG_ANNOTATION_FRAGMENT = "fragment_annotation";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -731,4 +735,40 @@ public class MemoryActivity extends BaseActivity
     public void unfollowUser(int id) {
         MemoristApi.userUnfollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
     }
+
+    @Override
+    public void memoryAnnotationsClicked(Memory memory) {
+        AnnotationFragment fragment = AnnotationFragment.newInstance(memory);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_ANNOTATION_FRAGMENT)
+                .addToBackStack(TAG_ANNOTATION_FRAGMENT)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void getAnnotationList(int id) {
+        MemoristApi.getAnnotation(SharedPrefHelper.getUserToken(getApplicationContext()), id, annotationResultListener, annotationResultErrorListener);
+    }
+
+    private Response.Listener<ArrayList<Annotation>> annotationResultListener = new Response.Listener<ArrayList<Annotation>>() {
+        @Override
+        public void onResponse(ArrayList<Annotation> response) {
+            AnnotationFragment fragment = (AnnotationFragment) getSupportFragmentManager().findFragmentByTag(TAG_ANNOTATION_FRAGMENT);
+            Log.v("response", String.valueOf(response.size()));
+            if (fragment != null) {
+                fragment.updateAnnotations(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener annotationResultErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
 }
