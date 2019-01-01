@@ -2,7 +2,7 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-class Selector {
+public class Selector {
 
     @Expose
     private String s_type;
