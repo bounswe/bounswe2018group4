@@ -2,7 +2,9 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-public class Owner {
+import java.io.Serializable;
+
+public class Owner implements Serializable {
 
     @Expose
     private int id;
