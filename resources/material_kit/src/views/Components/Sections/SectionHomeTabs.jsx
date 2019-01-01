@@ -248,7 +248,7 @@ class SectionTabs extends React.Component {
                             tabContent: (
                               <div>
                                 <p className={classes.textCenter}>
-                                  {prop.numlikes} likes <br />
+                                  {prop.numlikes} like(s) <br />
                                   <Button
                                       onClick={() =>
                                           this.handleLike(prop.id)
