@@ -247,22 +247,26 @@ class SectionTabs extends React.Component {
                             tabName: "Like",
                             tabContent: (
                               <div>
-                                <Button
-                                  onClick={() =>
-                                    this.handleLike(prop.id)
-                                  }
-                                >
-                                  Like
-                                </Button>
-                                <br />
-                                <Button
-                                  onClick={() =>
-                                    this.handleDislike(prop.id)
-                                  }
-                                  color= "danger"
-                                >
-                                  Unlike
-                                </Button>
+                                <p className={classes.textCenter}>
+                                  {prop.numlikes} likes <br />
+                                  <Button
+                                      onClick={() =>
+                                          this.handleLike(prop.id)
+                                      }
+                                  >
+                                    Like
+                                  </Button>
+                                  <Button
+                                      onClick={() =>
+                                          this.handleDislike(prop.id)
+                                      }
+                                      color= "danger"
+                                  >
+                                    Unlike
+                                  </Button>
+                                </p>
+
+
                               </div>
                             )
                           },
@@ -296,6 +300,21 @@ class SectionTabs extends React.Component {
                                   );
                                 })}
                               </div>
+                            )
+                          },
+                          {
+                            tabName: "Annotation",
+                            tabContent: (
+                                <div>
+                                  {prop.texts.map((value, key) => {
+                                    return (
+                                        <div> Text no.{key}: <br/>
+
+                                        </div>
+                                    );
+                                  })
+                                  }
+                                </div>
                             )
                           }
                         ]}
