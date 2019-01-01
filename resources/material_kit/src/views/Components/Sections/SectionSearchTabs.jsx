@@ -27,7 +27,6 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 import Typography from '@material-ui/core/Typography';
-import {Link} from "react-router-dom";
 
 class SectionTabs extends React.Component {
   _isMounted = false;
@@ -58,29 +57,29 @@ class SectionTabs extends React.Component {
     var _this = this;
     console.log(userToken);
     fetch(
-      "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/auth/user_search/"
-        .concat(this.props.searchUser)
-        .concat("/"),
-      {
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Authorization": "JWT " + userToken
-        },
-        method: "GET"
-      })
-      .then(response => response.json())
-      .then(function(data) {
-        console.log(data);
-        _this.setState({ searchUserResult: data });
-      })
+        "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/auth/user_search/"
+            .concat(this.props.searchUser)
+            .concat("/"),
+        {
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Authorization": "JWT " + userToken
+          },
+          method: "GET"
+        })
+        .then(response => response.json())
+        .then(function(data) {
+          console.log(data);
+          _this.setState({ searchUserResult: data });
+        })
 
-      .catch(function(error) {
-        console.log("There has been a problem with your fetch operation: " + error.message);
-      });
+        .catch(function(error) {
+          console.log("There has been a problem with your fetch operation: " + error.message);
+        });
   }
 
 
@@ -88,39 +87,37 @@ class SectionTabs extends React.Component {
     console.log(this.props.location);
     const { classes } = this.props;
     return (
-      <div className={classes.section}>
-        <div className={classes.container}>
-          <div id="nav-tabs">
-            <GridContainer>
-              <GridItem>
-                {this.state.searchUserResult.map((prop, key) => {
-                  return (
-                    <div>
-                      <CustomTabs
-                        headerColor="primary"
-                        tabs={[
-                          {
-                            tabName: "User",
-                            tabContent: (
-                              <Link to={"/follow/".concat(prop.id).concat("/")} className={classes.link}>
-                                <Button simple color="primary" size="lg">
-                                {prop.username}
-                                </Button>
-                              </Link>
-                            )
-                          }
-                        ]}
-                      />
-                      <br />
-                      <br />
-                    </div>
-                  );
-                })}
-              </GridItem>
-            </GridContainer>
+        <div className={classes.section}>
+          <div className={classes.container}>
+            <div id="nav-tabs">
+              <GridContainer>
+                <GridItem>
+                  {this.state.searchUserResult.map((prop, key) => {
+                    return (
+                        <div>
+                          <CustomTabs
+                              headerColor="primary"
+                              tabs={[
+                                {
+                                  tabName: "User",
+                                  tabContent: (
+                                      <p className={classes.textCenter}>
+                                        {prop.username}
+                                      </p>
+                                  )
+                                }
+                              ]}
+                          />
+                          <br />
+                          <br />
+                        </div>
+                    );
+                  })}
+                </GridItem>
+              </GridContainer>
+            </div>
           </div>
         </div>
-      </div>
     );
   }
 }
