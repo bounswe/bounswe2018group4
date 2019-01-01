@@ -22,6 +22,6 @@ public class Constants {
     public static final String API_EDIT_PROFILE = API_BASE_URL + "/auth/profile_update/";
     public static final String API_PHOTO_UPDATE = API_BASE_URL + "/auth/profile_photo/";
     public static final String API_CREATE_COMMENT = API_BASE_URL + "/post/create_comment/";
-    public static final String API_RECOMMENDATIONS = API_BASE_URL + "/post/memory_recommendations/";
+    public static final String API_RECOMMENDATIONS = API_BASE_URL + "/post/top_memories/";
 
 }
