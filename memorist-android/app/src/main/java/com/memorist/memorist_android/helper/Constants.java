@@ -25,5 +25,7 @@ public class Constants {
     public static final String API_RECOMMENDATIONS = API_BASE_URL + "/post/top_memories/";
     public static final String API_SEARCH_MEMORY = API_BASE_URL + "/post/memory_search/";
     public static final String API_SEARCH_USER = API_BASE_URL + "/auth/user_search/";
+    public static final String API_FOLLOW = API_BASE_URL + "/auth/follow/";
+    public static final String API_UNFOLLOW = API_BASE_URL + "/auth/unfollow/";
 
 }
