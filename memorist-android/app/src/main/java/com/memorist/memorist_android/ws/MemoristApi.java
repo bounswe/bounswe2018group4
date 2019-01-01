@@ -323,4 +323,29 @@ public class MemoristApi {
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
+
+    public static void getSearchResults(String token, String text, String type, Response.Listener<ArrayList<ApiResultNoData>> listener,
+                                        Response.Listener<ArrayList<Memory>> listener2, Response.ErrorListener errorListener) {
+        if(type.equals("Search a user")) {
+            String url = Constants.API_SEARCH_USER + text + "/";
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", token);
+
+            GsonArrayRequest<ApiResultNoData> request = new GsonArrayRequest<>(url, ApiResultNoData.class, headers, listener, errorListener);
+
+            coreApi.getRequestQueue().getCache().clear();
+            coreApi.addToRequestQueue(request);
+        } else if(type.equals("Search a memory")) {
+            String url = Constants.API_SEARCH_MEMORY + text + "/";
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", token);
+
+            GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listener2, errorListener);
+
+            coreApi.getRequestQueue().getCache().clear();
+            coreApi.addToRequestQueue(request);
+        }
+    }
 }
