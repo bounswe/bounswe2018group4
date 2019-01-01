@@ -308,4 +308,16 @@ public class MemoristApi {
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
     }
+
+    public static void getRecommendationList(String userToken, Response.Listener<ArrayList<Memory>> getUserRecommendationListener, Response.ErrorListener getUserRecommendationErrorListener) {
+        String url = Constants.API_RECOMMENDATIONS;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", userToken);
+
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, getUserRecommendationListener, getUserRecommendationErrorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
 }
