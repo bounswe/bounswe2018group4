@@ -21,10 +21,11 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Typography from '@material-ui/core/Typography';
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg2.jpg";
 
 
 class LoginPage extends React.Component {
@@ -125,6 +126,12 @@ class LoginPage extends React.Component {
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={4}>
+                <Typography variant="h2" gutterBottom>
+                  Share your memory!
+                </Typography>
+                <br />
+                <br />
+                <br />
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form} onSubmit={this.handleLogin}>
                     <CardHeader color="primary" className={classes.cardHeader}>
