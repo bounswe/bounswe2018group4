@@ -50,7 +50,7 @@ function submitPost(multimedia) {
   return Promise.all(promiseArray);
 }
 
-function submitPostCredential(mediaIDS, story, format, title, tags) {
+function submitPostCredential(mediaIDS, story, format, title, tags, date_type, date_string1, date_string2, date_format) {
   const userToken = getCookie("token");
 
   return new Promise((resolve, reject) => {
@@ -59,7 +59,11 @@ function submitPostCredential(mediaIDS, story, format, title, tags) {
       story,
       format,
       title,
-      tags
+      tags,
+      date_type,
+      date_string1,
+      date_string2,
+      date_format
     };
 
     const xhttpreq = new XMLHttpRequest();
@@ -74,7 +78,7 @@ function submitPostCredential(mediaIDS, story, format, title, tags) {
     xhttpreq.open("POST", "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/create1/", true);
     xhttpreq.setRequestHeader("Content-Type", "application/json");
     xhttpreq.setRequestHeader("Authorization", "JWT " + userToken);
-
+    console.log(JSON.stringify(data));
     xhttpreq.send(JSON.stringify(data));
   });
 }
