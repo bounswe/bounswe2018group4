@@ -162,7 +162,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
             if(memory.getMentioned_time().length != 0) {
                 mentionedTime += memory.getMentioned_time()[0].getDate_string1();
-                if(!memory.getMentioned_time()[0].getDate_string2().equals("")) {
+                if(memory.getMentioned_time()[0].getDate_string2() != null && !memory.getMentioned_time()[0].getDate_string2().equals("")) {
                     mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
                 }
             }

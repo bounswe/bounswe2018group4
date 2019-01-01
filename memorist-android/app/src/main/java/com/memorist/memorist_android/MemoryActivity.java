@@ -33,6 +33,7 @@ import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
+import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
@@ -128,8 +129,9 @@ public class MemoryActivity extends BaseActivity
     }
 
     @Override
-    public void getSearchResults() {
-        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
+    public void getSearchResults(String searchText, String searchType) {
+        MemoristApi.getSearchResults(SharedPrefHelper.getUserToken(getApplicationContext()), searchText, searchType,
+                getUserSearchResultsListener, getMemorySearchResultsListener, getUserSearchResultsErrorListener);
     }
 
     @Override
@@ -458,11 +460,6 @@ public class MemoryActivity extends BaseActivity
                 if(fragment != null) {
                     fragment.updateMemories(response);
                 }
-            } else if(currentTab == 2) {
-                SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
-                if(fragment != null) {
-                    fragment.updateMemories(response);
-                }
             } else if(currentTab == 5) {
                 ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
                 if(fragment != null) {
@@ -473,6 +470,31 @@ public class MemoryActivity extends BaseActivity
     };
 
     private Response.ErrorListener getUserMemoryListErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<ArrayList<ApiResultNoData>> getUserSearchResultsListener = new Response.Listener<ArrayList<ApiResultNoData>>() {
+        @Override
+        public void onResponse(ArrayList<ApiResultNoData> response) {
+
+        }
+    };
+
+    private Response.Listener<ArrayList<Memory>> getMemorySearchResultsListener = new Response.Listener<ArrayList<Memory>>() {
+        @Override
+        public void onResponse(ArrayList<Memory> response) {
+            SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateMemories(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getUserSearchResultsErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
