@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Memorist</string>
+
+    <string name="registerWelcomeText">Welcome to Memorist!</string>
+    <string name="recoverPasswordText">It\'s super easy to reconnect!</string>
+    <string name="createMemoryText">Share your memory</string>
+
+    <string name="projectLogoContentDescription">Memorist</string>
+    <string name="imageButtonContentDescription">Add image</string>
+    <string name="videoButtonContentDescription">Add video</string>
+    <string name="audioButtonContentDescription">Add audio</string>
+    <string name="postMemoryButtonContentDescription">Post</string>
+    <string name="cancelMemoryButtonContentDescription">Cancel</string>
+    <string name="feedProfilePictureContentDescription">Profile Picture</string>
+    <string name="btnLikeContentDescription">Like</string>
+    <string name="btnCommentsContentDescription">Comments</string>
+    <string name="btnAnnotationContentDescription">Annotation</string>
+    <string name="btnMemoristHomeContentDescription">Home</string>
+    <string name="btnMemoristSearchContentDescription">Search</string>
+    <string name="btnMemoristAddContentDescription">Add Memory</string>
+    <string name="btnMemoristRecommendationContentDescription">Recommendation</string>
+    <string name="btnMemoristProfileContentDescription">Profile</string>
+    <string name="profilePostIconContentDescription">Posts</string>
+
+    <string name="usernameInputHint">Email</string>
+    <string name="passwordInputHint">Password</string>
+    <string name="memoryTitleHint">Title</string>
+    <string name="memoryStoryHint">Story</string>
+    <string name="memoryTagsHint">Tags</string>
+    <string name="memoryMentionedTimeHint">When?</string>
+    <string name="memoryLocationHint">Where?</string>
+    <string name="registerUsernameHint">Username</string>
+    <string name="registerPasswordHint">Password</string>
+    <string name="registerEmailHint">E-mail</string>
+    <string name="registerFirstNameHint">First Name</string>
+    <string name="registerLastNameHint">Last Name</string>
+    <string name="recoverPasswordOrText">- OR -</string>
+
+    <string name="addedMultimedia">Added Multimedia</string>
+    <string name="addedImages">Added Photos</string>
+    <string name="addedVideos">Added Videos</string>
+    <string name="addedAudios">Added Audio</string>
+
+    <string name="btnCreateMemory">Share</string>
+    <string name="btnCancelMemory">Cancel</string>
+    <string name="btnFeedLike">Like</string>
+    <string name="btnFeedComment">Comment</string>
+    <string name="btnFeedAnnotate">Annotate</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnRegister">Register</string>
+    <string name="btnForgetPassword">Password ?</string>
+    <string name="btnRegisterSend">Sign Up</string>
+    <string name="btnRecoverPassword">Save Me!</string>
+
+    <string-array name="search_list">
+        <item>Search by keyword</item>
+        <item>Search by location</item>
+        <item>Search by posted time</item>
+        <item>Search by mentioned time</item>
+        <item>Search by tag</item>
+    </string-array>
+
+    <string-array name="time_list">
+        <item>Decade only</item>
+        <item>Year only</item>
+        <item>Year and month</item>
+        <item>Year, month and day</item>
+        <item>Full date</item>
+    </string-array>
+</resources>

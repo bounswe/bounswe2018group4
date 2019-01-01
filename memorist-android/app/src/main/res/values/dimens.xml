@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="no_margin">0dp</dimen>
+    <dimen name="margin_xs">5dp</dimen>
+    <dimen name="margin_sm">10dp</dimen>
+    <dimen name="margin_md">20dp</dimen>
+    <dimen name="margin_lg">40dp</dimen>
+    <dimen name="margin_xlg">60dp</dimen>
+
+    <dimen name="padding_md">8dp</dimen>
+    <dimen name="padding_lg">16dp</dimen>
+    <dimen name="padding_xlg">24dp</dimen>
+
+    <dimen name="textSizeBigMemory">13sp</dimen>
+    <dimen name="textSizeSmallMemory">12sp</dimen>
+    <dimen name="textSizeXSmallMemory">11sp</dimen>
+
+    <dimen name="textSizeCreateMemory">18sp</dimen>
+    <dimen name="textSizeAddedMultimedia">14sp</dimen>
+
+    <dimen name="heightMemoryOwnerAvatar">48dp</dimen>
+    <dimen name="heightMemoryButton">24dp</dimen>
+    <dimen name="heightTabButton">24dp</dimen>
+
+    <dimen name="projectLogo_height">150dp</dimen>
+    <dimen name="loginNotRegisteredTextSize">14sp</dimen>
+    <dimen name="registerWelcomeTextSize">24sp</dimen>
+    <dimen name="recoverORTextSize">12sp</dimen>
+
+</resources>
