@@ -46,10 +46,8 @@ LOCATION_TYPES = (
 
 class PointLocation(models.Model):
     location_name = models.CharField(max_length=30, null=False, blank=False)
-    location_coordinate_latitude =models.CharField(max_length=30, null=False, blank=False)
-    location_coordinate_longitude =models.CharField(max_length=30, null=False, blank=False)
-
-
+    location_coordinate_latitude = models.CharField(max_length=30, null=False, blank=False)
+    location_coordinate_longitude = models.CharField(max_length=30, null=False, blank=False)
 
 
 class Location(models.Model):
@@ -58,7 +56,7 @@ class Location(models.Model):
 
 
 class PointMentionedTime(models.Model):
-    date_type = models.IntegerField(choices=DATE_TYPES)
+    date_type = models.IntegerField(choices=DATE_TYPES, null=True, blank=True)
     date_format = models.CharField(max_length=10)
     date_string1 = models.CharField(max_length=50)
     date_string2 = models.CharField(max_length=50, null=True, blank=True)
