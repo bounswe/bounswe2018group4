@@ -11,9 +11,9 @@ public class Target {
     private String source;
 
     @Expose
-    private Selector selector;
+    private Selector[] selector;
 
-    public Selector getSelector() {
+    public Selector[] getSelector() {
         return selector;
     }
 
@@ -25,7 +25,7 @@ public class Target {
         return t_type;
     }
 
-    public void setSelector(Selector selector) {
+    public void setSelector(Selector[] selector) {
         this.selector = selector;
     }
 
