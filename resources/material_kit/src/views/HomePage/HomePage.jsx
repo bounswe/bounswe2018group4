@@ -159,7 +159,7 @@ class HomePage extends React.Component {
               }}
               className={classes.link}
             >
-              <Button round color="primary" size="lg">
+              <Button default color="primary" size="lg">
                 Search a user
               </Button>
             </Link>
@@ -170,7 +170,7 @@ class HomePage extends React.Component {
                 }}
                 className={classes.link}
             >
-              <Button round color="primary" size="lg">
+              <Button default color="primary" size="lg">
                 Bring me the best memories!
               </Button>
             </Link>
