@@ -25,7 +25,7 @@
     <string name="feedProfilePictureContentDescription">Profile Picture</string>
     <string name="btnLikeContentDescription">Like</string>
     <string name="btnCommentsContentDescription">Comments</string>
-    <string name="btnAnnotationContentDescription">Annotation</string>
+    <string name="btnAnnotationContentDescription">Annotations</string>
     <string name="btnMemoristHomeContentDescription">Home</string>
     <string name="btnMemoristSearchContentDescription">Search</string>
     <string name="btnMemoristAddContentDescription">Add Memory</string>
