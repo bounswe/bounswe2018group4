@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'login',
     'rest_framework',
     'post',
-    'location_field.apps.DefaultConfig'
+    'location_field.apps.DefaultConfig',
+    'annotation'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

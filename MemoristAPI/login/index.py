@@ -53,7 +53,7 @@ def render(tpl_path, context):
 
 
 def validate_username_password(username, password):
-    if (username == 'tpp-webapi'):
+    if username == 'tpp-webapi':
         hashvalue = hashlib.md5(str(password).encode('utf-8')).hexdigest()
         if (hashvalue == '1f5161af931f20f9d078b5f18eaa16a2'):
             return True
@@ -189,23 +189,23 @@ def sendEmail(data):
     jsondata = data
 
     access_is_ok = False
-    if ('username' in jsondata and 'password' in jsondata):
+    if 'username' in jsondata and 'password' in jsondata:
         up_is_ok = validate_username_password(jsondata['username'], jsondata['password'])
         if (up_is_ok):
             access_is_ok = True
 
-    if (not access_is_ok):
+    if not access_is_ok:
         outdata['status'] = 'Access is denied'
         return json.dumps(outdata)
 
     msg_context = {}
-    if ('invitee' in jsondata):
+    if 'invitee' in jsondata:
         msg_context['invitee'] = jsondata['invitee']
-        if ('inviter' in jsondata):
+        if 'inviter' in jsondata:
             msg_context['inviter'] = jsondata['inviter']
-            if ('to' in jsondata):
+            if 'to' in jsondata:
                 msg_context['to'] = jsondata['to']
-                if ('phone' in jsondata):
+                if 'phone' in jsondata:
                     print("phone_exists")
                     msg_context['phone'] = jsondata['phone']
                 msg_context['coupon_code'] = jsondata['discount_code']
@@ -222,10 +222,10 @@ def sendEmail(data):
     sms_text = Environment().from_string(sms_text_template).render(coupon_code=msg_context['coupon_code'])
 
     print(sms_text)
-    if (send_aws_email(subject, msg_context['to'], result_txt, result_html)):
+    if send_aws_email(subject, msg_context['to'], result_txt, result_html):
         outdata['status'] = '1'
 
-    if ('phone' in msg_context):
+    if 'phone' in msg_context:
         print("aaaaa")
         source_addr = "WesterOps"
         message = sms_text

@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url('auth/', include('login.urls'), name="auth"),
     url('post/', include('post.urls'), name="post"),
+    url('annotation/', include('annotation.urls'), name="annotation"),
 
 ]
 urlpatterns += staticfiles_urlpatterns()
