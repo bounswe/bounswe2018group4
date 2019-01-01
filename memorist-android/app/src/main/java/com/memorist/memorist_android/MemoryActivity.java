@@ -120,6 +120,11 @@ public class MemoryActivity extends BaseActivity
     }
 
     @Override
+    public void getUserRecommendationList() {
+        MemoristApi.getRecommendationList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserRecommendationListener, getUserRecommendationErrorListener);
+    }
+
+    @Override
     public void getSearchResults() {
         MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
     }
@@ -452,11 +457,6 @@ public class MemoryActivity extends BaseActivity
                 if(fragment != null) {
                     fragment.updateMemories(response);
                 }
-            } else if(currentTab == 4) {
-                RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(TAG_RECOMMENDATIONS_FRAGMENT);
-                if(fragment != null) {
-                    fragment.updateMemories(response);
-                }
             } else if(currentTab == 5) {
                 ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
                 if(fragment != null) {
@@ -467,6 +467,24 @@ public class MemoryActivity extends BaseActivity
     };
 
     private Response.ErrorListener getUserMemoryListErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<ArrayList<Memory>> getUserRecommendationListener = new Response.Listener<ArrayList<Memory>>() {
+        @Override
+        public void onResponse(ArrayList<Memory> response) {
+            RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(TAG_RECOMMENDATIONS_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateMemories(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getUserRecommendationErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
