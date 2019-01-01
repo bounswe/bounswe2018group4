@@ -151,12 +151,6 @@ class CreateMemoryPage extends React.Component {
                               value={postText}
                               onChange={e => this.setState({ postText: e.currentTarget.value })}
                             />
-                            <Map
-                             google={this.props.google}
-                             center={{lat: 41.015137, lng: 28.979530}}
-                             height='300px'
-                             zoom={15}
-                            />
 
                             <button
                               type="button"
@@ -166,16 +160,9 @@ class CreateMemoryPage extends React.Component {
                             >
                               Add to post
                             </button>
-                          
                         </div>
-                        
-
-
                       </div>
 
-                      <br/>
-                      <br/>
-                      <br/>
                       <br/>
                       <h5>You can click the post area to upload photo or video. Or you can drag them in the area...</h5>
                       <Dropzone id="dropzone" accept="image/*,video/*,audio/*" onDrop={this.onDrop} style={styles.dropzoneContainer}>
@@ -183,6 +170,14 @@ class CreateMemoryPage extends React.Component {
                         <hr style={{ borderTop: "1px solid darkgray" }} />
                         {this.renderPost()}
                       </Dropzone>
+                        <br/>
+                        <br/>
+                        <Map
+                            google={this.props.google}
+                            center={{lat: 41.015137, lng: 28.979530}}
+                            height='300px'
+                            zoom={15}
+                        />
                     </div>
                     </div>
                       
