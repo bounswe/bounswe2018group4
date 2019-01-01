@@ -40,6 +40,9 @@ public class Memory {
     @Expose
     private int numcomments;
 
+    @Expose
+    private LocationType[] location;
+
     public int getId() {
         return id;
     }
@@ -127,4 +130,12 @@ public class Memory {
     public int getNumcomments(){return  this.numcomments; }
 
     public void setNumcomments(int num){this.numcomments=num; }
+
+    public LocationType[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationType[] location) {
+        this.location = location;
+    }
 }

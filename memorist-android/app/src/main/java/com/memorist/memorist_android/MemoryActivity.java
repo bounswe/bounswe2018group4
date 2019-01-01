@@ -80,7 +80,10 @@ public class MemoryActivity extends BaseActivity
     private String memoryTitle;
     private String mentionedTime;
     private String mentionedTime2;
+    private String location1;
+    private String location2;
     private String selectedDateFormat;
+    private int selectedLocationType;
     private int selectedDateType;
     private int multimediaCounter;
 
@@ -184,9 +187,9 @@ public class MemoryActivity extends BaseActivity
     }
 
     @Override
-    public void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location, ArrayList<String> memoryFormat,
-                             ArrayList<String> memoryText, int selectedDateType, String selectedDateFormat, ArrayList<Uri> memoryImage,
-                             ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
+    public void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location1, String location2, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                             int selectedDateType, String selectedDateFormat, int selectedLocationType, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+                             ArrayList<String> memoryTags) {
         this.memoryMultimediaID = new ArrayList<>();
         this.memoryTitle = memoryTitle;
         this.memoryFormat = memoryFormat;
@@ -194,6 +197,9 @@ public class MemoryActivity extends BaseActivity
         this.selectedDateFormat = selectedDateFormat;
         this.mentionedTime = mentionedTime;
         this.mentionedTime2 = mentionedTime2;
+        this.location1 = location1;
+        this.location2 = location2;
+        this.selectedLocationType = selectedLocationType;
         this.memoryText = memoryText;
         this.memoryTags = memoryTags;
         this.multimediaCounter = memoryImage.size() + memoryVideo.size() + memoryAudio.size();
@@ -203,7 +209,7 @@ public class MemoryActivity extends BaseActivity
         if(this.multimediaCounter == 0) {
             try {
                 MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                        memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                        memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2, location1, location2, selectedLocationType,
                         memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -418,7 +424,7 @@ public class MemoryActivity extends BaseActivity
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
                     MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                            memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                            memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2, location1, location2, selectedLocationType,
                             memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();

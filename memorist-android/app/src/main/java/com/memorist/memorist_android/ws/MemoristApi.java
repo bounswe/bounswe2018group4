@@ -19,6 +19,7 @@ import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
 import com.memorist.memorist_android.model.Comments;
+import com.memorist.memorist_android.model.Location;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.User;
 
@@ -82,7 +83,7 @@ public class MemoristApi {
     }
 
     public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2,
+                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2, String location1, String location2, int selectedLocationType,
                                     ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags,
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws JSONException {
         String url = Constants.API_CREATE_MEMORY;
@@ -97,12 +98,14 @@ public class MemoristApi {
         JRequestObject.put("date_format", selectedDateFormat);
         JRequestObject.put("date_string1", mentionedTime);
         JRequestObject.put("date_string2", mentionedTime2);
+        JRequestObject.put("location_type", selectedLocationType);
+        JRequestObject.put("location_list", JSONHelper.listToJSONArrayForLocation(location1, location2));
 
         Log.d("Sent json: ", JRequestObject.toString());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", token);
 
