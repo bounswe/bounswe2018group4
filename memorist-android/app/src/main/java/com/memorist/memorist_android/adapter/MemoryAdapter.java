@@ -157,13 +157,20 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about ";
-            String location = "Place is " + "???";
+            String location = "Place is ";
             String title = memory.getTitle();
 
             if(memory.getMentioned_time().length != 0) {
                 mentionedTime += memory.getMentioned_time()[0].getDate_string1();
-                if(memory.getMentioned_time()[0].getDate_string2() != null) {
+                if(!memory.getMentioned_time()[0].getDate_string2().equals("")) {
                     mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
+                }
+            }
+
+            if(memory.getLocation().length != 0) {
+                location += memory.getLocation()[0].getLocation()[0].getLocation_name();
+                if(memory.getLocation()[0].getLocation().length > 1) {
+                    location += " to " + memory.getLocation()[0].getLocation()[1].getLocation_name();
                 }
             }
 
