@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.AuthFailureError;
+import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 
 import com.memorist.memorist_android.ApplicationClass;
@@ -324,7 +325,7 @@ public class MemoristApi {
         coreApi.addToRequestQueue(request);
     }
 
-    public static void getSearchResults(String token, String text, String type, Response.Listener<ArrayList<ApiResultNoData>> listener,
+    public static void getSearchResults(String token, String text, String type, Response.Listener<ArrayList<ApiResultFollowing>> listener,
                                         Response.Listener<ArrayList<Memory>> listener2, Response.ErrorListener errorListener) {
         if(type.equals("Search a user")) {
             String url = Constants.API_SEARCH_USER + text + "/";
@@ -332,7 +333,7 @@ public class MemoristApi {
             Map<String, String> headers = new HashMap<>();
             headers.put("Authorization", token);
 
-            GsonArrayRequest<ApiResultNoData> request = new GsonArrayRequest<>(url, ApiResultNoData.class, headers, listener, errorListener);
+            GsonArrayRequest<ApiResultFollowing> request = new GsonArrayRequest<>(url, ApiResultFollowing.class, headers, listener, errorListener);
 
             coreApi.getRequestQueue().getCache().clear();
             coreApi.addToRequestQueue(request);
@@ -347,5 +348,39 @@ public class MemoristApi {
             coreApi.getRequestQueue().getCache().clear();
             coreApi.addToRequestQueue(request);
         }
+    }
+
+    public static void userFollow(String token, int userID) {
+        String url = Constants.API_FOLLOW;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(userID));
+
+        GsonRequest<ApiResultNoData> request = new GsonRequest<>(Request.Method.POST, url,
+                ApiResultNoData.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void userUnfollow(String token, int userID) {
+        String url = Constants.API_UNFOLLOW;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(userID));
+
+        GsonRequest<ApiResultNoData> request = new GsonRequest<>(Request.Method.POST, url,
+                ApiResultNoData.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
     }
 }
