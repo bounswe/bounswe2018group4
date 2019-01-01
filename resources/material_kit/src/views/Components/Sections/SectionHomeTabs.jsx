@@ -248,6 +248,8 @@ class SectionTabs extends React.Component {
   }
 
   getAnnotations(id){
+    var userToken = localStorage.getItem("token");
+    var _this = this;
     fetch("http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/annotation/get_annotations/".concat(id).concat("/"),
         {
           mode: "cors",
