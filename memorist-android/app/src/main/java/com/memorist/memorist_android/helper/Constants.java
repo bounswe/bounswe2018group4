@@ -27,5 +27,6 @@ public class Constants {
     public static final String API_SEARCH_USER = API_BASE_URL + "/auth/user_search/";
     public static final String API_FOLLOW = API_BASE_URL + "/auth/follow/";
     public static final String API_UNFOLLOW = API_BASE_URL + "/auth/unfollow/";
+    public static final String API_GET_ANNOTATIONS = API_BASE_URL + "/annotation/get_annotations/";
 
 }
