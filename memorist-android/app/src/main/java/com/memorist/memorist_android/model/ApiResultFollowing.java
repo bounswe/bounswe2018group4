@@ -5,22 +5,22 @@ import com.google.gson.annotations.Expose;
 public class ApiResultFollowing {
 
     @Expose
-    private int followed;
+    private int id;
 
     @Expose
     private String username;
 
     public ApiResultFollowing(int followed, String username) {
-        this.followed = followed;
+        this.id = followed;
         this.username = username;
     }
 
-    public int getFollowed() {
-        return followed;
+    public int getId() {
+        return id;
     }
 
-    public void setFollowed(int followed) {
-        this.followed = followed;
+    public void setId(int followed) {
+        this.id = followed;
     }
 
     public String getUsername() {
