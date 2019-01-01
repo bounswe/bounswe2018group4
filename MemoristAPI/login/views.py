@@ -17,6 +17,7 @@ from jinja2 import Environment
 from django.db.models import Q
 
 
+
 def sendVerifyEmail(dt, request):
     data = {}
     data['to'] = dt['user']['email']
@@ -132,6 +133,12 @@ class UserProfileUpdateAPIView(APIView):
             updated_user.location = data["location"]
         if "gender" in data:
             updated_user.gender = data["gender"]
+        if "advanced_location" in data:
+            pl = lm.PointLocation.objects.get(id=updated_user.advanced_location_id)
+            pl.location_name = data["advanced_location"]["location_name"]
+            pl.location_coordinate_latitude = data["advanced_location"]["advanced_location_latitude"]
+            pl.location_coordinate_longitude = data["advanced_location"]["advanced_location_longitude"]
+            pl.save()
         updated_user.save()
 
         serializer = ls.UserSerializer(updated_user)

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from login.models import *
 from rest_framework_jwt.settings import api_settings
 
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -18,6 +19,7 @@ class UserSearchSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     photo = serializers.SerializerMethodField()
+    advanced_location = serializers.SerializerMethodField()
 
     class Meta:
         model = RegisteredUser
@@ -31,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
             "location",
             "activeEmail_status",
             "photo"
+            "advanced_location"
         ]
 
     def get_photo(self, obj):
@@ -38,6 +41,10 @@ class UserSerializer(serializers.ModelSerializer):
         if photo.exists():
             return photo.first().image.__str__()
         return None
+
+    def get_advanced_location(self, obj):
+        advanced_location = PointLocation.objects.filter(id=obj.advanced_location_id)
+        return PointLocationSerializer(advanced_location, many=True).data
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -180,3 +187,9 @@ class FollowedSerializer(serializers.ModelSerializer):
 
     def get_username(self, obj):
         return obj.followed.username
+
+
+class PointLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PointLocation
+        fields = "__all__"

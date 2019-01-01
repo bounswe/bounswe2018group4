@@ -8,11 +8,18 @@ GENDER = (
 )
 
 
+class PointLocation(models.Model):
+    location_name = models.CharField(max_length=30, null=False, blank=False)
+    location_coordinate_latitude = models.CharField(max_length=30, null=False, blank=False)
+    location_coordinate_longitude = models.CharField(max_length=30, null=False, blank=False)
+
+
 class RegisteredUser(User):
     age = models.IntegerField(null=True)
     activeEmail_status = models.BooleanField(default=False)
     gender = models.IntegerField(choices=GENDER, null=True, blank=True)
     location = models.CharField(null=True, blank=True, max_length=30)
+    advanced_location = models.ForeignKey(PointLocation, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.first_name.__str__() + " " + self.last_name.__str__()
