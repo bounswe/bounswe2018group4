@@ -64,11 +64,8 @@
     <string name="btnRecoverPassword">Save Me!</string>
 
     <string-array name="search_list">
-        <item>Search by keyword</item>
-        <item>Search by location</item>
-        <item>Search by posted time</item>
-        <item>Search by mentioned time</item>
-        <item>Search by tag</item>
+        <item>Search a user</item>
+        <item>Search a memory</item>
     </string-array>
 
     <string-array name="time_list">
