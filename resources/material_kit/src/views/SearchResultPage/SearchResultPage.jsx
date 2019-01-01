@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import SectionHomeTabs from "../Components/Sections/SectionHomeTabs.jsx";
+import SectionSearchTabs from "../Components/Sections/SectionSearchTabs.jsx";
 
 // @material-ui/icons
 
@@ -32,14 +32,11 @@ import TextField from '@material-ui/core/TextField';
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
 // Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx";
-import TeamSection from "./Sections/TeamSection.jsx";
-import WorkSection from "./Sections/WorkSection.jsx";
 import Icon from "@material-ui/core/Icon";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
-import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 const dashboardRoutes = [];
 
@@ -56,55 +53,55 @@ const styles = {
   }
 };
 
-class HomePage extends React.Component {
+class SearchResultPage extends React.Component {
+  _isMounted = false;
   static propTypes = {
-    memories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    searchUser: PropTypes.string,
+    searchUserResult: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      memories: [],
-      searchUser: ""
+      searchUserResult: []
     };
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
-
-  handleSearchChange(e) {
-    this.setState({
-      searchUser: e.target.value
-    });
-    console.log(this.state.searchUser);
   }
 
   componentDidMount() {
-    var userToken = localStorage.getItem('token');
+    this._isMounted = true;
+    var userToken = localStorage.getItem("token");
     var _this = this;
     console.log(userToken);
-    fetch('http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/list/',
+    fetch(
+      "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/auth/user_search/"
+        .concat(this.props.searchUser)
+        .concat("/"),
       {
-        mode: 'cors',
+        mode: "cors",
         headers: {
-          'Content-Type' : 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Authorization' : 'JWT ' + userToken,
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Authorization": "JWT " + userToken
         },
-        method: 'GET',
+        method: "GET"
       })
       .then(response => response.json())
-      .then(function(data){
+      .then(function(data) {
         console.log(data);
-        _this.setState({memories: data});
+        _this.setState({ searchUserResult: data });
       })
 
       .catch(function(error) {
-        console.log('There has been a problem with your fetch operation: ' + error.message);
+        console.log("There has been a problem with your fetch operation: " + error.message);
       });
+
   }
+
   render() {
     const { classes, ...rest } = this.props;
+    console.log(this.props.searchUser);
     return (
       <div>
         <Header
@@ -124,7 +121,7 @@ class HomePage extends React.Component {
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
                 <h1 className={classes.title}>Your Story Starts With Us.</h1>
-                
+
                 <br />
                 <Button
                   color="danger"
@@ -133,7 +130,7 @@ class HomePage extends React.Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                 Go to Github
+                  Go to Github
                 </Button>
               </GridItem>
             </GridContainer>
@@ -141,30 +138,12 @@ class HomePage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <CustomInput
-              id="searchUser"
-              onChange={this.handleSearchChange}
-              formControlProps={{
-                fullWidth: true
-              }}
-              inputProps={{
-                onChange: this.handleSearchChange,
-                type: "text"
-              }}
-            />
-
-            <Link
-              to={{
-                pathname: "/search-page",
-                state: { searchUser: this.state.searchUser }
-              }}
-              className={classes.link}
-            >
-              <Button simple color="primary" size="lg">
-                Search a user
-              </Button>
-            </Link>
-            <SectionHomeTabs memories={this.state.memories} />
+            <br />
+            <br />
+            <Typography variant="display1" gutterBottom>
+              Usernames matching with &quot;{this.props.searchUser}&quot;
+            </Typography>
+            <SectionSearchTabs searchUser={this.props.searchUser} searchUserResult={this.state.searchUserResult} />
           </div>
         </div>
         <Footer />
@@ -173,4 +152,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default withStyles(landingPageStyle)(HomePage);
+export default withStyles(landingPageStyle)(SearchResultPage);
