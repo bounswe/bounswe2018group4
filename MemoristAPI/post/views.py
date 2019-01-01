@@ -182,6 +182,7 @@ class MemoryCreate1APIView(CreateAPIView):
             tag.save()
 
         date = postmodels.PointMentionedTime(
+            date_type=1,
             date_format=data["date_format"],
             date_string1=data["date_string1"],
             date_string2=data["date_string2"] if "date_string2" in data else ""
