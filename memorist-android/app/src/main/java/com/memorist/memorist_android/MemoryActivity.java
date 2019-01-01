@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.adapter.UserAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.EditProfileFragment;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
@@ -60,6 +61,7 @@ public class MemoryActivity extends BaseActivity
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
     FolloweringsFragment.OnFragmentInteractionListener,
+        UserAdapter.UserOnClickListener,
         EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
         FeedCommentFragment.OnFragmentInteractionListener,
@@ -477,10 +479,13 @@ public class MemoryActivity extends BaseActivity
         }
     };
 
-    private Response.Listener<ArrayList<ApiResultNoData>> getUserSearchResultsListener = new Response.Listener<ArrayList<ApiResultNoData>>() {
+    private Response.Listener<ArrayList<ApiResultFollowing>> getUserSearchResultsListener = new Response.Listener<ArrayList<ApiResultFollowing>>() {
         @Override
-        public void onResponse(ArrayList<ApiResultNoData> response) {
-
+        public void onResponse(ArrayList<ApiResultFollowing> response) {
+            SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateUsers(response);
+            }
         }
     };
 
@@ -583,9 +588,16 @@ public class MemoryActivity extends BaseActivity
     private Response.Listener<ArrayList<ApiResultFollowing>> getFollowingsListener = new Response.Listener<ArrayList<ApiResultFollowing>>() {
         @Override
         public void onResponse(ArrayList<ApiResultFollowing> response) {
-            ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
-            if(fragment != null) {
-                fragment.updateFollowings(response);
+            if (currentTab == 2) {
+                SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+                if(fragment != null) {
+                    fragment.updateFollowings(response);
+                }
+            } else {
+                ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
+                if(fragment != null) {
+                    fragment.updateFollowings(response);
+                }
             }
         }
     };
@@ -708,5 +720,15 @@ public class MemoryActivity extends BaseActivity
             File imageFile = new File(filePath);
             MemoristApi.photoUpdate(getApplicationContext(), SharedPrefHelper.getUserToken(getApplicationContext()), imageFile, filePath, null, mediaUploadErrorListener);
         }
+    }
+
+    @Override
+    public void followUser(int id) {
+        MemoristApi.userFollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
+    }
+
+    @Override
+    public void unfollowUser(int id) {
+        MemoristApi.userUnfollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
     }
 }
