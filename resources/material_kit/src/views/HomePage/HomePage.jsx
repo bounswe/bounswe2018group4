@@ -141,17 +141,17 @@ class HomePage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
+            <br />
             <CustomInput
               id="searchUser"
               onChange={this.handleSearchChange}
-              formControlProps={{
-                fullWidth: true
-              }}
               inputProps={{
                 onChange: this.handleSearchChange,
-                type: "text"
+                type: "text",
+                placeholder: "Enter username here"
               }}
             />
+            &nbsp;
             <Link
               to={{
                 pathname: "/search-page",
@@ -159,7 +159,7 @@ class HomePage extends React.Component {
               }}
               className={classes.link}
             >
-              <Button simple color="primary" size="lg">
+              <Button round color="primary" size="lg">
                 Search a user
               </Button>
             </Link>
@@ -170,11 +170,10 @@ class HomePage extends React.Component {
                 }}
                 className={classes.link}
             >
-              <Button simple color="primary" size="lg">
+              <Button round color="primary" size="lg">
                 Bring me the best memories!
               </Button>
             </Link>
-
             <SectionHomeTabs memories={this.state.memories} />
           </div>
         </div>
