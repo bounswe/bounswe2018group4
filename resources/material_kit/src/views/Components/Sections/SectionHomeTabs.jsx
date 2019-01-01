@@ -261,7 +261,7 @@ class SectionTabs extends React.Component {
                                   }
                                   color= "danger"
                                 >
-                                  Dislike
+                                  Unlike
                                 </Button>
                               </div>
                             )
