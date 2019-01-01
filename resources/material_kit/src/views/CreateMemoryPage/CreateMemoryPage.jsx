@@ -3,6 +3,8 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import styles from "./styles";
 import { postService } from "../_services";
+import { compose, withProps } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,6 +30,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Typography from '@material-ui/core/Typography';
+import Map from "views/CreateMemoryPage/Map.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
@@ -36,6 +39,7 @@ import image from "assets/img/bg7.jpg";
 const dashboardRoutes = [];
 
 class CreateMemoryPage extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -45,9 +49,12 @@ class CreateMemoryPage extends React.Component {
 
       title: "",
       tags: "",
+      location_type: 1,
+      location_list: [],
       willSendFiles: [],
       willSendStories: [],
-      format: []
+      format: [],
+      
     };
 
     this.onDrop = this.onDrop.bind(this);
@@ -66,6 +73,7 @@ class CreateMemoryPage extends React.Component {
   render() {
     const { postText, title, tags } = this.state;
     const { classes, ...rest } = this.props;
+    
     return (
       <div>
           <Header
@@ -143,6 +151,13 @@ class CreateMemoryPage extends React.Component {
                               value={postText}
                               onChange={e => this.setState({ postText: e.currentTarget.value })}
                             />
+                            <Map
+                             google={this.props.google}
+                             center={{lat: 41.015137, lng: 28.979530}}
+                             height='300px'
+                             zoom={15}
+                            />
+
                             <button
                               type="button"
                               className="btn btn-primary"
@@ -151,15 +166,24 @@ class CreateMemoryPage extends React.Component {
                             >
                               Add to post
                             </button>
-                          </div>
+                          
                         </div>
+                        
+
+
                       </div>
+
+                      <br/>
+                      <br/>
+                      <br/>
+                      <br/>
                       <h5>You can click the post area to upload photo or video. Or you can drag them in the area...</h5>
                       <Dropzone id="dropzone" accept="image/*,video/*,audio/*" onDrop={this.onDrop} style={styles.dropzoneContainer}>
                         <h3 style={{ textAlign: "center" }}>{title}</h3>
                         <hr style={{ borderTop: "1px solid darkgray" }} />
                         {this.renderPost()}
                       </Dropzone>
+                    </div>
                     </div>
                       
                     </CardBody>
