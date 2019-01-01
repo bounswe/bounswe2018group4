@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
             "gender",
             "location",
             "activeEmail_status",
-            "photo"
+            "photo",
             "advanced_location"
         ]
 

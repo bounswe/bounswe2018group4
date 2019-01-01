@@ -134,11 +134,21 @@ class UserProfileUpdateAPIView(APIView):
         if "gender" in data:
             updated_user.gender = data["gender"]
         if "advanced_location" in data:
-            pl = lm.PointLocation.objects.get(id=updated_user.advanced_location_id)
-            pl.location_name = data["advanced_location"]["location_name"]
-            pl.location_coordinate_latitude = data["advanced_location"]["advanced_location_latitude"]
-            pl.location_coordinate_longitude = data["advanced_location"]["advanced_location_longitude"]
-            pl.save()
+
+            pl = lm.PointLocation.objects.filter(id=updated_user.advanced_location_id)
+            if pl.exists():
+                pl.location_name = data["advanced_location"]["location_name"]
+                pl.location_coordinate_latitude = data["advanced_location"]["location_coordinate_latitude"]
+                pl.location_coordinate_longitude = data["advanced_location"]["location_coordinate_longitude"]
+                pl.save()
+            else:
+                pl = lm.PointLocation(
+                    location_name = data["advanced_location"]["location_name"],
+                    location_coordinate_latitude = data["advanced_location"]["location_coordinate_latitude"],
+                    location_coordinate_longitude = data["advanced_location"]["location_coordinate_longitude"]
+                )
+                pl.save()
+                updated_user.advanced_location = pl
         updated_user.save()
 
         serializer = ls.UserSerializer(updated_user)
