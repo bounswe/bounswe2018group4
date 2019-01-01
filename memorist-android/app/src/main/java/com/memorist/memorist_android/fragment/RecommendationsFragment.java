@@ -57,7 +57,7 @@ public class RecommendationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         memories = new ArrayList<>();
-        mListener.getUserMemoryList();
+        mListener.getUserRecommendationList();
     }
 
     @Override
@@ -110,6 +110,6 @@ public class RecommendationsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getUserMemoryList();
+        void getUserRecommendationList();
     }
 }
