@@ -177,6 +177,7 @@ class CreateMemoryPage extends React.Component {
                             center={{lat: 41.015137, lng: 28.979530}}
                             height='300px'
                             zoom={15}
+                            ref={(map) => {this.map = map;}} {...this.props}
                         />
                     </div>
                     </div>
@@ -310,13 +311,23 @@ class CreateMemoryPage extends React.Component {
     const format =  this.state.format;
     const multimedia = this.state.willSendFiles;
     const story = this.state.willSendStories;
+    const location_type = 0;
+    const date_format = 0;
+    const date_string1 = "1920s";
+    console.log(tags);
+    const PointLocation = {
+      location_name: this.map.state.address,
+      location_coordinate_latitude: this.map.state.markerPosition.lat,
+      location_coordinate_longitude: this.map.state.markerPosition.lng
+    };
+    const location_list = [PointLocation];
     // dispatch(postActions.submitPost(willSendFiles, willSendStories, format, title, tagsArray));
     postService.submitPost(multimedia)
       .then(values => {
         console.log("values", values);
         const ids = values.map(el => el.id);
         postService
-        .submitPostCredential(ids, story, format, title, tags)
+        .submitPostCredential(ids, story, format, title, tags, location_type, location_list, date_format, date_string1)
         .then(res => {
           console.log(res);
           window.location.replace("/homepage");
