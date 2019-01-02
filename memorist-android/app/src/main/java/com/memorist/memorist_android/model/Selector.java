@@ -36,4 +36,10 @@ public class Selector {
     public void setStart(String start) {
         this.start = start;
     }
+
+    public Selector(String s_type, String start, String end) {
+        this.s_type = s_type;
+        this.start = start;
+        this.end = end;
+    }
 }
