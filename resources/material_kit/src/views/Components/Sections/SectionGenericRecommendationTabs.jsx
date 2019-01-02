@@ -149,22 +149,24 @@ class SectionTabs extends React.Component {
                                 tabName: "Like",
                                 tabContent: (
                                     <div>
-                                      <Button
-                                          onClick={() =>
-                                              this.handleLike(prop.id)
-                                          }
-                                      >
-                                        Like
-                                      </Button>
-                                      <br />
-                                      <Button
-                                          onClick={() =>
-                                              this.handleDislike(prop.id)
-                                          }
-                                          color= "danger"
-                                      >
-                                        Dislike
-                                      </Button>
+                                      <p className={classes.textCenter}>
+                                        {prop.numlikes} like(s) <br />
+                                        <Button
+                                            onClick={() =>
+                                                this.handleLike(prop.id)
+                                            }
+                                        >
+                                          Like
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                this.handleDislike(prop.id)
+                                            }
+                                            color= "danger"
+                                        >
+                                          Unlike
+                                        </Button>
+                                      </p>
                                     </div>
                                 )
                               },
@@ -197,6 +199,46 @@ class SectionTabs extends React.Component {
                                             </div>
                                         );
                                       })}
+                                    </div>
+                                )
+                              },
+                              {
+                                tabName: "Annotation",
+                                tabContent: (
+                                    <div>
+                                      <CustomInput
+                                          id="start"
+                                          onChange={this.handleStartChange}
+                                          inputProps={{
+                                            onChange: this.handleStartChange,
+                                            type: "text",
+                                            placeholder: "Start index"
+                                          }}
+                                      />
+                                      &nbsp; &nbsp;
+                                      <CustomInput
+                                          id="end"
+                                          onChange={this.handleEndChange}
+                                          inputProps={{
+                                            onChange: this.handleEndChange,
+                                            type: "text",
+                                            placeholder: "End index"
+                                          }}
+                                      />
+                                      &nbsp; &nbsp;
+                                      <CustomInput
+                                          id="annotation"
+                                          onChange={this.handleAnnotationChange}
+                                          inputProps={{
+                                            onChange: this.handleAnnotationChange,
+                                            type: "text",
+                                            placeholder: "Annotation"
+                                          }}
+                                      />
+                                      &nbsp;
+                                      <Button default color="primary" size="lg" onClick={() => this.handleAnnotation(prop.id)}>
+                                        Annotate
+                                      </Button>
                                     </div>
                                 )
                               }
