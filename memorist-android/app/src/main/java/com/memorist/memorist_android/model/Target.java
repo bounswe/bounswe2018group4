@@ -36,4 +36,10 @@ public class Target {
     public void setT_type(String t_type) {
         this.t_type = t_type;
     }
+
+    public Target(String t_type, String source, Selector[] selector) {
+        this.t_type = t_type;
+        this.source = source;
+        this.selector = selector;
+    }
 }
