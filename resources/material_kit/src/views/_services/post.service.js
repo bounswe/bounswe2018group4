@@ -50,7 +50,7 @@ function submitPost(multimedia) {
   return Promise.all(promiseArray);
 }
 
-function submitPostCredential(mediaIDS, story, format, title, tags) {
+function submitPostCredential(mediaIDS, story, format, title, tags, location_type, location_list, date_format, date_string1) {
   const userToken = getCookie("token");
 
   return new Promise((resolve, reject) => {
@@ -59,7 +59,11 @@ function submitPostCredential(mediaIDS, story, format, title, tags) {
       story,
       format,
       title,
-      tags
+      tags,
+      location_type,
+      location_list,
+      date_format,
+      date_string1
     };
 
     const xhttpreq = new XMLHttpRequest();
