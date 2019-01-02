@@ -4,7 +4,7 @@ import ProfilePage from "views/ProfilePage/Profile.js";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import SignUpPage from "views/SignUpPage/SignUpPage.jsx";
 import CreateMemoryPage from "views/CreateMemoryPage/CreateMemoryPage.jsx";
-import Home from "views/HomePage/Home.js";
+import HomePage from "views/HomePage/HomePage.jsx";
 import SearchResult from "views/SearchResultPage/SearchResult.js";
 
 var indexRoutes = [
@@ -14,7 +14,7 @@ var indexRoutes = [
   { path: "/signup-page", name: "SignUpPage", component: SignUpPage },
   { path: "/creatememory-page", name: "CreateMemoryPage", component: CreateMemoryPage },
   { path: "/components", name: "Components", component: Components },
-  { path: "/home-page", name: "Home", component: Home },
+  { path: "/home-page", name: "HomePage", component: HomePage },
   { path: "/search-page", name: "SearchResult", component: SearchResult },
   { path: "/", name: "LoginPage", component: LoginPage},
 ];

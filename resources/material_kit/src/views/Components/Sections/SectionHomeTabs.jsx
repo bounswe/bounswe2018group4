@@ -246,6 +246,14 @@ class SectionTabs extends React.Component {
                             )
                           },
                           {
+                            tabName: "Location",
+                            tabContent: (
+                                <div>
+                                  {prop.location.length > 0 && prop.location[0].location_list[0].location_name}
+                                </div>
+                            )
+                          },
+                          {
                             tabName: "Comment",
                             tabContent: (
                               <div>
