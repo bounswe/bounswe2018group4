@@ -46,6 +46,8 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tv_profileFollowersCount) TextView tvProfileFollowerCount;
     @BindView(R.id.tv_profileFollowingsCount) TextView tvProfileFollowingsCount;
 
+    private String mUsername, mFirstName, mLastName, mLocation, mGender, mPhoto;
+
     private OnFragmentInteractionListener mListener;
 
     // The data set for memory objects.
@@ -116,32 +118,44 @@ public class ProfileFragment extends Fragment {
         String userLocation = user.getLocation();
         String userAvatar = user.getPhoto();
 
+        mUsername = userName;
+        mFirstName = user.getFirst_name();
+        mLastName = user.getLast_name();
+        mGender = user.getGender();
+        mLocation = userLocation;
+        mPhoto = userAvatar;
+
         tvProfileUsername.setText(userName);
         tvProfileNameSurname.setText(nameSurname);
 
-        if(userGender != null) {
+        if (userGender != null) {
             tvProfileGender.setVisibility(View.VISIBLE);
 
-            if(userGender.equals("1")) {
+            if (userGender.equals("1")) {
                 tvProfileGender.setText(String.valueOf("Male"));
-            } else if(userGender.equals("2")) {
+            } else if (userGender.equals("2")) {
                 tvProfileGender.setText(String.valueOf("Female"));
             } else {
                 tvProfileGender.setText(String.valueOf("Other"));
             }
         }
 
-        if(userLocation != null) {
+        if (userLocation != null) {
             tvProfileLocation.setVisibility(View.VISIBLE);
             tvProfileLocation.setText(userLocation);
         }
 
-        if(userAvatar != null) {
+        if (userAvatar != null) {
             String avatarURL = Constants.API_BASE_URL + "/multimedia/" + userAvatar;
             Picasso.get().load(avatarURL).into(ivProfilePicture);
         } else {
             ivProfilePicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_icon));
         }
+    }
+
+    @OnClick(R.id.btn_editProfile)
+    public void editProfileClicked(View view) {
+        mListener.proceedProfileEdit(mUsername, mFirstName, mLastName, mGender, mLocation, mPhoto);
     }
 
     public void updateMemories(ArrayList<Memory> memoryList) {
@@ -194,5 +208,6 @@ public class ProfileFragment extends Fragment {
         void getFollowings();
         void getFollowerList(ArrayList<ApiResultFollower> list);
         void getFollowingList(ArrayList<ApiResultFollowing> list);
+        void proceedProfileEdit(String username, String first_name, String last_name, String gender, String location, String photo);
     }
 }

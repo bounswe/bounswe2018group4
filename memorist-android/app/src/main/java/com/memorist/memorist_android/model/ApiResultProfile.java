@@ -19,6 +19,17 @@ public class ApiResultProfile {
     @Expose
     private String email;
 
+    @Expose
+    private String location;
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public int getId() {
         return id;
     }

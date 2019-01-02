@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -20,7 +19,10 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.adapter.UserAdapter;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
+import com.memorist.memorist_android.fragment.EditProfileFragment;
+import com.memorist.memorist_android.fragment.FeedCommentFragment;
 import com.memorist.memorist_android.fragment.FeedMemoryFragment;
 import com.memorist.memorist_android.fragment.FolloweringsFragment;
 import com.memorist.memorist_android.fragment.ProfileFragment;
@@ -32,6 +34,9 @@ import com.memorist.memorist_android.helper.UriPathHelper;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
+import com.memorist.memorist_android.model.ApiResultNoData;
+import com.memorist.memorist_android.model.ApiResultProfile;
+import com.memorist.memorist_android.model.Comments;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
 import com.memorist.memorist_android.model.User;
@@ -43,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -55,7 +61,10 @@ public class MemoryActivity extends BaseActivity
     SearchMemoryFragment.OnFragmentInteractionListener,
     RecommendationsFragment.OnFragmentInteractionListener,
     FolloweringsFragment.OnFragmentInteractionListener,
+        UserAdapter.UserOnClickListener,
+        EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
+        FeedCommentFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -64,6 +73,8 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_RECOMMENDATIONS_FRAGMENT = "fragment_recommendations";
     private final String TAG_USER_PROFILE_FRAGMENT = "fragment_user_profile";
     private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
+    private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
+    private final String TAG_FEED_COMMENT_FRAGMENT = "fragment_feed_comment";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -72,7 +83,10 @@ public class MemoryActivity extends BaseActivity
     private String memoryTitle;
     private String mentionedTime;
     private String mentionedTime2;
+    private String location1;
+    private String location2;
     private String selectedDateFormat;
+    private int selectedLocationType;
     private int selectedDateType;
     private int multimediaCounter;
 
@@ -112,8 +126,14 @@ public class MemoryActivity extends BaseActivity
     }
 
     @Override
-    public void getSearchResults() {
-        MemoristApi.getMemoryList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserMemoryListListener, getUserMemoryListErrorListener);
+    public void getUserRecommendationList() {
+        MemoristApi.getRecommendationList(SharedPrefHelper.getUserToken(getApplicationContext()), getUserRecommendationListener, getUserRecommendationErrorListener);
+    }
+
+    @Override
+    public void getSearchResults(String searchText, String searchType) {
+        MemoristApi.getSearchResults(SharedPrefHelper.getUserToken(getApplicationContext()), searchText, searchType,
+                getUserSearchResultsListener, getMemorySearchResultsListener, getUserSearchResultsErrorListener);
     }
 
     @Override
@@ -171,9 +191,9 @@ public class MemoryActivity extends BaseActivity
     }
 
     @Override
-    public void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location, ArrayList<String> memoryFormat,
-                             ArrayList<String> memoryText, int selectedDateType, String selectedDateFormat, ArrayList<Uri> memoryImage,
-                             ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio, ArrayList<String> memoryTags) {
+    public void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location1, String location2, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                             int selectedDateType, String selectedDateFormat, int selectedLocationType, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+                             ArrayList<String> memoryTags) {
         this.memoryMultimediaID = new ArrayList<>();
         this.memoryTitle = memoryTitle;
         this.memoryFormat = memoryFormat;
@@ -181,6 +201,9 @@ public class MemoryActivity extends BaseActivity
         this.selectedDateFormat = selectedDateFormat;
         this.mentionedTime = mentionedTime;
         this.mentionedTime2 = mentionedTime2;
+        this.location1 = location1;
+        this.location2 = location2;
+        this.selectedLocationType = selectedLocationType;
         this.memoryText = memoryText;
         this.memoryTags = memoryTags;
         this.multimediaCounter = memoryImage.size() + memoryVideo.size() + memoryAudio.size();
@@ -190,7 +213,7 @@ public class MemoryActivity extends BaseActivity
         if(this.multimediaCounter == 0) {
             try {
                 MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                        memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                        memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2, location1, location2, selectedLocationType,
                         memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -303,6 +326,37 @@ public class MemoryActivity extends BaseActivity
         mediaPlayer.start();
     }
 
+    @Override
+    public void proceedProfileEdit(String username, String first_name, String last_name, String gender, String location, String photo) {
+        EditProfileFragment fragment = EditProfileFragment.newInstance(username, first_name, last_name, gender, location, photo);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim
+                        .enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_EDIT_PROFILE)
+                .addToBackStack(TAG_EDIT_PROFILE)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void memoryCommentsClicked(Memory memory) {
+        FeedCommentFragment fragment = FeedCommentFragment.newInstance(memory.getComments(), memory.getId());
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_FEED_COMMENT_FRAGMENT)
+                .addToBackStack(TAG_FEED_COMMENT_FRAGMENT)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void addComment(String comment, int memoryID) {
+        MemoristApi.sendComment(SharedPrefHelper.getUserToken(getApplicationContext()), comment, memoryID, sendCommentListener, sendCommentErrorListener);
+    }
+
     @OnClick(R.id.btn_memoristHome)
     public void tabHomeClicked(View view) {
         tabSwitcher(TAG_FEED_MEMORY_FRAGMENT, 1);
@@ -374,7 +428,7 @@ public class MemoryActivity extends BaseActivity
             if(memoryMultimediaID.size() == multimediaCounter) {
                 try {
                     MemoristApi.createMemory(SharedPrefHelper.getUserToken(getApplicationContext()), memoryTitle, memoryFormat,
-                            memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2,
+                            memoryText, selectedDateType, selectedDateFormat, mentionedTime, mentionedTime2, location1, location2, selectedLocationType,
                             memoryMultimediaID, memoryTags, createMemoryListener, createMemoryErrorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -388,6 +442,15 @@ public class MemoryActivity extends BaseActivity
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
             Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+
+            String body = "as";
+            try {
+                body = new String(error.networkResponse.data,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            Log.v("lof", body);
         }
     };
 
@@ -396,16 +459,6 @@ public class MemoryActivity extends BaseActivity
         public void onResponse(ArrayList<Memory> response) {
             if(currentTab == 1) {
                 FeedMemoryFragment fragment = (FeedMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_FEED_MEMORY_FRAGMENT);
-                if(fragment != null) {
-                    fragment.updateMemories(response);
-                }
-            } else if(currentTab == 2) {
-                SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
-                if(fragment != null) {
-                    fragment.updateMemories(response);
-                }
-            } else if(currentTab == 4) {
-                RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(TAG_RECOMMENDATIONS_FRAGMENT);
                 if(fragment != null) {
                     fragment.updateMemories(response);
                 }
@@ -419,6 +472,52 @@ public class MemoryActivity extends BaseActivity
     };
 
     private Response.ErrorListener getUserMemoryListErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<ArrayList<ApiResultFollowing>> getUserSearchResultsListener = new Response.Listener<ArrayList<ApiResultFollowing>>() {
+        @Override
+        public void onResponse(ArrayList<ApiResultFollowing> response) {
+            SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateUsers(response);
+            }
+        }
+    };
+
+    private Response.Listener<ArrayList<Memory>> getMemorySearchResultsListener = new Response.Listener<ArrayList<Memory>>() {
+        @Override
+        public void onResponse(ArrayList<Memory> response) {
+            SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateMemories(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getUserSearchResultsErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            String serverIsDown = "We had a short maintenance break, please try again later.";
+            Toast.makeText(getApplicationContext(), serverIsDown, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private Response.Listener<ArrayList<Memory>> getUserRecommendationListener = new Response.Listener<ArrayList<Memory>>() {
+        @Override
+        public void onResponse(ArrayList<Memory> response) {
+            RecommendationsFragment fragment = (RecommendationsFragment) getSupportFragmentManager().findFragmentByTag(TAG_RECOMMENDATIONS_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateMemories(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener getUserRecommendationErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
             String serverIsDown = "We had a short maintenance break, please try again later.";
@@ -470,8 +569,18 @@ public class MemoryActivity extends BaseActivity
         @Override
         public void onResponse(ArrayList<ApiResultFollower> response) {
             ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
-            if(fragment != null) {
+            if (fragment != null) {
                 fragment.updateFollowers(response);
+            }
+        }
+    };
+
+    private Response.Listener<ArrayList<Comments>> sendCommentListener = new Response.Listener<ArrayList<Comments>>() {
+        @Override
+        public void onResponse(ArrayList<Comments> response) {
+            FeedCommentFragment fragment = (FeedCommentFragment) getSupportFragmentManager().findFragmentByTag(TAG_FEED_COMMENT_FRAGMENT);
+            if(fragment != null) {
+                fragment.updateComments(response);
             }
         }
     };
@@ -479,14 +588,28 @@ public class MemoryActivity extends BaseActivity
     private Response.Listener<ArrayList<ApiResultFollowing>> getFollowingsListener = new Response.Listener<ArrayList<ApiResultFollowing>>() {
         @Override
         public void onResponse(ArrayList<ApiResultFollowing> response) {
-            ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
-            if(fragment != null) {
-                fragment.updateFollowings(response);
+            if (currentTab == 2) {
+                SearchMemoryFragment fragment = (SearchMemoryFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH_MEMORY_FRAGMENT);
+                if(fragment != null) {
+                    fragment.updateFollowings(response);
+                }
+            } else {
+                ProfileFragment fragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(TAG_USER_PROFILE_FRAGMENT);
+                if(fragment != null) {
+                    fragment.updateFollowings(response);
+                }
             }
         }
     };
 
     private Response.ErrorListener getFollowersFollowingsErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
+    private Response.ErrorListener sendCommentErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
 
@@ -575,5 +698,37 @@ public class MemoryActivity extends BaseActivity
 
         builder.show();
         mediaPlayer.start();
+    }
+
+    @Override
+    public void updateProfileInformation(String first, String last, int gender, String location) {
+        MemoristApi.updateProfileInfo(SharedPrefHelper.getUserToken(getApplicationContext()), first, last, gender, location, updateSuccessListener, getUserProfileErrorListener);
+    }
+
+    private Response.Listener<ApiResultProfile> updateSuccessListener = new Response.Listener<ApiResultProfile>() {
+        @Override
+        public void onResponse(ApiResultProfile response) {
+            tabSwitcher(TAG_USER_PROFILE_FRAGMENT, 5);
+        }
+    };
+
+    @Override
+    public void profilePhotoUpdate(Uri photo) {
+        String filePath = UriPathHelper.getPathFromURI_Image(this, photo);
+
+        if(filePath != null) {
+            File imageFile = new File(filePath);
+            MemoristApi.photoUpdate(getApplicationContext(), SharedPrefHelper.getUserToken(getApplicationContext()), imageFile, filePath, null, mediaUploadErrorListener);
+        }
+    }
+
+    @Override
+    public void followUser(int id) {
+        MemoristApi.userFollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
+    }
+
+    @Override
+    public void unfollowUser(int id) {
+        MemoristApi.userUnfollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
     }
 }

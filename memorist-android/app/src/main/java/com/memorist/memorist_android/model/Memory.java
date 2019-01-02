@@ -34,19 +34,14 @@ public class Memory {
     @Expose
     private Time[] mentioned_time;
 
-    public Memory(int id, Owner owner, String posting_time, String title, Text[] texts, Multimedia[] multimedia, Tag[] tags, int numlikes,
-                  int[] liked_users, Time[] mentioned_time) {
-        this.id = id;
-        this.owner = owner;
-        this.posting_time = posting_time;
-        this.title = title;
-        this.texts = texts;
-        this.multimedia = multimedia;
-        this.tags = tags;
-        this.numlikes = numlikes;
-        this.liked_users = liked_users;
-        this.mentioned_time = mentioned_time;
-    }
+    @Expose
+    private Comments[] comments;
+
+    @Expose
+    private int numcomments;
+
+    @Expose
+    private LocationType[] location;
 
     public int getId() {
         return id;
@@ -126,5 +121,21 @@ public class Memory {
 
     public void setMentioned_time(Time[] mentioned_time) {
         this.mentioned_time = mentioned_time;
+    }
+
+    public Comments[] getComments(){return this.comments; }
+
+    public void setComments(Comments[] cm){this.comments=cm; }
+
+    public int getNumcomments(){return  this.numcomments; }
+
+    public void setNumcomments(int num){this.numcomments=num; }
+
+    public LocationType[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationType[] location) {
+        this.location = location;
     }
 }

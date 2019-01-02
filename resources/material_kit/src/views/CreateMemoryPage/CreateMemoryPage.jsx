@@ -2,7 +2,9 @@ import React from "react";
 
 import Dropzone from "react-dropzone";
 import styles from "./styles";
-import {postService} from "../_services";
+import { postService } from "../_services";
+import { compose, withProps } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,6 +30,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Typography from '@material-ui/core/Typography';
+import Map from "views/CreateMemoryPage/Map.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
@@ -59,7 +62,9 @@ class CreateMemoryPage extends React.Component {
             month2: "",
             day2: "",
             hour2: "",
-            minute2: ""
+            minute2: "",
+            location_type: 1,
+            location_list: []
         };
 
         this.onDrop = this.onDrop.bind(this);
@@ -75,39 +80,40 @@ class CreateMemoryPage extends React.Component {
         }
     }
 
-    render() {
+  render() {
         const {postText, title, tags, decade1, year1, month1, day1, hour1, minute1, decade2, year2, month2, day2, hour2, minute2} = this.state;
         const {classes, ...rest} = this.props;
         return (
-            <div>
-                <Header
-                    color="transparent"
-                    routes={dashboardRoutes}
-                    brand="MEMORIST"
-                    rightLinks={<HeaderLinks/>}
-                    fixed
-                    changeColorOnScroll={{
-                        height: 400,
-                        color: "white"
-                    }}
-                    {...rest}
-                />
-                <div
-                    className={classes.pageHeader}
-                    style={{
-                        backgroundImage: "url(" + image + ")",
-                        backgroundSize: "cover",
-                        backgroundPosition: "top center"
-                    }}
-                >
-                    <div>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                    </div>
+        <div>
+        <Header
+        color="transparent"
+        routes={dashboardRoutes}
+        brand="MEMORIST"
+        rightLinks={<HeaderLinks/>}
+        fixed
+        changeColorOnScroll={{
+            height: 400,
+            color: "white"
+        }}
+        {...rest}
+        />
+        <div
+        className={classes.pageHeader}
+        style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center"
+        }}
+        >
+        <div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        </div>
+
                     <div className={classes.container}>
                         <GridContainer justify="center">
                             <GridItem xs={10}>
@@ -305,6 +311,15 @@ class CreateMemoryPage extends React.Component {
                                                     <hr style={{borderTop: "1px solid darkgray"}}/>
                                                     {this.renderPost()}
                                                 </Dropzone>
+                                                <br/>
+                                                <br/>
+                                                <Map
+                                                    google={this.props.google}
+                                                    center={{lat: 41.015137, lng: 28.979530}}
+                                                    height='300px'
+                                                    zoom={15}
+                                                    ref={(map) => {this.map = map;}} {...this.props}
+                                                />
                                             </div>
 
                                         </CardBody>
@@ -381,35 +396,35 @@ class CreateMemoryPage extends React.Component {
     }
 
     onDrop(addedfiles) {
-        const {post, files, format} = this.state;
+            const {post, files, format} = this.state;
 
-        let filesLastIndex = files.length - 1;
-        let newPost = post;
+            let filesLastIndex = files.length - 1;
+            let newPost = post;
 
-        addedfiles.forEach(() => newPost.push(++filesLastIndex));
+            addedfiles.forEach(() => newPost.push(++filesLastIndex));
 
-        let formatArray = [];
-        addedfiles.forEach(el => {
+            let formatArray = [];
+            addedfiles.forEach(el => {
             switch (el.type.split("/")[0]) {
-                case "video":
-                    formatArray.push("V");
-                    break;
-                case "audio":
-                    formatArray.push("A");
-                    break;
-                default:
-                    formatArray.push("I");
-                    break;
-            }
+            case "video":
+            formatArray.push("V");
+            break;
+            case "audio":
+            formatArray.push("A");
+            break;
+            default:
+            formatArray.push("I");
+            break;
+        }
         });
 
         this.setState(prevState => ({
             files: [
-                ...prevState.files,
-                ...addedfiles.map(file => ({
-                    ...file,
-                    preview: URL.createObjectURL(file)
-                }))
+            ...prevState.files,
+            ...addedfiles.map(file => ({
+            ...file,
+            preview: URL.createObjectURL(file)
+        }))
             ],
             post: newPost,
             willSendFiles: [...prevState.willSendFiles, ...addedfiles],
@@ -439,6 +454,13 @@ class CreateMemoryPage extends React.Component {
         let date_format;
         let date_string1 = "";
         let date_string2 = "";
+        const location_type = 0;
+        const PointLocation = {
+            location_name: this.map.state.address,
+            location_coordinate_latitude: this.map.state.markerPosition.lat,
+            location_coordinate_longitude: this.map.state.markerPosition.lng
+        };
+        const location_list = [PointLocation];
         if (this.state.year1 == "" && this.state.decade1 != "") {
             // Only decade given
             date_string1 = this.state.decade1.toString().concat("s");
@@ -508,7 +530,7 @@ class CreateMemoryPage extends React.Component {
                 console.log("values", values);
                 const ids = values.map(el => el.id);
                 postService
-                    .submitPostCredential(ids, story, format, title, tags, date_type, date_string1, date_string2, date_format)
+                    .submitPostCredential(ids, story, format, title, tags, date_type, date_string1, date_string2, date_format, location_type, location_list)
                     .then(res => {
                         console.log(res);
                         window.location.replace("/home-page");

@@ -149,7 +149,7 @@ class SectionTabs extends React.Component {
     var userToken = localStorage.getItem("token");
     var _this = this;
     console.log(userToken);
-    fetch("http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/list/",
+    fetch("http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/homepage/",
       {
         mode: "cors",
         headers: {
@@ -264,6 +264,14 @@ class SectionTabs extends React.Component {
                                   Dislike
                                 </Button>
                               </div>
+                            )
+                          },
+                          {
+                            tabName: "Location",
+                            tabContent: (
+                                <div>
+                                  {prop.location.length > 0 && prop.location[0].location_list[0].location_name}
+                                </div>
                             )
                           },
                           {

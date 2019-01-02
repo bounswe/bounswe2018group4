@@ -3,7 +3,6 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,13 +154,20 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about ";
-            String location = "Place is " + "???";
+            String location = "Place is ";
             String title = memory.getTitle();
 
             if(memory.getMentioned_time().length != 0) {
                 mentionedTime += memory.getMentioned_time()[0].getDate_string1();
-                if(memory.getMentioned_time()[0].getDate_string2() != null) {
+                if(memory.getMentioned_time()[0].getDate_string2() != null && !memory.getMentioned_time()[0].getDate_string2().equals("")) {
                     mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
+                }
+            }
+
+            if(memory.getLocation().length != 0) {
+                location += memory.getLocation()[0].getLocation()[0].getLocation_name();
+                if(memory.getLocation()[0].getLocation().length > 1) {
+                    location += " to " + memory.getLocation()[0].getLocation()[1].getLocation_name();
                 }
             }
 
@@ -223,11 +229,18 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             Multimedia[] multimedia = memory.getMultimedia();
             int mediaCounter = 1;
 
+            viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryCommentsClicked(memory);
+                }
+            });
+
+            viewHolder.tvCommentCount.setText(String.valueOf(memory.getNumcomments()));
+
             for(Multimedia mm: multimedia) {
                 String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
                 int mediaType = mm.getMedia_type();
-
-                Log.v("counter", mediaCounter + " for " + memory.getTitle());
 
                 if(mediaType == 1) {
                     switch (mediaCounter) {
@@ -437,5 +450,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
     public interface MemoryOnClickListener {
         void memoryMultimediaClick(Memory memory, int position);
+        void memoryCommentsClicked(Memory memory);
     }
 }
