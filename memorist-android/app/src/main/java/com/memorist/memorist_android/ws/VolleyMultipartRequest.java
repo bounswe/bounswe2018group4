@@ -28,6 +28,7 @@ public class VolleyMultipartRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
     private File file;
     private String filePath;
+    private int mediaUploadType = 0;
 
     private Class<T> clazz;
     private Map<String, String> mHeaders;
@@ -41,6 +42,10 @@ public class VolleyMultipartRequest<T> extends Request<T> {
         this.filePath = filePath;
         this.mListener = listener;
         this.mErrorListener = errorListener;
+    }
+
+    public void setMediaUploadType(int type) {
+        mediaUploadType = type;
     }
 
     @Override
@@ -87,7 +92,11 @@ public class VolleyMultipartRequest<T> extends Request<T> {
      */
     private Map<String, DataPart> getByteData() {
         Map<String, DataPart> params = new HashMap<>();
-        params.put("media", new DataPart(file.getName(), getFileDataFromFilePath(filePath)));
+        if(mediaUploadType == 0) {
+            params.put("media", new DataPart(file.getName(), getFileDataFromFilePath(filePath)));
+        } else {
+            params.put("image", new DataPart(file.getName(), getFileDataFromFilePath(filePath)));
+        }
         return params;
     }
 

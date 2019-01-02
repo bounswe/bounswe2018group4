@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.MemoryAdapter;
+import com.memorist.memorist_android.adapter.UserAdapter;
+import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.Memory;
 
 import java.util.ArrayList;
@@ -41,8 +43,13 @@ public class SearchMemoryFragment extends Fragment {
     // The data set for memory objects.
     private ArrayList<Memory> memories;
 
+    private ArrayList<ApiResultFollowing> searchUsers;
+    private ArrayList<ApiResultFollowing> myFollowings;
+
     // The adapter to fit the data onto list.
     private MemoryAdapter adapter;
+
+    private UserAdapter userAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,6 +71,8 @@ public class SearchMemoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         memories = new ArrayList<>();
+        searchUsers = new ArrayList<>();
+        myFollowings = new ArrayList<>();
     }
 
     @Override
@@ -77,6 +86,8 @@ public class SearchMemoryFragment extends Fragment {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spSearchSpinner.setAdapter(adapter);
         }
+
+        mListener.getFollowings();
 
         return view;
     }
@@ -101,17 +112,23 @@ public class SearchMemoryFragment extends Fragment {
     @OnClick(R.id.btn_searchClicked)
     public void searchClicked(View view) {
         if(!etSearchMemory.getText().toString().isEmpty()) {
-            mListener.getSearchResults();
+            mListener.getSearchResults(etSearchMemory.getText().toString(), String.valueOf(spSearchSpinner.getSelectedItem()));
         }
     }
 
     public void updateMemories(ArrayList<Memory> memoryList) {
-        tvSearchIsReady.setVisibility(View.GONE);
+        if(memoryList.size() == 0) {
+            tvSearchIsReady.setText("No results");
+            tvSearchIsReady.setVisibility(View.VISIBLE);
+        } else {
+            tvSearchIsReady.setVisibility(View.GONE);
+        }
 
         memories.clear();
         memories.addAll(memoryList);
 
-        if(adapter == null) {
+        if(adapter == null || userAdapter != null) {
+            userAdapter = null;
             adapter = new MemoryAdapter(memories, getContext());
             lvSearchMemory.setAdapter(adapter);
         }
@@ -119,7 +136,30 @@ public class SearchMemoryFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    public void updateUsers(ArrayList<ApiResultFollowing> userList) {
+        if(userList.size() == 0) {
+            tvSearchIsReady.setText("No results");
+            tvSearchIsReady.setVisibility(View.VISIBLE);
+        } else {
+            tvSearchIsReady.setVisibility(View.GONE);
+        }
 
+        searchUsers.clear();
+        searchUsers.addAll(userList);
+
+        if(adapter != null || userAdapter == null) {
+            adapter = null;
+            userAdapter = new UserAdapter(userList, myFollowings, getContext());
+            lvSearchMemory.setAdapter(userAdapter);
+        }
+
+        userAdapter.notifyDataSetChanged();
+    }
+
+    public void updateFollowings(ArrayList<ApiResultFollowing> followings) {
+        this.myFollowings.clear();
+        this.myFollowings.addAll(followings);
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -132,6 +172,7 @@ public class SearchMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void getSearchResults();
+        void getSearchResults(String searchText, String searchType);
+        void getFollowings();
     }
 }

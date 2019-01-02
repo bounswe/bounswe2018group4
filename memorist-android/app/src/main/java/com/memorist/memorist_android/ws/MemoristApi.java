@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.AuthFailureError;
+import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 
 import com.memorist.memorist_android.ApplicationClass;
@@ -18,6 +19,8 @@ import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
 import com.memorist.memorist_android.model.ApiResultUser;
+import com.memorist.memorist_android.model.Comments;
+import com.memorist.memorist_android.model.Location;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.User;
 
@@ -81,7 +84,7 @@ public class MemoristApi {
     }
 
     public static void createMemory(final String token, String memoryTitle, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2,
+                                    int selectedDateType, String selectedDateFormat, String mentionedTime, String mentionedTime2, String location1, String location2, int selectedLocationType,
                                     ArrayList<Integer> memoryMultimediaID, ArrayList<String> memoryTags,
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) throws JSONException {
         String url = Constants.API_CREATE_MEMORY;
@@ -96,12 +99,14 @@ public class MemoristApi {
         JRequestObject.put("date_format", selectedDateFormat);
         JRequestObject.put("date_string1", mentionedTime);
         JRequestObject.put("date_string2", mentionedTime2);
+        JRequestObject.put("location_type", selectedLocationType);
+        JRequestObject.put("location_list", JSONHelper.listToJSONArrayForLocation(location1, location2));
 
         Log.d("Sent json: ", JRequestObject.toString());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", token);
 
@@ -237,6 +242,143 @@ public class MemoristApi {
         headers.put("Authorization", token);
 
         GsonArrayRequest<ApiResultFollowing> request = new GsonArrayRequest<>(url, ApiResultFollowing.class, headers, listListener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void updateProfileInfo(String token, String first, String last, int gender, String location, Response.Listener<ApiResultProfile> listener, Response.ErrorListener errorListener) {
+        String url = Constants.API_EDIT_PROFILE;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("first_name", first);
+        params.put("last_name", last);
+        params.put("location", location);
+        params.put("gender", String.valueOf(gender));
+
+        GsonRequest<ApiResultProfile> request = new GsonRequest<>(Request.Method.POST, url, ApiResultProfile.class, headers, params, listener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void photoUpdate(Context context, final String token, File imageFile, String filePath,
+                                   Response.Listener<ApiResultMediaUpload> mediaUploadListener,
+                                   Response.ErrorListener mediaUploadErrorListener) {
+        String url = Constants.API_PHOTO_UPDATE;
+
+        VolleyMultipartRequest<ApiResultMediaUpload> request = new VolleyMultipartRequest<ApiResultMediaUpload>(Request.Method.POST, url,
+                ApiResultMediaUpload.class, imageFile, filePath, mediaUploadListener, mediaUploadErrorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token);
+
+                return headers;
+            }
+        };
+
+        request.setMediaUploadType(1);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void sendComment(String token, final String comment, int memoryID,
+                                   Response.Listener<ArrayList<Comments>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_CREATE_COMMENT + memoryID + "/";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+
+        GsonArrayRequest<Comments> request = new GsonArrayRequest<Comments>(url, Comments.class, headers, listListener, errorListener) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("comment", comment);
+
+                return params;
+            }
+
+            @Override
+            public int getMethod() {
+                return Method.POST;
+            }
+        };
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void getRecommendationList(String userToken, Response.Listener<ArrayList<Memory>> getUserRecommendationListener, Response.ErrorListener getUserRecommendationErrorListener) {
+        String url = Constants.API_RECOMMENDATIONS;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", userToken);
+
+        GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, getUserRecommendationListener, getUserRecommendationErrorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void getSearchResults(String token, String text, String type, Response.Listener<ArrayList<ApiResultFollowing>> listener,
+                                        Response.Listener<ArrayList<Memory>> listener2, Response.ErrorListener errorListener) {
+        if(type.equals("Search a user")) {
+            String url = Constants.API_SEARCH_USER + text + "/";
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", token);
+
+            GsonArrayRequest<ApiResultFollowing> request = new GsonArrayRequest<>(url, ApiResultFollowing.class, headers, listener, errorListener);
+
+            coreApi.getRequestQueue().getCache().clear();
+            coreApi.addToRequestQueue(request);
+        } else if(type.equals("Search a memory")) {
+            String url = Constants.API_SEARCH_MEMORY + text + "/";
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", token);
+
+            GsonArrayRequest<Memory> request = new GsonArrayRequest<>(url, Memory.class, headers, listener2, errorListener);
+
+            coreApi.getRequestQueue().getCache().clear();
+            coreApi.addToRequestQueue(request);
+        }
+    }
+
+    public static void userFollow(String token, int userID) {
+        String url = Constants.API_FOLLOW;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(userID));
+
+        GsonRequest<ApiResultNoData> request = new GsonRequest<>(Request.Method.POST, url,
+                ApiResultNoData.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void userUnfollow(String token, int userID) {
+        String url = Constants.API_UNFOLLOW;
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", token);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Map<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(userID));
+
+        GsonRequest<ApiResultNoData> request = new GsonRequest<>(Request.Method.POST, url,
+                ApiResultNoData.class, headers, params, null, null);
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);
