@@ -2,7 +2,9 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-public class Time {
+import java.io.Serializable;
+
+public class Time implements Serializable {
 
     @Expose
     private int id;

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <android.support.design.card.MaterialCardView
         style="@style/Widget.MaterialComponents.CardView"
-        android:id="@+id/mc_memoryCard"
+        android:id="@+id/annotation_memoryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_sm"
         android:layout_marginBottom="@dimen/margin_sm"
+        android:layout_marginStart="@dimen/margin_sm"
+        android:layout_marginEnd="@dimen/margin_sm"
         android:paddingStart="@dimen/padding_md"
         android:paddingEnd="@dimen/padding_md"
         android:paddingBottom="@dimen/padding_md"
@@ -31,7 +34,7 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/iv_feedProfilePicture"
+                    android:id="@+id/annotation_feedProfilePicture"
                     android:layout_width="@dimen/heightMemoryOwnerAvatar"
                     android:layout_height="@dimen/heightMemoryOwnerAvatar"
                     android:src="@drawable/avatar_icon"
@@ -46,7 +49,7 @@
                     android:orientation="vertical" >
 
                     <TextView
-                        android:id="@+id/tv_feedUsername"
+                        android:id="@+id/annotation_feedUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -55,7 +58,7 @@
                         fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
 
                     <TextView
-                        android:id="@+id/tv_feedPostedTime"
+                        android:id="@+id/annotation_feedPostedTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -68,7 +71,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_feedMentionedTime"
+                android:id="@+id/annotation_feedMentionedTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_md"
@@ -78,7 +81,7 @@
                 fontPath="fonts/HelvaticaNeue.ttf" />
 
             <TextView
-                android:id="@+id/tv_feedLocation"
+                android:id="@+id/annotation_feedLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_md"
@@ -87,7 +90,7 @@
                 fontPath="fonts/HelvaticaNeue.ttf" />
 
             <TextView
-                android:id="@+id/tv_feedTitle"
+                android:id="@+id/annotation_feedTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_md"
@@ -99,7 +102,7 @@
                 fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
 
             <TextView
-                android:id="@+id/tv_feedStory"
+                android:id="@+id/annotation_feedStory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_xs"
@@ -109,7 +112,7 @@
                 fontPath="fonts/HelvaticaNeue.ttf" />
 
             <TextView
-                android:id="@+id/tv_feedTags"
+                android:id="@+id/annotation_feedTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_md"
@@ -129,83 +132,83 @@
 
                 <android.support.design.card.MaterialCardView
                     style="@style/Widget.MaterialComponents.CardView"
-                    android:id="@+id/mc_multimediaCard"
+                    android:id="@+id/annotation_multimediaCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/layoutMultimediaContent"
+                        android:id="@+id/annotationLayoutMultimediaContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:showDividers="none" >
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia1"
+                            android:id="@+id/annotation_memoryMultimedia1"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia2"
+                            android:id="@+id/annotation_memoryMultimedia2"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia3"
+                            android:id="@+id/annotation_memoryMultimedia3"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia4"
+                            android:id="@+id/annotation_memoryMultimedia4"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia5"
+                            android:id="@+id/annotation_memoryMultimedia5"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia6"
+                            android:id="@+id/annotation_memoryMultimedia6"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia7"
+                            android:id="@+id/annotation_memoryMultimedia7"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia8"
+                            android:id="@+id/annotation_memoryMultimedia8"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia9"
+                            android:id="@+id/annotation_memoryMultimedia9"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
                             android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/iv_memoryMultimedia10"
+                            android:id="@+id/annotation_memoryMultimedia10"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
                             android:layout_marginEnd="@dimen/margin_sm"
@@ -217,105 +220,68 @@
 
             </HorizontalScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginStart="@dimen/margin_md"
-                android:layout_marginEnd="@dimen/margin_md"
-                android:layout_marginBottom="@dimen/margin_md"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <ImageButton
-                        android:id="@+id/btn_feedLike"
-                        android:layout_width="@dimen/heightMemoryButton"
-                        android:layout_height="@dimen/heightMemoryButton"
-                        android:src="@drawable/nolike_icon"
-                        android:scaleType="fitCenter"
-                        android:background="@null"
-                        android:contentDescription="@string/btnLikeContentDescription"/>
-
-                    <TextView
-                        android:id="@+id/tv_likeCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_xs"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="@dimen/textSizeBigMemory"
-                        android:textColor="@color/black"
-                        android:text="0"
-                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <ImageButton
-                        android:id="@+id/btn_feedComment"
-                        android:layout_width="@dimen/heightMemoryButton"
-                        android:layout_height="@dimen/heightMemoryButton"
-                        android:src="@drawable/comments_icon"
-                        android:scaleType="fitCenter"
-                        android:background="@null"
-                        android:contentDescription="@string/btnCommentsContentDescription"/>
-
-                    <TextView
-                        android:id="@+id/tv_commentCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_xs"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="@dimen/textSizeBigMemory"
-                        android:textColor="@color/black"
-                        android:text="0"
-                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-
-                    <ImageButton
-                        android:id="@+id/btn_feedAnnotate"
-                        android:layout_width="@dimen/heightMemoryButton"
-                        android:layout_height="@dimen/heightMemoryButton"
-                        android:src="@drawable/annotation_icon"
-                        android:scaleType="fitCenter"
-                        android:background="@null"
-                        android:contentDescription="@string/btnAnnotationContentDescription" />
-
-                    <TextView
-                        android:id="@+id/tv_annotationCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_xs"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="@dimen/textSizeBigMemory"
-                        android:textColor="@color/black"
-                        fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </android.support.design.card.MaterialCardView>
+
+    <ListView
+        android:id="@+id/annotation_commentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/annotation_memoryCard"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginBottom="@dimen/margin_md"
+        android:scrollbars="none"
+        android:divider="@null" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/material_design_android_floating_action_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        fab:menu_animationDelayPerItem="55"
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_buttonSpacing="0dp"
+        fab:menu_colorNormal="#da3c2f"
+        fab:menu_colorPressed="#dc4b3f"
+        fab:menu_colorRipple="#99d4d4d4"
+        fab:menu_fab_label="Annotations"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/fab_add"
+        fab:menu_labels_colorNormal="#333"
+        fab:menu_labels_colorPressed="#444"
+        fab:menu_labels_colorRipple="#66efecec"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="8dp"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="false"
+        fab:menu_labels_textColor="#f2f1f1"
+        fab:menu_labels_textSize="15sp"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="#66aff198"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="4dp"
+        fab:menu_showShadow="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/material_design_floating_action_menu_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/annotation_icon"
+            fab:fab_label="Add"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>
