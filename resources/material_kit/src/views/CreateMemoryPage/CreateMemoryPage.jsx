@@ -34,7 +34,7 @@ import Map from "views/CreateMemoryPage/Map.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg2.jpg";
 
 const dashboardRoutes = [];
 
@@ -248,7 +248,6 @@ class CreateMemoryPage extends React.Component {
             break;
         }
       } else {
-        // WTF IS THIS ??!!
         renderQueue.push(<p>!!!!------Could not convert this element------!!!!</p>);
       }
     });
@@ -330,7 +329,7 @@ class CreateMemoryPage extends React.Component {
         .submitPostCredential(ids, story, format, title, tags, location_type, location_list, date_format, date_string1)
         .then(res => {
           console.log(res);
-          window.location.replace("/homepage");
+          window.location.replace("/home-page");
         })
         .catch(res => {
         });
