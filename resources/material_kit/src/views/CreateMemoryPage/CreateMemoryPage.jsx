@@ -74,7 +74,7 @@ class CreateMemoryPage extends React.Component {
     componentWillUnmount() {
         // Make sure to revoke the data uris to avoid memory leaks
         const {files} = this.state;
-        for (let i = files.length; i >= 0; i--) {
+        for (let i = 0; i < files.length; i++) {
             const file = files[i];
             URL.revokeObjectURL(file.preview);
         }
