@@ -478,7 +478,7 @@ class CreateMemoryPage extends React.Component {
         }
         else if (this.state.year1 != "" && this.state.month1 != "" && this.state.day1 != "" && this.state.hour1 == "") {
             // Only year, month and day given
-            date_string1 = this.state.day1.toString().concat(".").concat(this.state.month1.toString()).concat(".").concat(this.state.year2.toString());
+            date_string1 = this.state.day1.toString().concat(".").concat(this.state.month1.toString()).concat(".").concat(this.state.year1.toString());
             date_format = "ymd";
         }
         else {
