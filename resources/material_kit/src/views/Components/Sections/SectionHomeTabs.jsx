@@ -205,6 +205,27 @@ class SectionTabs extends React.Component {
                             )
                           },
                           {
+                            tabName: "Mentioned Time",
+                            tabContent: (
+                                <div>
+                                <p className={classes.textCenter}>
+                                  {prop.mentioned_time.length > 0 &&
+                                      <div>
+                                        {prop.mentioned_time[0].date_string1}
+                                      </div>
+                                  }
+                                </p>
+                                <p className={classes.textCenter}>
+                                  {((prop.mentioned_time.length > 0) && (prop.mentioned_time[0].date_string2 !== "")) &&
+                                  <div>
+                                    until {prop.mentioned_time[0].date_string2}
+                                  </div>
+                                  }
+                                </p>
+                                </div>
+                            )
+                          },
+                          {
                             tabName: "Posted Time",
                             tabContent: (
                               <p className={classes.textCenter}>
