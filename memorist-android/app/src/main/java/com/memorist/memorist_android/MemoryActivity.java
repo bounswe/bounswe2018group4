@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -38,13 +39,19 @@ import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
+import com.memorist.memorist_android.model.Body;
 import com.memorist.memorist_android.model.Comments;
+import com.memorist.memorist_android.model.Creator;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
+import com.memorist.memorist_android.model.Selector;
+import com.memorist.memorist_android.model.Target;
+import com.memorist.memorist_android.model.Text;
 import com.memorist.memorist_android.model.User;
 import com.memorist.memorist_android.ws.MemoristApi;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -758,7 +765,6 @@ public class MemoryActivity extends BaseActivity
         @Override
         public void onResponse(ArrayList<Annotation> response) {
             AnnotationFragment fragment = (AnnotationFragment) getSupportFragmentManager().findFragmentByTag(TAG_ANNOTATION_FRAGMENT);
-            Log.v("response", String.valueOf(response.size()));
             if (fragment != null) {
                 fragment.updateAnnotations(response);
             }
@@ -766,6 +772,108 @@ public class MemoryActivity extends BaseActivity
     };
 
     private Response.ErrorListener annotationResultErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
+    @Override
+    public void addAnnotation(final Memory memory) {
+        final StringBuilder storyBuilder = new StringBuilder();
+        for(Text text: memory.getTexts()) {
+            storyBuilder.append(text.getText());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add annotation");
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_annotation, null);
+        builder.setView(v);
+
+        final EditText keyText = v.findViewById(R.id.dialog_keyText);
+        final EditText valueText = v.findViewById(R.id.dialog_valueText);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String key = keyText.getText().toString();
+                String value = valueText.getText().toString();
+                int startIndex = storyBuilder.toString().indexOf(key);
+                int endIndex = startIndex + key.length();
+
+                if(startIndex >= 0) {
+                    MemoristApi.addAnnotation(SharedPrefHelper.getUserToken(getApplicationContext()), memory, key, value, startIndex, endIndex, annotationListener, annotationErrorListener);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Selected text is not in the story", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing.
+            }
+        });
+
+        keyText.setText(storyBuilder.toString());
+        builder.show();
+    }
+
+    private Response.Listener<JSONObject> annotationListener = new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+            try {
+                JSONObject JCreator = response.getJSONArray("creator").getJSONObject(0);
+                JSONObject JBody = response.getJSONArray("body").getJSONObject(0);
+                JSONObject JTarget = response.getJSONArray("target").getJSONObject(0);
+                JSONObject JSelector = JTarget.getJSONArray("selector").getJSONObject(0);
+
+                Annotation annotation = new Annotation(
+                        response.getString("context"),
+                        response.getString("id"),
+                        response.getString("a_type"),
+                        response.getString("motivation"),
+                        new Creator[]{
+                                new Creator(
+                                        JCreator.getString("c_id"),
+                                        JCreator.getString("c_type"),
+                                        JCreator.getString("name"),
+                                        JCreator.getString("nickname")
+                                )
+                        },
+                        response.getString("created"),
+                        new Body[]{
+                                new Body(
+                                        JBody.getString("b_type"),
+                                        JBody.getString("value")
+                                )
+                        },
+                        new Target[]{
+                                new Target(
+                                        JTarget.getString("t_type"),
+                                        JTarget.getString("source"),
+                                        new Selector[]{
+                                                new Selector(
+                                                        JSelector.getString("s_type"),
+                                                        JSelector.getString("start"),
+                                                        JSelector.getString("end")
+                                                )
+                                        }
+                                )
+                        });
+
+                AnnotationFragment fragment = (AnnotationFragment) getSupportFragmentManager().findFragmentByTag(TAG_ANNOTATION_FRAGMENT);
+                if (fragment != null) {
+                    fragment.addNewAnnotation(annotation);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    Response.ErrorListener annotationErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
 
