@@ -117,7 +117,7 @@ public class AnnotationFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "add", Toast.LENGTH_LONG).show();
+                mListener.addAnnotation(theMemory);
             }
         });
 
@@ -432,5 +432,6 @@ public class AnnotationFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void getAnnotationList(int id);
         void memoryMultimediaClick(Memory memory, int id);
+        void addAnnotation(Memory memory);
     }
 }
