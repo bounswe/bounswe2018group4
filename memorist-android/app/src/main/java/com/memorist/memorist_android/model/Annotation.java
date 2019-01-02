@@ -91,4 +91,15 @@ public class Annotation {
     public void setTarget(Target[] target) {
         this.target = target;
     }
+
+    public Annotation(String context, String id, String a_type, String motivation, Creator[] creator, String created, Body[] body, Target[] target) {
+        this.context = context;
+        this.id = id;
+        this.a_type = a_type;
+        this.motivation = motivation;
+        this.creator = creator;
+        this.created = created;
+        this.body = body;
+        this.target = target;
+    }
 }
