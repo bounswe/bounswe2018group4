@@ -25,4 +25,9 @@ public class Body {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public Body(String b_type, String value) {
+        this.b_type = b_type;
+        this.value = value;
+    }
 }
