@@ -2,7 +2,7 @@ import React from "react";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import {Link} from "react-router-dom";
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
 import Chat from "@material-ui/icons/Chat";
@@ -101,9 +101,11 @@ class SectionTabs extends React.Component {
                                 {
                                   tabName: "User",
                                   tabContent: (
-                                      <p className={classes.textCenter}>
-                                        {prop.username}
-                                      </p>
+                                      <Link to={"/follow/".concat(prop.id).concat("/")} className={classes.link}>
+                                          <Button simple color="primary" size="lg">
+                                              {prop.username}
+                                          </Button>
+                                      </Link>
                                   )
                                 }
                               ]}
