@@ -94,7 +94,15 @@ class SectionTabs extends React.Component {
                                 tabName: "Story",
                                 tabContent: (
                                     <p className={classes.textCenter}>
-
+                                      {prop.texts.map((value, key) => {
+                                        return (
+                                            <div> {value.text} <br/>
+                                              <img
+                                                  src={"http://ec2-18-234-162-48.compute-1.amazonaws.com:8000" + prop.multimedia[key].multimedia.media}/>
+                                            </div>
+                                        );
+                                      })
+                                      }
                                     </p>
                                 )
                               },
