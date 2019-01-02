@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import SectionHomeTabs from "../Components/Sections/SectionHomeTabs.jsx";
+import SectionGenericRecommendationTabs from "../Components/Sections/SectionGenericRecommendationTabs.jsx";
 
 // @material-ui/icons
 
@@ -32,14 +32,11 @@ import TextField from '@material-ui/core/TextField';
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
 // Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx";
-import TeamSection from "./Sections/TeamSection.jsx";
-import WorkSection from "./Sections/WorkSection.jsx";
 import Icon from "@material-ui/core/Icon";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
-import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 const dashboardRoutes = [];
 
@@ -56,53 +53,48 @@ const styles = {
   }
 };
 
-class HomePage extends React.Component {
+class GenericRecommendationPage extends React.Component {
   static propTypes = {
-    memories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    result: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      memories: [],
-      searchUser: ""
+      result: []
     };
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
-
-  handleSearchChange(e) {
-    this.setState({
-      searchUser: e.target.value
-    });
-    console.log(this.state.searchUser);
   }
 
   componentDidMount() {
-    var userToken = localStorage.getItem('token');
+    this._isMounted = true;
+    var userToken = localStorage.getItem("token");
     var _this = this;
     console.log(userToken);
-    fetch('http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/homepage/',
+    fetch(
+      "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/post/top_memories/",
       {
-        mode: 'cors',
+        mode: "cors",
         headers: {
-          'Content-Type' : 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Authorization' : 'JWT ' + userToken,
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Authorization": "JWT " + userToken
         },
-        method: 'GET',
+        method: "GET"
       })
       .then(response => response.json())
-      .then(function(data){
+      .then(function(data) {
         console.log(data);
-        _this.setState({memories: data});
+        _this.setState({ result: data });
       })
 
       .catch(function(error) {
-        console.log('There has been a problem with your fetch operation: ' + error.message);
+        console.log("There has been a problem with your fetch operation: " + error.message);
       });
+
   }
+
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -124,7 +116,7 @@ class HomePage extends React.Component {
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
                 <h1 className={classes.title}>Your Story Starts With Us.</h1>
-                
+
                 <br />
                 <Button
                   color="danger"
@@ -133,7 +125,7 @@ class HomePage extends React.Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                 Go to Github
+                  Go to Github
                 </Button>
               </GridItem>
             </GridContainer>
@@ -142,38 +134,11 @@ class HomePage extends React.Component {
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
             <br />
-            <CustomInput
-              id="searchUser"
-              onChange={this.handleSearchChange}
-              inputProps={{
-                onChange: this.handleSearchChange,
-                type: "text",
-                placeholder: "Enter username here"
-              }}
-            />
-            &nbsp;
-            <Link
-              to={{
-                pathname: "/search-page",
-                state: { searchUser: this.state.searchUser }
-              }}
-              className={classes.link}
-            >
-              <Button default color="primary" size="lg">
-                Search a user
-              </Button>
-            </Link>
-            <Link
-                to={{
-                  pathname: "/generic-recommendation-page"
-                }}
-                className={classes.link}
-            >&nbsp; &nbsp;
-              <Button default color="primary" size="lg">
-                Bring me the best memories!
-              </Button>
-            </Link>
-            <SectionHomeTabs memories={this.state.memories} />
+            <br />
+            <Typography variant="display1" gutterBottom>
+              Top memories at Memorist
+            </Typography>
+            <SectionGenericRecommendationTabs result={this.state.result} />
           </div>
         </div>
         <Footer />
@@ -182,4 +147,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default withStyles(landingPageStyle)(HomePage);
+export default withStyles(landingPageStyle)(GenericRecommendationPage);

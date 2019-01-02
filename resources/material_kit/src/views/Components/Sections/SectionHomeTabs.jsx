@@ -37,11 +37,39 @@ class SectionTabs extends React.Component {
     super(props);
     this.state = {
       memories: [],
-      comment: ""
+      comment: "",
+      start: "",
+      end: "",
+      annotation: "",
+      recorded_annotations: []
     };
 
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleComment = this.handleComment.bind(this);
+    this.handleAnnotationChange = this.handleAnnotationChange.bind(this);
+    this.handleStartChange = this.handleStartChange.bind(this);
+    this.handleEndChange = this.handleEndChange.bind(this);
+  }
+
+  handleStartChange(e) {
+    this.setState({
+      start: e.target.value
+    });
+    console.log(this.state.start);
+  }
+
+  handleEndChange(e) {
+    this.setState({
+      end: e.target.value
+    });
+    console.log(this.state.end);
+  }
+
+  handleAnnotationChange(e) {
+    this.setState({
+      annotation: e.target.value
+    });
+    console.log(this.state.annotation);
   }
 
   handleCommentChange(e) {
@@ -111,6 +139,54 @@ class SectionTabs extends React.Component {
       });
   }
 
+  handleAnnotation(id) {
+    var userToken = localStorage.getItem("token");
+    var body = {
+      context:"https://www.w3.org/ns/anno.jsonld",
+      type:"Annotation",
+      motivation:"commenting",
+      creator:{
+        "type":"RegisteredUser"
+      },
+      body:{
+        type:"TextualBody",
+        value:this.state.annotation
+      },
+      target:{
+        type:"Text",
+        source:id,
+        selector:{
+          type:"TextPositionSelector",
+          start:this.state.start,
+          end:this.state.end
+        }
+      }
+    };
+
+    $.ajax({
+      url: "http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/annotation/create/",
+      data: JSON.stringify(body),
+      type: "POST",
+      crossDomain : true,
+      headers: {
+        "Content-Type" : "application/json",
+        "Accept" : "application/json",
+        "Authorization": "JWT " + userToken
+      },
+      beforeSend: () => {
+        console.log();
+      },
+      success: (res) => {
+        var token = res.token;
+        window.location.replace("/home-page");
+      },
+      error: (res, err) => {
+        console.log(body);
+        console.log("ERR " + res);
+      }
+    });
+  }
+
   handleComment(id) {
     var userToken = localStorage.getItem("token");
     var body = {
@@ -169,6 +245,31 @@ class SectionTabs extends React.Component {
       .catch(function(error) {
         console.log("There has been a problem with your fetch operation: " + error.message);
       });
+  }
+
+  getAnnotations(id){
+    var userToken = localStorage.getItem("token");
+    var _this = this;
+    fetch("http://ec2-18-234-162-48.compute-1.amazonaws.com:8000/annotation/get_annotations/".concat(id).concat("/"),
+        {
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Authorization": "JWT " + userToken
+          },
+          method: "GET"
+        })
+        .then(response => response.json())
+        .then(function(data) {
+          console.log(data);
+          _this.setState({ recorded_annotations: data });
+        })
+        .catch(function(error) {
+          console.log("There has been a problem with your fetch operation: " + error.message);
+        });
   }
 
   render() {
@@ -247,22 +348,24 @@ class SectionTabs extends React.Component {
                             tabName: "Like",
                             tabContent: (
                               <div>
-                                <Button
-                                  onClick={() =>
-                                    this.handleLike(prop.id)
-                                  }
-                                >
-                                  Like
-                                </Button>
-                                <br />
-                                <Button
-                                  onClick={() =>
-                                    this.handleDislike(prop.id)
-                                  }
-                                  color= "danger"
-                                >
-                                  Dislike
-                                </Button>
+                                <p className={classes.textCenter}>
+                                  {prop.numlikes} like(s) <br />
+                                  <Button
+                                      onClick={() =>
+                                          this.handleLike(prop.id)
+                                      }
+                                  >
+                                    Like
+                                  </Button>
+                                  <Button
+                                      onClick={() =>
+                                          this.handleDislike(prop.id)
+                                      }
+                                      color= "danger"
+                                  >
+                                    Unlike
+                                  </Button>
+                                </p>
                               </div>
                             )
                           },
@@ -290,7 +393,7 @@ class SectionTabs extends React.Component {
 
                                   }}
                                 />
-                                <Button simple color="primary" size="lg" onClick={() => this.handleComment(prop.id)}>
+                                <Button default color="primary" size="lg" onClick={() => this.handleComment(prop.id)}>
                                   Comment
                                 </Button>
                                 <Typography variant="display1" gutterBottom>
@@ -304,6 +407,46 @@ class SectionTabs extends React.Component {
                                   );
                                 })}
                               </div>
+                            )
+                          },
+                          {
+                            tabName: "Annotation",
+                            tabContent: (
+                                <div>
+                                  <CustomInput
+                                      id="start"
+                                      onChange={this.handleStartChange}
+                                      inputProps={{
+                                        onChange: this.handleStartChange,
+                                        type: "text",
+                                        placeholder: "Start index"
+                                      }}
+                                  />
+                                  &nbsp; &nbsp;
+                                  <CustomInput
+                                      id="end"
+                                      onChange={this.handleEndChange}
+                                      inputProps={{
+                                        onChange: this.handleEndChange,
+                                        type: "text",
+                                        placeholder: "End index"
+                                      }}
+                                  />
+                                  &nbsp; &nbsp;
+                                  <CustomInput
+                                      id="annotation"
+                                      onChange={this.handleAnnotationChange}
+                                      inputProps={{
+                                        onChange: this.handleAnnotationChange,
+                                        type: "text",
+                                        placeholder: "Annotation"
+                                      }}
+                                  />
+                                  &nbsp;
+                                  <Button default color="primary" size="lg" onClick={() => this.handleAnnotation(prop.id)}>
+                                    Annotate
+                                  </Button>
+                                </div>
                             )
                           }
                         ]}
