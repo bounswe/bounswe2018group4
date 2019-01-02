@@ -94,7 +94,7 @@ class SectionTabs extends React.Component {
                                 tabName: "Story",
                                 tabContent: (
                                     <p className={classes.textCenter}>
-                                      
+
                                     </p>
                                 )
                               },
