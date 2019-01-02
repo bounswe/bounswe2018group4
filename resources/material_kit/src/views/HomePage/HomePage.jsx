@@ -163,13 +163,12 @@ class HomePage extends React.Component {
                 Search a user
               </Button>
             </Link>
-            < br/>
             <Link
                 to={{
                   pathname: "/generic-recommendation-page"
                 }}
                 className={classes.link}
-            >
+            >&nbsp; &nbsp;
               <Button default color="primary" size="lg">
                 Bring me the best memories!
               </Button>

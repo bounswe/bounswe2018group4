@@ -438,16 +438,6 @@ class SectionTabs extends React.Component {
                                   <Button default color="primary" size="lg" onClick={() => this.handleAnnotation(prop.id)}>
                                     Annotate
                                   </Button>
-                                  <Typography variant="display1" gutterBottom>
-                                    Annotations
-                                  </Typography>
-                                  {prop.texts.map((value, key) => {
-                                    return (
-                                        <div> Text no.{key}: <br/>
-                                        </div>
-                                    );
-                                  })
-                                  }
                                 </div>
                             )
                           }
