@@ -73,6 +73,14 @@ class MemoryListAPIView(ListAPIView):
         return postmodels.Memory.objects.filter(owner=self.request.user).order_by('-posting_time')
 
 
+class GetMemoryAPIView(RetrieveAPIView):
+    permission_classes = IsAuthenticated,
+    serializer_class = postserializers.Memory1Serializer
+
+    def get_queryset(self):
+        return postmodels.Memory.objects.filter(id=self.kwargs["pk"])
+
+
 class MemoryLikeAPIView(APIView):
     permission_classes = IsAuthenticated,
 
