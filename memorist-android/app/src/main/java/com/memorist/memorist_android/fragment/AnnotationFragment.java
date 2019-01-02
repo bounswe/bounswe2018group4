@@ -419,6 +419,29 @@ public class AnnotationFragment extends Fragment {
         }
     }
 
+    public void addNewAnnotation(Annotation annt) {
+        annotations.add(annt);
+
+        if(adapter == null) {
+            adapter = new AnnotationAdapter(annotations, theMemory, getContext());
+            lvAnnotation.setAdapter(adapter);
+        }
+
+        adapter.notifyDataSetChanged();
+
+        StringBuilder storyBuilder = new StringBuilder();
+        for(Text text: theMemory.getTexts()) {
+            storyBuilder.append(text.getText());
+        }
+
+        for(Annotation annotation: annotations) {
+            Spannable WordtoSpan = new SpannableString(storyBuilder.toString());
+            WordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), Integer.valueOf(annotation.getTarget()[0].getSelector()[0].getStart()),
+                    Integer.valueOf(annotation.getTarget()[0].getSelector()[0].getEnd()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvStory.setText(WordtoSpan);
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
