@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_width="wrap_content">
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/dialog_keyText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_sm"
-        android:layout_marginTop="@dimen/margin_sm"
-        android:layout_marginEnd="@dimen/margin_sm"
-        android:layout_marginStart="@dimen/margin_sm"
-        android:inputType="textMultiLine" />
+        android:orientation="vertical" >
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/dialog_valueText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_sm"
-        android:layout_marginTop="@dimen/margin_sm"
-        android:layout_marginEnd="@dimen/margin_sm"
-        android:layout_marginStart="@dimen/margin_sm"
-        android:inputType="textMultiLine"/>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/dialog_keyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:hint="Which part to annotate?"
+            android:inputType="textMultiLine" />
 
-</LinearLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/dialog_valueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_sm"
+            android:layout_marginTop="@dimen/margin_sm"
+            android:layout_marginEnd="@dimen/margin_sm"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:hint="You annotation text"
+            android:inputType="textMultiLine"/>
+
+    </LinearLayout>
+
+</ScrollView>

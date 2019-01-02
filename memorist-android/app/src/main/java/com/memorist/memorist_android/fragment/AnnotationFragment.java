@@ -50,6 +50,7 @@ public class AnnotationFragment extends Fragment {
     @BindView(R.id.annotation_feedTitle) TextView tvTitle;
     @BindView(R.id.annotation_feedStory) TextView tvStory;
     @BindView(R.id.annotation_feedTags) TextView tvTags;
+    @BindView(R.id.annotation_noanottation) TextView tvAnnotationNo;
     @BindView(R.id.annotation_memoryMultimedia1) ImageView memoryMultimedia1;
     @BindView(R.id.annotation_memoryMultimedia2) ImageView memoryMultimedia2;
     @BindView(R.id.annotation_memoryMultimedia3) ImageView memoryMultimedia3;
@@ -163,6 +164,8 @@ public class AnnotationFragment extends Fragment {
                 if(theMemory.getLocation()[0].getLocation().length > 1) {
                     location += " to " + theMemory.getLocation()[0].getLocation()[1].getLocation_name();
                 }
+            } else {
+                location += "anywhere";
             }
 
             StringBuilder storyBuilder = new StringBuilder();
@@ -416,6 +419,11 @@ public class AnnotationFragment extends Fragment {
             WordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), Integer.valueOf(annotation.getTarget()[0].getSelector()[0].getStart()),
                     Integer.valueOf(annotation.getTarget()[0].getSelector()[0].getEnd()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tvStory.setText(WordtoSpan);
+        }
+
+        if(annotationList.size() != 0) {
+            tvAnnotationNo.setVisibility(View.GONE);
+            lvAnnotation.setVisibility(View.VISIBLE);
         }
     }
 

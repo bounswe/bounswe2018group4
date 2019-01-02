@@ -3,6 +3,7 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,13 +162,19 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 if(memory.getMentioned_time()[0].getDate_string2() != null && !memory.getMentioned_time()[0].getDate_string2().equals("")) {
                     mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
                 }
+            } else {
+                mentionedTime += "anytime";
             }
 
             if(memory.getLocation().length != 0) {
                 location += memory.getLocation()[0].getLocation()[0].getLocation_name();
+                Log.v("1", "1");
                 if(memory.getLocation()[0].getLocation().length > 1) {
                     location += " to " + memory.getLocation()[0].getLocation()[1].getLocation_name();
+                    Log.v("2", "2");
                 }
+            } else {
+                location += "anywhere";
             }
 
             StringBuilder storyBuilder = new StringBuilder();
@@ -187,11 +194,15 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             viewHolder.tvFeedTitle.setText(title);
             viewHolder.tvFeedStory.setText(storyBuilder.toString());
             viewHolder.tvFeedTags.setText(tagBuilder.toString());
-            Picasso
-                    .get()
-                    .load(avatarURL)
-                    .fit()
-                    .into(viewHolder.ivFeedProfilePicture);
+            if(memory.getOwner().getPhoto() != null && !memory.getOwner().getPhoto().equals("")) {
+                Picasso
+                        .get()
+                        .load(avatarURL)
+                        .fit()
+                        .into(viewHolder.ivFeedProfilePicture);
+            } else {
+                viewHolder.ivFeedProfilePicture.setImageDrawable(getContext().getResources().getDrawable(R.drawable.avatar_icon));
+            }
 
             boolean isLiked = false;
             int myUserID = SharedPrefHelper.getUserId(getContext());
