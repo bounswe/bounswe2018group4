@@ -42,6 +42,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
+import {Link} from "react-router-dom";
 
 
 const dashboardRoutes = [];
@@ -184,7 +185,16 @@ class FollowUser extends React.Component {
                 <Button simple color="primary" size="lg" onClick={this.handleFollow}>
                         Follow
                 </Button>
-             
+                <Link
+                    to={{
+                        pathname: "/home-page"
+                    }}
+                    className={classes.link}
+                >&nbsp; &nbsp;
+                    <Button default color="primary" size="lg">
+                        Back to Home
+                    </Button>
+                </Link>
                       
             </div>
             
