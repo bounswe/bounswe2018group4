@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.memorist.memorist_android.R;
 import com.memorist.memorist_android.adapter.AnnotationAdapter;
 import com.memorist.memorist_android.helper.Constants;
@@ -59,6 +61,7 @@ public class AnnotationFragment extends Fragment {
     @BindView(R.id.annotation_memoryMultimedia9) ImageView memoryMultimedia9;
     @BindView(R.id.annotation_memoryMultimedia10) ImageView memoryMultimedia10;
     @BindView(R.id.annotation_commentList) ListView lvAnnotation;
+    @BindView(R.id.material_design_floating_action_menu_item1) FloatingActionButton fab;
 
     private OnFragmentInteractionListener mListener;
 
@@ -110,6 +113,13 @@ public class AnnotationFragment extends Fragment {
 
         setContent();
         mListener.getAnnotationList(theMemory.getId());
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "add", Toast.LENGTH_LONG).show();
+            }
+        });
 
         return view;
     }
