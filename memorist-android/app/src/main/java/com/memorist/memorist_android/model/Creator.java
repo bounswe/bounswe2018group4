@@ -47,4 +47,11 @@ public class Creator {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public Creator(String c_id, String c_type, String name, String nickname) {
+        this.c_id = c_id;
+        this.c_type = c_type;
+        this.name = name;
+        this.nickname = nickname;
+    }
 }
