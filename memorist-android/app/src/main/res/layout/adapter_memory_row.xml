@@ -308,7 +308,6 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/textSizeBigMemory"
                         android:textColor="@color/black"
-                        android:text="0"
                         fontPath="fonts/HelvaticaNeueCondensedBold.ttf" />
 
                 </LinearLayout>

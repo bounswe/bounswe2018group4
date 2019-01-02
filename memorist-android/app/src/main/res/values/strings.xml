@@ -5,6 +5,17 @@
     <string name="recoverPasswordText">It\'s super easy to reconnect!</string>
     <string name="createMemoryText">Share your memory</string>
 
+    <string name="createCommentText">Share your comment</string>
+    <string name="commentStoryHint">Story</string>
+    <string name="commentTagsHint">Tags</string>
+    <string name="commentMentionedTimeHint">When?</string>
+    <string name="commentLocationHint">Where?</string>
+    <string name="btnCreateComment">Share</string>
+    <string name="postCommentButtonContentDescription">Post</string>
+    <string name="btnCancelComment">Cancel</string>
+    <string name="cancelCommentButtonContentDescription">Cancel</string>
+
+
     <string name="projectLogoContentDescription">Memorist</string>
     <string name="imageButtonContentDescription">Add image</string>
     <string name="videoButtonContentDescription">Add video</string>
@@ -14,7 +25,7 @@
     <string name="feedProfilePictureContentDescription">Profile Picture</string>
     <string name="btnLikeContentDescription">Like</string>
     <string name="btnCommentsContentDescription">Comments</string>
-    <string name="btnAnnotationContentDescription">Annotation</string>
+    <string name="btnAnnotationContentDescription">Annotations</string>
     <string name="btnMemoristHomeContentDescription">Home</string>
     <string name="btnMemoristSearchContentDescription">Search</string>
     <string name="btnMemoristAddContentDescription">Add Memory</string>
@@ -53,11 +64,8 @@
     <string name="btnRecoverPassword">Save Me!</string>
 
     <string-array name="search_list">
-        <item>Search by keyword</item>
-        <item>Search by location</item>
-        <item>Search by posted time</item>
-        <item>Search by mentioned time</item>
-        <item>Search by tag</item>
+        <item>Search a user</item>
+        <item>Search a memory</item>
     </string-array>
 
     <string-array name="time_list">

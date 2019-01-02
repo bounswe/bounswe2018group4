@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.memorist.memorist_android.R;
@@ -48,10 +46,12 @@ public class CreateMemoryFragment extends Fragment {
     @BindView(R.id.et_memoryStory) EditText etMemoryStory;
     @BindView(R.id.et_memoryMentionedTime) EditText etMemoryMentionedTime;
     @BindView(R.id.et_memoryMentionedTime2) EditText etMemoryMentionedTime2;
-    @BindView(R.id.et_memoryLocation) EditText etMemoryLocation;
+    @BindView(R.id.et_selectLocation1) EditText etMemoryLocation1;
+    @BindView(R.id.et_selectLocation2) EditText etMemoryLocation2;
     @BindView(R.id.et_memoryTags) EditText etMemoryTags;
     @BindView(R.id.sp_timeSpinner) Spinner spTimeSpinner;
     @BindView(R.id.rg_timeFormat) RadioGroup rgTimeFormat;
+    @BindView(R.id.rg_locationFormat) RadioGroup rgLocationFormat;
 
     private final int GALLERY_REQUEST = 1;
     private final int VIDEO_REQUEST = 2;
@@ -65,6 +65,7 @@ public class CreateMemoryFragment extends Fragment {
     private ArrayList<String> memoryTags;
 
     private int selectedDateType = 0;
+    private int selectedLocationType = 0;
     private String selectedDateFormat = "d";
 
     private OnFragmentInteractionListener mListener;
@@ -131,6 +132,31 @@ public class CreateMemoryFragment extends Fragment {
                 }
 
                 spTimeSpinner.setVisibility(View.VISIBLE);
+            }
+        });
+
+        rgLocationFormat.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedButton = (RadioButton) view.findViewById(checkedId);
+                etMemoryLocation2.setText("");
+
+                if(String.valueOf(selectedButton.getText()).equals("Path")) {
+                    selectedLocationType = 1;
+
+                    etMemoryLocation1.setVisibility(View.VISIBLE);
+                    etMemoryLocation2.setVisibility(View.VISIBLE);
+
+                    etMemoryLocation1.setHint("From?");
+                    etMemoryLocation2.setHint("To?");
+                } else {
+                    selectedLocationType = 0;
+
+                    etMemoryLocation1.setVisibility(View.VISIBLE);
+                    etMemoryLocation2.setVisibility(View.GONE);
+
+                    etMemoryLocation1.setHint("Type the location");
+                }
             }
         });
 
@@ -299,13 +325,14 @@ public class CreateMemoryFragment extends Fragment {
         String memoryTitle = etMemoryTitle.getText().toString();
         String mentionedTime = etMemoryMentionedTime.getText().toString();
         String mentionedTime2 = etMemoryMentionedTime2.getText().toString();
-        String location = etMemoryLocation.getText().toString();
+        String location1 = etMemoryLocation1.getText().toString();
+        String location2 = etMemoryLocation2.getText().toString();
         String story = etMemoryStory.getText().toString();
         String tags = etMemoryTags.getText().toString();
 
         memoryText.add(story);
         memoryTags.addAll(Arrays.asList(tags.split(",")));
-        mListener.memoryShared(memoryTitle, mentionedTime, mentionedTime2, location, memoryFormat, memoryText, selectedDateType, selectedDateFormat, memoryImage, memoryVideo, memoryAudio, memoryTags);
+        mListener.memoryShared(memoryTitle, mentionedTime, mentionedTime2, location1, location2, memoryFormat, memoryText, selectedDateType, selectedDateFormat, selectedLocationType, memoryImage, memoryVideo, memoryAudio, memoryTags);
     }
 
     /**
@@ -319,8 +346,8 @@ public class CreateMemoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
-                         int selectedDateType, String selectedDateFormat, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
+        void memoryShared(String memoryTitle, String mentionedTime, String mentionedTime2, String location1, String location2, ArrayList<String> memoryFormat, ArrayList<String> memoryText,
+                         int selectedDateType, String selectedDateFormat, int selectedLocationType, ArrayList<Uri> memoryImage, ArrayList<Uri> memoryVideo, ArrayList<Uri> memoryAudio,
                           ArrayList<String> memoryTags);
         void memoryCanceled();
         void displayImageDialog(Uri selectedImage);

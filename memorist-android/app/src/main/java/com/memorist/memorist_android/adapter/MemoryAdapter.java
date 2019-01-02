@@ -3,7 +3,6 @@ package com.memorist.memorist_android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.btn_feedComment) ImageButton btnComment;
         @BindView(R.id.tv_commentCount) TextView tvCommentCount;
         @BindView(R.id.btn_feedAnnotate) ImageButton btnAnnotate;
-        @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
         @BindView(R.id.layoutMultimediaContent) LinearLayout multimediaContent;
 
         @BindView(R.id.iv_memoryMultimedia1) ImageView memoryMultimedia1;
@@ -155,13 +153,20 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             String username = "@" + memory.getOwner().getUsername();
             String postedTime = "Posted on " + memory.getPosting_time();
             String mentionedTime = "Mentions about ";
-            String location = "Place is " + "???";
+            String location = "Place is ";
             String title = memory.getTitle();
 
             if(memory.getMentioned_time().length != 0) {
                 mentionedTime += memory.getMentioned_time()[0].getDate_string1();
-                if(memory.getMentioned_time()[0].getDate_string2() != null) {
+                if(memory.getMentioned_time()[0].getDate_string2() != null && !memory.getMentioned_time()[0].getDate_string2().equals("")) {
                     mentionedTime += " - " + memory.getMentioned_time()[0].getDate_string2();
+                }
+            }
+
+            if(memory.getLocation().length != 0) {
+                location += memory.getLocation()[0].getLocation()[0].getLocation_name();
+                if(memory.getLocation()[0].getLocation().length > 1) {
+                    location += " to " + memory.getLocation()[0].getLocation()[1].getLocation_name();
                 }
             }
 
@@ -223,11 +228,25 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
             Multimedia[] multimedia = memory.getMultimedia();
             int mediaCounter = 1;
 
+            viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryCommentsClicked(memory);
+                }
+            });
+
+            viewHolder.btnAnnotate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryAnnotationsClicked(memory);
+                }
+            });
+
+            viewHolder.tvCommentCount.setText(String.valueOf(memory.getNumcomments()));
+
             for(Multimedia mm: multimedia) {
                 String mediaURL = Constants.API_BASE_URL + mm.getMultimedia().getMedia();
                 int mediaType = mm.getMedia_type();
-
-                Log.v("counter", mediaCounter + " for " + memory.getTitle());
 
                 if(mediaType == 1) {
                     switch (mediaCounter) {
@@ -346,16 +365,16 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                             viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
                             break;
                         case 8:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia8.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia8.setVisibility(View.VISIBLE);
                             break;
                         case 9:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia9.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia9.setVisibility(View.VISIBLE);
                             break;
                         case 10:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia10.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia10.setVisibility(View.VISIBLE);
                             break;
                     }
                 }
@@ -437,5 +456,7 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
 
     public interface MemoryOnClickListener {
         void memoryMultimediaClick(Memory memory, int position);
+        void memoryCommentsClicked(Memory memory);
+        void memoryAnnotationsClicked(Memory memory);
     }
 }

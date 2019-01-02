@@ -205,17 +205,71 @@
             android:paddingStart="@dimen/padding_md"
             android:paddingEnd="@dimen/padding_md" >
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_memoryLocation"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_md"
-                android:layout_marginBottom="@dimen/margin_md"
-                android:layout_marginEnd="@dimen/margin_md"
-                android:layout_marginStart="@dimen/margin_md"
-                android:background="@null"
-                android:inputType="text"
-                android:hint="@string/memoryLocationHint" />
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:textSize="@dimen/textSizeCreateMemory"
+                    android:text="Where?"
+                    android:gravity="center"
+                    fontPath="fonts/HelveticaNeueCondensedBold.ttf" />
+
+                <RadioGroup
+                    android:id="@+id/rg_locationFormat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md" >
+
+                    <RadioButton
+                        android:id="@+id/rb_singleLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Single Location"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:id="@+id/rb_pathLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Path"
+                        android:checked="false" />
+
+                </RadioGroup>
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_selectLocation1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_selectLocation2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_md"
+                    android:layout_marginBottom="@dimen/margin_md"
+                    android:layout_marginEnd="@dimen/margin_md"
+                    android:layout_marginStart="@dimen/margin_md"
+                    android:background="@null"
+                    android:visibility="gone"
+                    android:inputType="text" />
+
+            </LinearLayout>
 
         </android.support.design.card.MaterialCardView>
 

@@ -26,6 +26,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <ImageButton
+                android:id="@+id/btn_editProfile"
+                android:layout_width="@dimen/heightMemoryButton"
+                android:layout_height="@dimen/heightMemoryButton"
+                android:layout_marginEnd="@dimen/margin_md"
+                android:layout_marginTop="@dimen/margin_md"
+                android:src="@drawable/edit_profile"
+                android:scaleType="fitCenter"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:contentDescription="@string/btnAnnotationContentDescription" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,8 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_md"
+                    android:layout_marginTop="@dimen/margin_sm"
                     android:layout_marginEnd="@dimen/margin_md"
-                    android:layout_gravity="center_vertical"
                     android:orientation="vertical" >
 
                     <TextView
@@ -115,7 +127,7 @@
                         android:src="@drawable/posts_icon"
                         android:scaleType="fitCenter"
                         android:background="@null"
-                        android:contentDescription="@string/profilePostIconContentDescription"/>
+                        android:contentDescription="@string/projectLogoContentDescription"/>
 
                     <TextView
                         android:id="@+id/tv_profilePostCount"

@@ -19,5 +19,15 @@ public class Constants {
     public static final String API_PROFILE_MEMORY_LIST = API_BASE_URL + "/post/list/";
     public static final String API_GET_FOLLEWERS = API_BASE_URL + "/auth/get_followers/";
     public static final String API_GET_FOLLOWINGS = API_BASE_URL + "/auth/get_followings/";
+    public static final String API_EDIT_PROFILE = API_BASE_URL + "/auth/profile_update/";
+    public static final String API_PHOTO_UPDATE = API_BASE_URL + "/auth/profile_photo/";
+    public static final String API_CREATE_COMMENT = API_BASE_URL + "/post/create_comment/";
+    public static final String API_RECOMMENDATIONS = API_BASE_URL + "/post/top_memories/";
+    public static final String API_SEARCH_MEMORY = API_BASE_URL + "/post/memory_search/";
+    public static final String API_SEARCH_USER = API_BASE_URL + "/auth/user_search/";
+    public static final String API_FOLLOW = API_BASE_URL + "/auth/follow/";
+    public static final String API_UNFOLLOW = API_BASE_URL + "/auth/unfollow/";
+    public static final String API_GET_ANNOTATIONS = API_BASE_URL + "/annotation/get_annotations/";
+    public static final String API_ADD_ANNOTAION = API_BASE_URL + "/annotation/create/";
 
 }
