@@ -27,6 +27,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 import Typography from '@material-ui/core/Typography';
+import {Link} from "react-router-dom";
 
 class SectionTabs extends React.Component {
   _isMounted = false;
@@ -101,9 +102,11 @@ class SectionTabs extends React.Component {
                           {
                             tabName: "User",
                             tabContent: (
-                              <p className={classes.textCenter}>
+                              <Link to={"/follow/".concat(prop.id).concat("/")} className={classes.link}>
+                                <Button simple color="primary" size="lg">
                                 {prop.username}
-                              </p>
+                                </Button>
+                              </Link>
                             )
                           }
                         ]}
