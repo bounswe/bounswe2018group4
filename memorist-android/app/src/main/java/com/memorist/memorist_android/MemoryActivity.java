@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -20,6 +21,7 @@ import com.android.volley.error.VolleyError;
 
 import com.memorist.memorist_android.adapter.MemoryAdapter;
 import com.memorist.memorist_android.adapter.UserAdapter;
+import com.memorist.memorist_android.fragment.AnnotationFragment;
 import com.memorist.memorist_android.fragment.CreateMemoryFragment;
 import com.memorist.memorist_android.fragment.EditProfileFragment;
 import com.memorist.memorist_android.fragment.FeedCommentFragment;
@@ -31,18 +33,25 @@ import com.memorist.memorist_android.fragment.SearchMemoryFragment;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.SharedPrefHelper;
 import com.memorist.memorist_android.helper.UriPathHelper;
+import com.memorist.memorist_android.model.Annotation;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultMediaUpload;
 import com.memorist.memorist_android.model.ApiResultNoData;
 import com.memorist.memorist_android.model.ApiResultProfile;
+import com.memorist.memorist_android.model.Body;
 import com.memorist.memorist_android.model.Comments;
+import com.memorist.memorist_android.model.Creator;
 import com.memorist.memorist_android.model.Memory;
 import com.memorist.memorist_android.model.Multimedia;
+import com.memorist.memorist_android.model.Selector;
+import com.memorist.memorist_android.model.Target;
+import com.memorist.memorist_android.model.Text;
 import com.memorist.memorist_android.model.User;
 import com.memorist.memorist_android.ws.MemoristApi;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +74,7 @@ public class MemoryActivity extends BaseActivity
         EditProfileFragment.OnFragmentInteractionListener,
         MemoryAdapter.MemoryOnClickListener,
         FeedCommentFragment.OnFragmentInteractionListener,
+        AnnotationFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
 
     private final String TAG_FEED_MEMORY_FRAGMENT = "fragment_feed_memory";
@@ -75,6 +85,7 @@ public class MemoryActivity extends BaseActivity
     private final String TAG_FOLLOWERINGS_FRAGMENT = "fragment_followerings";
     private final String TAG_EDIT_PROFILE = "fragment_edit_profile";
     private final String TAG_FEED_COMMENT_FRAGMENT = "fragment_feed_comment";
+    private final String TAG_ANNOTATION_FRAGMENT = "fragment_annotation";
 
     private ArrayList<Integer> memoryMultimediaID;
     private ArrayList<String> memoryFormat;
@@ -731,4 +742,141 @@ public class MemoryActivity extends BaseActivity
     public void unfollowUser(int id) {
         MemoristApi.userUnfollow(SharedPrefHelper.getUserToken(getApplicationContext()), id);
     }
+
+    @Override
+    public void memoryAnnotationsClicked(Memory memory) {
+        AnnotationFragment fragment = AnnotationFragment.newInstance(memory);
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.memoryFragmentContent, fragment, TAG_ANNOTATION_FRAGMENT)
+                .addToBackStack(TAG_ANNOTATION_FRAGMENT)
+                .commit();
+
+        currentTab = 6;
+    }
+
+    @Override
+    public void getAnnotationList(int id) {
+        MemoristApi.getAnnotation(SharedPrefHelper.getUserToken(getApplicationContext()), id, annotationResultListener, annotationResultErrorListener);
+    }
+
+    private Response.Listener<ArrayList<Annotation>> annotationResultListener = new Response.Listener<ArrayList<Annotation>>() {
+        @Override
+        public void onResponse(ArrayList<Annotation> response) {
+            AnnotationFragment fragment = (AnnotationFragment) getSupportFragmentManager().findFragmentByTag(TAG_ANNOTATION_FRAGMENT);
+            if (fragment != null) {
+                fragment.updateAnnotations(response);
+            }
+        }
+    };
+
+    private Response.ErrorListener annotationResultErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
+    @Override
+    public void addAnnotation(final Memory memory) {
+        final StringBuilder storyBuilder = new StringBuilder();
+        for(Text text: memory.getTexts()) {
+            storyBuilder.append(text.getText());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add annotation");
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_annotation, null);
+        builder.setView(v);
+
+        final EditText keyText = v.findViewById(R.id.dialog_keyText);
+        final EditText valueText = v.findViewById(R.id.dialog_valueText);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String key = keyText.getText().toString();
+                String value = valueText.getText().toString();
+                int startIndex = storyBuilder.toString().indexOf(key);
+                int endIndex = startIndex + key.length();
+
+                if(startIndex >= 0) {
+                    MemoristApi.addAnnotation(SharedPrefHelper.getUserToken(getApplicationContext()), memory, key, value, startIndex, endIndex, annotationListener, annotationErrorListener);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Selected text is not in the story", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing.
+            }
+        });
+
+        keyText.setText(storyBuilder.toString());
+        builder.show();
+    }
+
+    private Response.Listener<JSONObject> annotationListener = new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+            try {
+                JSONObject JCreator = response.getJSONArray("creator").getJSONObject(0);
+                JSONObject JBody = response.getJSONArray("body").getJSONObject(0);
+                JSONObject JTarget = response.getJSONArray("target").getJSONObject(0);
+                JSONObject JSelector = JTarget.getJSONArray("selector").getJSONObject(0);
+
+                Annotation annotation = new Annotation(
+                        response.getString("context"),
+                        response.getString("id"),
+                        response.getString("a_type"),
+                        response.getString("motivation"),
+                        new Creator[]{
+                                new Creator(
+                                        JCreator.getString("c_id"),
+                                        JCreator.getString("c_type"),
+                                        JCreator.getString("name"),
+                                        JCreator.getString("nickname")
+                                )
+                        },
+                        response.getString("created"),
+                        new Body[]{
+                                new Body(
+                                        JBody.getString("b_type"),
+                                        JBody.getString("value")
+                                )
+                        },
+                        new Target[]{
+                                new Target(
+                                        JTarget.getString("t_type"),
+                                        JTarget.getString("source"),
+                                        new Selector[]{
+                                                new Selector(
+                                                        JSelector.getString("s_type"),
+                                                        JSelector.getString("start"),
+                                                        JSelector.getString("end")
+                                                )
+                                        }
+                                )
+                        });
+
+                AnnotationFragment fragment = (AnnotationFragment) getSupportFragmentManager().findFragmentByTag(TAG_ANNOTATION_FRAGMENT);
+                if (fragment != null) {
+                    fragment.addNewAnnotation(annotation);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    Response.ErrorListener annotationErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
 }

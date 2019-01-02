@@ -2,7 +2,9 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-public class LocationType {
+import java.io.Serializable;
+
+public class LocationType implements Serializable {
 
     @Expose
     private int location_type;

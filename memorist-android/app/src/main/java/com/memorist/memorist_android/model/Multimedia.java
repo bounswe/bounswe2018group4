@@ -2,7 +2,9 @@ package com.memorist.memorist_android.model;
 
 import com.google.gson.annotations.Expose;
 
-public class Multimedia {
+import java.io.Serializable;
+
+public class Multimedia implements Serializable {
 
     @Expose
     private int id;

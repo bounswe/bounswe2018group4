@@ -12,6 +12,7 @@ import com.android.volley.request.JsonObjectRequest;
 import com.memorist.memorist_android.ApplicationClass;
 import com.memorist.memorist_android.helper.Constants;
 import com.memorist.memorist_android.helper.JSONHelper;
+import com.memorist.memorist_android.model.Annotation;
 import com.memorist.memorist_android.model.ApiResultFollower;
 import com.memorist.memorist_android.model.ApiResultFollowing;
 import com.memorist.memorist_android.model.ApiResultLike;
@@ -379,6 +380,63 @@ public class MemoristApi {
 
         GsonRequest<ApiResultNoData> request = new GsonRequest<>(Request.Method.POST, url,
                 ApiResultNoData.class, headers, params, null, null);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void getAnnotation(String userToken, int id, Response.Listener<ArrayList<Annotation>> listListener, Response.ErrorListener errorListener) {
+        String url = Constants.API_GET_ANNOTATIONS + id + "/";
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", userToken);
+
+        GsonArrayRequest<Annotation> request = new GsonArrayRequest<>(url, Annotation.class, headers, listListener, errorListener);
+
+        coreApi.getRequestQueue().getCache().clear();
+        coreApi.addToRequestQueue(request);
+    }
+
+    public static void addAnnotation(final String token, Memory memory, String keyText, String valueText, int startIndex, int endIndex,
+                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        String url = Constants.API_ADD_ANNOTAION;
+
+        JSONObject JRequestObject = new JSONObject();
+        JSONObject JCreator = new JSONObject();
+        JSONObject JBody = new JSONObject();
+        JSONObject JTarget = new JSONObject();
+        JSONObject JSelector = new JSONObject();
+
+        try {
+            JCreator.put("type", "RegisteredUser");
+            JBody.put("type", "TextualBody");
+            JBody.put("value", valueText);
+            JSelector.put("type", "TextPositionSelector");
+            JSelector.put("start", startIndex);
+            JSelector.put("end", endIndex);
+            JTarget.put("type", "Text");
+            JTarget.put("source", String.valueOf(memory.getId()));
+            JTarget.put("selector", JSelector);
+
+            JRequestObject.put("context", "https://www.w3.org/ns/anno.jsonld");
+            JRequestObject.put("type", "Annotation");
+            JRequestObject.put("motivation", "commenting");
+            JRequestObject.put("creator", JCreator);
+            JRequestObject.put("body", JBody);
+            JRequestObject.put("target", JTarget);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, JRequestObject, listener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token);
+
+                return headers;
+            }
+        };
 
         coreApi.getRequestQueue().getCache().clear();
         coreApi.addToRequestQueue(request);

@@ -56,7 +56,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
         @BindView(R.id.btn_feedComment) ImageButton btnComment;
         @BindView(R.id.tv_commentCount) TextView tvCommentCount;
         @BindView(R.id.btn_feedAnnotate) ImageButton btnAnnotate;
-        @BindView(R.id.tv_annotationCount) TextView tvAnnotationCount;
         @BindView(R.id.layoutMultimediaContent) LinearLayout multimediaContent;
 
         @BindView(R.id.iv_memoryMultimedia1) ImageView memoryMultimedia1;
@@ -236,6 +235,13 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                 }
             });
 
+            viewHolder.btnAnnotate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.memoryAnnotationsClicked(memory);
+                }
+            });
+
             viewHolder.tvCommentCount.setText(String.valueOf(memory.getNumcomments()));
 
             for(Multimedia mm: multimedia) {
@@ -359,16 +365,16 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
                             viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
                             break;
                         case 8:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia8.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia8.setVisibility(View.VISIBLE);
                             break;
                         case 9:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia9.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia9.setVisibility(View.VISIBLE);
                             break;
                         case 10:
-                            viewHolder.memoryMultimedia7.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
-                            viewHolder.memoryMultimedia7.setVisibility(View.VISIBLE);
+                            viewHolder.memoryMultimedia10.setImageDrawable(context.getResources().getDrawable(R.drawable.audio_icon));
+                            viewHolder.memoryMultimedia10.setVisibility(View.VISIBLE);
                             break;
                     }
                 }
@@ -451,5 +457,6 @@ public class MemoryAdapter extends ArrayAdapter<Memory> {
     public interface MemoryOnClickListener {
         void memoryMultimediaClick(Memory memory, int position);
         void memoryCommentsClicked(Memory memory);
+        void memoryAnnotationsClicked(Memory memory);
     }
 }
