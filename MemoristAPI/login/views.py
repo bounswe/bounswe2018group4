@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.views.generic import RedirectView
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.response import Response
-from rest_framework import status as st
+from rest_framework import status as st, request
 from rest_framework.views import APIView
 from login import serializers as ls
 from login import models as lm
@@ -15,7 +16,7 @@ from django.utils.crypto import get_random_string
 from .index import send_aws_email, render, send_aws_sms
 from jinja2 import Environment
 from django.db.models import Q
-
+from django.shortcuts import redirect
 
 
 def sendVerifyEmail(dt, request):
@@ -54,7 +55,13 @@ def sendVerifyEmail(dt, request):
     return Response({'status': 'fail'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class VerifyEmail(APIView):
+class redirectpage(APIView):
+
+    def get(self, *args, **kwargs):
+        return redirect("http://memoristg4.herokuapp.com/")
+
+
+class VerifyEmail(RedirectView):
     def get(self, request):
         uh = request.GET['uh']
         activation = lm.Activation.objects.filter(code=uh).first()
@@ -66,7 +73,7 @@ class VerifyEmail(APIView):
         user.activeEmail_status = True
         user.save()
 
-        return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+        return redirect("http://memoristg4.herokuapp.com/")
 
 
 class RegisterAPIView(CreateAPIView):
@@ -143,9 +150,9 @@ class UserProfileUpdateAPIView(APIView):
                 pl.save()
             else:
                 pl = lm.PointLocation(
-                    location_name = data["advanced_location"]["location_name"],
-                    location_coordinate_latitude = data["advanced_location"]["location_coordinate_latitude"],
-                    location_coordinate_longitude = data["advanced_location"]["location_coordinate_longitude"]
+                    location_name=data["advanced_location"]["location_name"],
+                    location_coordinate_latitude=data["advanced_location"]["location_coordinate_latitude"],
+                    location_coordinate_longitude=data["advanced_location"]["location_coordinate_longitude"]
                 )
                 pl.save()
                 updated_user.advanced_location = pl
