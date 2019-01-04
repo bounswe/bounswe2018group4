@@ -448,6 +448,11 @@ public class AnnotationFragment extends Fragment {
                     Integer.valueOf(annotation.getTarget()[0].getSelector()[0].getEnd()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tvStory.setText(WordtoSpan);
         }
+
+        if(annotations.size() != 0) {
+            tvAnnotationNo.setVisibility(View.GONE);
+            lvAnnotation.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
