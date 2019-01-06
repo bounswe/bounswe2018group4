@@ -36,6 +36,26 @@
   </a>
 </p>
 
+<h2 align="center"> Deployment </h2>
+<h4 align="center"> Backend </h2>
+In develop branch,
+<pre>
+cd MemoristAPI/   
+python -m venv venv
+venv\Scripts\activate.bat #Windows
+source venv/bin/activate #Linux
+pip install -r requirements.txt
+python manage.py migrate --settings=MemoristAPI.settings.base
+python3 manage.py runserver --settings=MemoristAPI.settings.base
+</pre>
+
+<h4 align="center"> Frontend </h2>
+In master branch,
+<pre>
+cd resources/material_kit/   
+npm install    
+npm start
+</pre>
 <h2 align="center"> Group Members </h2>
 
 
