@@ -1,0 +1,7 @@
+venv
+*.idea*
+*.bat
+*__pycache__*
+../../.idea
+multimedia
+*db.sqlite3*
