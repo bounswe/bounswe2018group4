@@ -1,5 +1,5 @@
 
-python -m venv venv
+python(python3) -m venv venv
 
 venv\Scripts\activate.bat (Windows)
 
