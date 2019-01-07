@@ -1,4 +1,8 @@
 
+git clone https://github.com/bounswe/bounswe2018group4.git
+
+cd bounswe2018group4/MemoristAPI/
+
 python(python3) -m venv venv
 
 venv\Scripts\activate.bat (Windows)
