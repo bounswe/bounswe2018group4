@@ -26,19 +26,45 @@ class StaffModelTests(TestCase):
         response = APIClient().post(url, credentials)
         self.assertEqual(response.status_code, 400)
 
-    def test_register_with_no_first_name(self):
-        """Ensure that registering with no first_name or empty first_name results in 400 status code."""
-        url = '/auth/register'
-        credentials = {'last_name': 'hoassadcam', 'email': 'bahadir@hocamoglu.co', 'phone_number': '121445667', 'password': 'asdf1aa234', 'country_code': '91'}
+    def test_comment_to_memory(self):
+        """Ensure that you can comment on an existing memory"""
+        url = '/post/create_comment/164/'
+        credentials = {'comment': 'hellooo'}
+        response = APIClient().post(url, credentials)
+        self.assertEqual(response.status_code, 200)
+
+    def test_comment_to_not_exist_memory(self):
+        """Ensure that you can not comment on a non-existing memory"""
+        url = '/post/create_comment/164/'
+        credentials = {'comment': 'hellooo'}
         response = APIClient().post(url, credentials)
         self.assertEqual(response.status_code, 400)
 
-        credentials['first_name'] = ""
-        self.assertEqual(response.status_code, 400)
+    def test_get_user_memory_list(self):
+        """Get your memories """
+        url = '/post/list/'
+        response = APIClient().get(url)
+        self.assertEqual(response.status_code, 200)
 
-    def test_register_with_invalid_email(self):
-        """Ensure that registering a user with invalid email results in 400 status code."""
-        url = '/auth/register'
-        credentials = {'first_name': 'bahadir', 'last_name': 'hoassadcam', 'email': 'bahadirhocamoglu.co', 'phone_number': '121445667', 'password': 'asdf1aa234', 'country_code': '91'}
+    def test_follow_user(self):
+        url = '/auth/follow/'
+        credentials = {'id': 3}
         response = APIClient().post(url, credentials)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
+
+    def test_unfollow_user(self):
+        url = '/auth/follow/'
+        credentials = {'id': 3}
+        response = APIClient().post(url, credentials)
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_user(self):
+        """search user with 'mr' keyword """
+        url = '/auth/user_search/mr//post/like_post/1/'
+        response = APIClient().get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_like_memory(self):
+        url = '/post/like_post/1/'
+        response = APIClient().get(url)
+        self.assertEqual(response.status_code, 200)
