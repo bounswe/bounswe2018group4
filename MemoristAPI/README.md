@@ -14,3 +14,5 @@ pip install -r requirements.txt
 python(python3) manage.py migrate --settings=MemoristAPI.settings.base
 
 python(python3) manage.py runserver --settings=MemoristAPI.settings.base
+
+(Unit Tests in login/test.py )
