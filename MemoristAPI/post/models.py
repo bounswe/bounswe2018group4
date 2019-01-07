@@ -50,6 +50,7 @@ class PointLocation(models.Model):
     location_coordinate_longitude = models.CharField(max_length=30, null=False, blank=False)
 
 
+    
 class Location(models.Model):
     location_type = models.IntegerField(choices=LOCATION_TYPES)
     location_list = models.ManyToManyField(PointLocation, blank=True)
