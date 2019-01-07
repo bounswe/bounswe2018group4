@@ -36,6 +36,31 @@
   </a>
 </p>
 
+<h2 align="center"> Deployment </h2>
+<h4 align="center"> Backend </h2>
+In develop branch, run
+<pre>
+cd MemoristAPI/   
+python -m venv venv
+venv\Scripts\activate.bat #Windows
+source venv/bin/activate #Linux
+pip install -r requirements.txt
+python manage.py migrate --settings=MemoristAPI.settings.base
+python3 manage.py runserver --settings=MemoristAPI.settings.base
+</pre>
+
+<h4 align="center"> Frontend </h2>
+<ol>
+  <li>Download CORS extension to your browser (eg.<a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi"> Allow-Control-Allow-Origin: *</a> for Google Chrome)    </li>
+  <li>Enable cross-origin resource sharing</li>
+  <li>Add *://*/* to intercepted URLs     </li>
+  <li>In master branch, run</li>
+</ol>
+<pre>
+cd resources/material_kit/   
+npm install    
+npm start
+</pre>
 <h2 align="center"> Group Members </h2>
 
 
